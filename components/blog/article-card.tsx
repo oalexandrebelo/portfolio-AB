@@ -28,14 +28,15 @@ export default function ArticleCard({
       {/* Content */}
       <div className="flex items-center justify-between gap-4 px-4 pb-4">
         <div className="flex items-baseline gap-3 min-w-0">
-          <span className="font-offbit text-primary text-sm shrink-0">
+          <span className="font-code text-primary text-sm shrink-0">
             {number}.
           </span>
           <div className="min-w-0">
-            <h2 className="font-offbit text-foreground text-base sm:text-lg truncate">
+            {/* Title: OffBit Bold — only place it's used in cards */}
+            <h2 className="font-offbit font-bold text-foreground text-base sm:text-lg truncate group-hover:text-primary transition-colors">
               {title}
             </h2>
-            <p className="text-muted-foreground text-xs mt-1">{date}</p>
+            <p className="text-muted-foreground font-code text-xs mt-1">{date}</p>
           </div>
         </div>
 

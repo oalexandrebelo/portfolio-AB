@@ -8,20 +8,20 @@ export default function BlogPage() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
-      {/* Back link */}
+      {/* Back link — Fira Code */}
       <nav className="mb-10">
         <Link
           href="/"
-          className="font-offbit text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="font-code text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <span className="text-primary">&gt;</span> voltar ao portfolio
         </Link>
       </nav>
 
-      {/* ASCII title */}
+      {/* ASCII title — OffBit Bold */}
       <header className="mb-12">
         <AsciiTitle />
-        <p className="text-muted-foreground text-sm mt-4 max-w-md">
+        <p className="text-muted-foreground font-code text-sm mt-4 max-w-md">
           IA aplicada, automacao, vibe coding e produto digital. Sem hype.
         </p>
       </header>
