@@ -105,7 +105,7 @@
   --secondary: oklch(0.25 0.003 270);
   --secondary-foreground: oklch(0.93 0.015 80);
   --muted: oklch(0.23 0.003 270);
-  --muted-foreground: oklch(0.55 0.01 270);
+  --muted-foreground: oklch(0.62 0.01 270);
   --accent: oklch(0.62 0.18 25);
   --accent-foreground: oklch(0.98 0.005 80);
   --destructive: oklch(0.577 0.245 27.325);
@@ -186,6 +186,13 @@
   }
   html {
     scroll-behavior: smooth;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  [role="tab"]:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 

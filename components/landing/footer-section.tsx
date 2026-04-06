@@ -5,7 +5,7 @@ export function FooterSection() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="flex items-center gap-3">
-              <img src="/logo-ab.svg" alt="AB" className="h-8 w-auto" />
+              <img src="/logo-ab.svg" alt="Alexandre Belo - Design Engineer" className="h-8 w-auto" />
               <span className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} Alexandre Belo
               </span>

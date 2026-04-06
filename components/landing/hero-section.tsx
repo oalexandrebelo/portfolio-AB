@@ -160,7 +160,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <button onClick={() => scrollTo("servicos")} className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce cursor-pointer">
+      <button onClick={() => scrollTo("servicos")} aria-label="Rolar para servicos" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce cursor-pointer">
         <ArrowDown size={24} />
       </button>
     </section>

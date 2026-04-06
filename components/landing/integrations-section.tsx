@@ -83,6 +83,7 @@ export function IntegrationsSection() {
       <div className="max-w-[1400px] mx-auto border-x border-border/30 relative flex min-h-[480px] flex-col items-center justify-center overflow-hidden px-4 py-4 md:min-h-[600px]">
         {/* Orbital rings */}
         <div
+          aria-hidden="true"
           className="mx-auto flex items-center justify-center absolute inset-x-0 -top-[480px] mask-b-from-30%"
           style={{ width: 800, height: 800 }}
         >

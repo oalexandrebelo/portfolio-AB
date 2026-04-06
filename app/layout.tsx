@@ -26,17 +26,26 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: 'Alexandre Belo | Design Engineer',
-  description: 'Design Engineer. Construo produtos digitais completos, do design ao deploy, com IA aplicada na pratica. Portfolio real em fintech, health, gov, DeFi e monitoramento.',
-  keywords: ['product engineer', 'IA', 'automacao', 'vibe coding', 'full-stack', 'react', 'next.js'],
-  authors: [{ name: 'Alexandre Belo' }],
+  metadataBase: new URL("https://alexandrebelo.com.br"),
+  title: "Alexandre Belo | Design Engineer",
+  description: "Design Engineer. Produtos digitais completos do design ao deploy. Portfolio real em fintech, health, gov, DeFi e monitoramento.",
+  keywords: ["design engineer", "IA", "automacao", "vibe coding", "full-stack", "react", "next.js"],
+  authors: [{ name: "Alexandre Belo" }],
+  alternates: {
+    canonical: "https://alexandrebelo.com.br",
+  },
   openGraph: {
-    title: 'Alexandre Belo | Design Engineer',
-    description: 'Produtos digitais completos. Do design ao deploy.',
-    url: 'https://alexandrebelo.com.br',
-    siteName: 'Alexandre Belo',
-    locale: 'pt_BR',
-    type: 'website',
+    title: "Alexandre Belo | Design Engineer",
+    description: "Produtos digitais completos. Do design ao deploy.",
+    url: "https://alexandrebelo.com.br",
+    siteName: "Alexandre Belo",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alexandre Belo | Design Engineer",
+    description: "Produtos digitais completos. Do design ao deploy.",
   },
 }
 

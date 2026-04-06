@@ -13,7 +13,7 @@ const posts: BlogPost[] = [
     title: "Pixel Agents: IA que constroi com voce",
     date: "06 de abril de 2026",
     description:
-      "Como agentes de IA estao transformando o desenvolvimento de software e por que vibe coding nao e apenas hype.",
+      "Agentes de IA especializados em construir software com voce. Como Claude Code, Cursor e Copilot evoluiram de autocompleters para agentes autonomos que executam.",
     tags: ["IA", "vibe-coding", "agents", "produto"],
     readingTime: "4 min de leitura",
   },

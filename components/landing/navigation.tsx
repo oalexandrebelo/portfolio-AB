@@ -38,7 +38,7 @@ export function Navigation() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <button onClick={() => scrollTo("#inicio")} className="cursor-pointer flex items-center gap-3">
-              <img src="/logo-ab.svg" alt="AB" className="h-12 w-auto" />
+              <img src="/logo-ab.svg" alt="Alexandre Belo - Design Engineer" className="h-12 w-auto" />
               <span className="text-sm font-medium text-foreground/80 hidden sm:inline">Alexandre Belo</span>
             </button>
 

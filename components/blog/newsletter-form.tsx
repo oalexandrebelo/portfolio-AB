@@ -66,7 +66,7 @@ export function NewsletterForm() {
           <Button
             type="submit"
             disabled={status === "loading"}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-4 font-bold cursor-pointer"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-4 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {status === "loading" ? "..." : <ArrowRight className="w-4 h-4" />}
           </Button>

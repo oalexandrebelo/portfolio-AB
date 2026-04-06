@@ -30,6 +30,37 @@ export default function Home() {
       <IntegrationsSection />
       <ContactSection />
       <FooterSection />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Alexandre Belo",
+            jobTitle: "Design Engineer",
+            url: "https://alexandrebelo.com.br",
+            sameAs: [
+              "https://www.linkedin.com/in/alexandrebelo",
+              "https://github.com/oalexandrebelo",
+            ],
+            email: "contato@alexandrebelo.com.br",
+            telephone: "+5564999271254",
+            address: {
+              "@type": "PostalAddress",
+              addressRegion: "GO",
+              addressCountry: "BR",
+            },
+            knowsAbout: [
+              "Design Engineering",
+              "Product Development",
+              "AI Integration",
+              "Automation",
+              "Monitoring",
+              "Smart Cities",
+            ],
+          }),
+        }}
+      />
     </main>
   );
 }
