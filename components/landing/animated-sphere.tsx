@@ -1,101 +1,165 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import * as THREE from "three";
+
+const AB_SVG = `<svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <path d="M520.094 651.379L384.712 304.124C375.686 281.138 370.763 258.972 370.763 242.554C370.763 231.882 371.584 222.851 374.045 218.747V213H245.227L283.791 303.303L168.101 643.991C138.563 730.189 98.3584 777.803 68 777.803V787.654H204.202V777.803C180.408 777.803 166.46 751.533 166.46 708.024C166.46 688.321 173.844 663.693 180.408 641.528L183.69 630.856H412.609L422.455 659.588C432.301 688.321 439.685 714.591 439.685 732.652C439.685 759.742 429.019 777.803 410.968 777.803V787.654H602.144V777.803C579.99 777.803 551.273 730.189 520.094 651.379ZM187.793 621.004L290.355 313.154L407.686 621.004H187.793Z" fill="#000"/>
+  <path d="M524.854 777.803V787.654H816.13C910.488 784.37 931 726.084 931 625.109C931 550.404 911.308 499.506 816.951 482.267C889.975 460.922 898.18 414.95 898.18 355.022C898.18 263.898 894.078 213 768.542 213H519.111V222.851C550.289 222.851 567.52 247.479 567.52 290.989V745.787C559.315 766.31 544.546 777.803 524.854 777.803ZM664.339 761.384V486.371H719.312C828.438 486.371 840.745 540.553 840.745 638.244C840.745 727.726 830.899 761.384 725.055 761.384H664.339ZM664.339 476.52V222.851H719.312C812.848 222.851 799.721 268.824 799.721 351.738C799.721 431.369 809.566 476.52 708.645 476.52H664.339Z" fill="#000"/>
+  <path d="M374.045 218.747C371.584 222.851 370.763 231.882 370.763 242.554C370.763 258.972 375.686 281.138 384.712 304.124L500.577 601.319L541.89 702.14C547.134 713.24 552.272 723.25 557.281 732.083C578.038 762.592 605.722 761.741 721.951 761.741V787.649H602.144L602.144 787.654H410.968V777.803C429.019 777.803 439.685 759.742 439.685 732.652C439.685 714.591 432.301 688.321 422.455 659.588L416.076 640.976L416.417 640.707C374.856 523.57 330.48 411.499 293.681 321.883L290.355 313.154L290.236 313.506C274.457 275.186 260.169 241.208 248.226 213L374.045 213V218.747Z" fill="#000"/>
+</svg>`;
 
 export function AnimatedSphere() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameRef = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const ctx = canvas.getContext("2d");
+    // Setup Three.js
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      10000
+    );
+    camera.position.z = 1200;
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Parse SVG to particles via offscreen canvas
+    const canvas2D = document.createElement("canvas");
+    const ctx = canvas2D.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
-    const chars = "░▒▓█▀▄▌▐│─┤├┴┬╭╮╰╯";
-    let time = 0;
+    const img = new Image();
+    const svgBlob = new Blob([AB_SVG], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+    const url = URL.createObjectURL(svgBlob);
 
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-    };
+    let particleSystem: THREE.Points | null = null;
+    let animationId: number;
+    const clock = new THREE.Clock();
 
-    resize();
-    window.addEventListener("resize", resize);
+    img.onload = () => {
+      canvas2D.width = 1000;
+      canvas2D.height = 1000;
+      ctx.drawImage(img, 0, 0);
 
-    const render = () => {
-      const rect = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      const imageData = ctx.getImageData(0, 0, 1000, 1000).data;
+      const positions: number[] = [];
+      const opacities: number[] = [];
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const radius = Math.min(rect.width, rect.height) * 0.525;
+      const step = 8; // Particle density
 
-      ctx.font = "12px monospace";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      for (let y = 0; y < 1000; y += step) {
+        for (let x = 0; x < 1000; x += step) {
+          const index = (y * 1000 + x) * 4;
+          const alpha = imageData[index + 3];
 
-      const step = 12;
-      const points: { x: number; y: number; z: number; char: string }[] = [];
+          if (alpha > 128) {
+            const pX = x - 500;
+            const pY = -(y - 500);
+            // Z spread for 3D volume effect
+            const pZ = (Math.random() - 0.5) * 80;
 
-      // Generate sphere points
-      for (let phi = 0; phi < Math.PI * 2; phi += 0.15) {
-        for (let theta = 0; theta < Math.PI; theta += 0.15) {
-          const x = Math.sin(theta) * Math.cos(phi + time * 0.5);
-          const y = Math.sin(theta) * Math.sin(phi + time * 0.5);
-          const z = Math.cos(theta);
-
-          // Rotate around Y axis
-          const rotY = time * 0.3;
-          const newX = x * Math.cos(rotY) - z * Math.sin(rotY);
-          const newZ = x * Math.sin(rotY) + z * Math.cos(rotY);
-
-          // Rotate around X axis
-          const rotX = time * 0.2;
-          const newY = y * Math.cos(rotX) - newZ * Math.sin(rotX);
-          const finalZ = y * Math.sin(rotX) + newZ * Math.cos(rotX);
-
-          const depth = (finalZ + 1) / 2;
-          const charIndex = Math.floor(depth * (chars.length - 1));
-
-          points.push({
-            x: centerX + newX * radius,
-            y: centerY + newY * radius,
-            z: finalZ,
-            char: chars[charIndex],
-          });
+            positions.push(pX, pY, pZ);
+            opacities.push(0.3 + Math.random() * 0.7);
+          }
         }
       }
 
-      // Sort by z for depth
-      points.sort((a, b) => a.z - b.z);
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(positions, 3)
+      );
+      geometry.setAttribute(
+        "alpha",
+        new THREE.Float32BufferAttribute(opacities, 1)
+      );
 
-      // Draw points
-      points.forEach((point) => {
-        const alpha = 0.2 + (point.z + 1) * 0.4;
-        ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
-        ctx.fillText(point.char, point.x, point.y);
+      // Custom shader — teal dashes (#73BFBF = rgb(0.451, 0.749, 0.749))
+      const shaderMaterial = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        vertexShader: `
+          attribute float alpha;
+          varying float vAlpha;
+          void main() {
+            vAlpha = alpha;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = 6.0 * (1000.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
+          }
+        `,
+        fragmentShader: `
+          varying float vAlpha;
+          void main() {
+            vec2 coord = gl_PointCoord - vec2(0.5);
+            if(abs(coord.x) > 0.1 || abs(coord.y) > 0.4) discard;
+            // Teal color: #73BFBF
+            gl_FragColor = vec4(0.451, 0.749, 0.749, vAlpha);
+          }
+        `,
       });
 
-      time += 0.02;
-      frameRef.current = requestAnimationFrame(render);
+      particleSystem = new THREE.Points(geometry, shaderMaterial);
+      scene.add(particleSystem);
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+
+    // Animation loop
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      if (particleSystem) {
+        particleSystem.rotation.y = Math.sin(elapsed * 0.2) * 0.5;
+        particleSystem.rotation.x = Math.sin(elapsed * 0.1) * 0.2;
+      }
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // Resize handler
+    const handleResize = () => {
+      if (!container) return;
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    cleanupRef.current = () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", handleResize);
+      renderer.dispose();
+      if (renderer.domElement.parentNode) {
+        renderer.domElement.parentNode.removeChild(renderer.domElement);
+      }
     };
 
-    render();
-
     return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(frameRef.current);
+      cleanupRef.current?.();
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div
+      ref={containerRef}
       className="w-full h-full"
       style={{ display: "block" }}
     />

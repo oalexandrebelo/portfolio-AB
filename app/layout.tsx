@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
+import { Instrument_Sans, Instrument_Serif, JetBrains_Mono, Fira_Code } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
@@ -15,15 +15,29 @@ const instrumentSerif = Instrument_Serif({
   variable: '--font-instrument-serif'
 });
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: '--font-jetbrains'
 });
 
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  variable: '--font-fira-code'
+});
+
 export const metadata: Metadata = {
-  title: 'Optimus - Platform to Create',
-  description: 'The creative platform for teams who ship. Build, deploy, and scale with unprecedented velocity.',
-  generator: 'v0.app',
+  title: 'Alexandre Belo | Design Engineer',
+  description: 'Design Engineer. Construo produtos digitais completos, do design ao deploy, com IA aplicada na pratica. Portfolio real em fintech, health, gov, DeFi e monitoramento.',
+  keywords: ['product engineer', 'IA', 'automacao', 'vibe coding', 'full-stack', 'react', 'next.js'],
+  authors: [{ name: 'Alexandre Belo' }],
+  openGraph: {
+    title: 'Alexandre Belo | Design Engineer',
+    description: 'Produtos digitais completos. Do design ao deploy.',
+    url: 'https://alexandrebelo.com.br',
+    siteName: 'Alexandre Belo',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({
@@ -32,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+    <html lang="pt-BR">
+      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${firaCode.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>

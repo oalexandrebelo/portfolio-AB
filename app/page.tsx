@@ -1,15 +1,16 @@
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
-import { FeaturesSection } from "@/components/landing/features-section";
+import { ServicesSection } from "@/components/landing/services-section";
 import { HowItWorksSection } from "@/components/landing/how-it-works-section";
-import { InfrastructureSection } from "@/components/landing/infrastructure-section";
-import { MetricsSection } from "@/components/landing/metrics-section";
+import { ProjectsSection } from "@/components/landing/projects-section";
+import { MethodologySection } from "@/components/landing/methodology-section";
+import { UseCasesSection } from "@/components/landing/use-cases-section";
+import { MonitoringSection } from "@/components/landing/monitoring-section";
+import { StackSection } from "@/components/landing/stack-section";
+import { AboutSection } from "@/components/landing/about-section";
+import { FaqSection } from "@/components/landing/faq-section";
 import { IntegrationsSection } from "@/components/landing/integrations-section";
-import { SecuritySection } from "@/components/landing/security-section";
-import { DevelopersSection } from "@/components/landing/developers-section";
-import { TestimonialsSection } from "@/components/landing/testimonials-section";
-import { PricingSection } from "@/components/landing/pricing-section";
-import { CtaSection } from "@/components/landing/cta-section";
+import { ContactSection } from "@/components/landing/contact-section";
 import { FooterSection } from "@/components/landing/footer-section";
 
 export default function Home() {
@@ -17,16 +18,17 @@ export default function Home() {
     <main className="relative min-h-screen overflow-x-hidden noise-overlay">
       <Navigation />
       <HeroSection />
-      <FeaturesSection />
+      <ServicesSection />
       <HowItWorksSection />
-      <InfrastructureSection />
-      <MetricsSection />
+      <ProjectsSection />
+      <MethodologySection />
+      <UseCasesSection />
+      <MonitoringSection />
+      <StackSection />
+      <AboutSection />
+      <FaqSection />
       <IntegrationsSection />
-      <SecuritySection />
-      <DevelopersSection />
-      <TestimonialsSection />
-      <PricingSection />
-      <CtaSection />
+      <ContactSection />
       <FooterSection />
     </main>
   );

@@ -3,46 +3,137 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* --- AB Brand Design System ---
+   Cores da marca: #73BFBF (teal), #042940 (navy)
+   Accent: #E8553A (laranja, ref Figma)
+   Background: escuro (#0F0F0F)
+   Text: creme (#F5F0E8) para headlines, #A3A3A3 para muted
+*/
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/neue/NeueHaasDisplayRoman.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/neue/NeueHaasDisplayMediu.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/neue/NeueHaasDisplayBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/neue/NeueHaasDisplayBlack.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/neue/NeueHaasDisplayLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/offbit/OffBit-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/offbit/OffBit-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/offbit/OffBit-Dot.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sargasso';
+  src: url('/fonts/Sargasso/Sargasso-Display.woff2') format('woff2'),
+       url('/fonts/Sargasso/Sargasso-Display.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sargasso';
+  src: url('/fonts/Sargasso/Sargasso-ObliqueDisplay.woff2') format('woff2'),
+       url('/fonts/Sargasso/Sargasso-ObliqueDisplay.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --background: oklch(0.985 0.002 90);
-  --foreground: oklch(0.12 0.01 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.12 0.01 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.01 60);
-  --primary: oklch(0.12 0.01 60);
-  --primary-foreground: oklch(0.985 0.002 90);
-  --secondary: oklch(0.96 0.005 90);
-  --secondary-foreground: oklch(0.12 0.01 60);
-  --muted: oklch(0.94 0.005 90);
-  --muted-foreground: oklch(0.45 0.02 60);
-  --accent: oklch(0.92 0.01 90);
-  --accent-foreground: oklch(0.12 0.01 60);
+  /* AB Dark Theme — Charcoal base (#2C2C2E / #242426) */
+  --background: oklch(0.22 0.003 270);
+  --foreground: oklch(0.93 0.015 80);
+  --card: oklch(0.20 0.003 270);
+  --card-foreground: oklch(0.93 0.015 80);
+  --popover: oklch(0.20 0.003 270);
+  --popover-foreground: oklch(0.93 0.015 80);
+  --primary: oklch(0.72 0.08 185);
+  --primary-foreground: oklch(0.15 0.003 270);
+  --secondary: oklch(0.25 0.003 270);
+  --secondary-foreground: oklch(0.93 0.015 80);
+  --muted: oklch(0.23 0.003 270);
+  --muted-foreground: oklch(0.55 0.01 270);
+  --accent: oklch(0.62 0.18 25);
+  --accent-foreground: oklch(0.98 0.005 80);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.88 0.01 90);
-  --input: oklch(0.92 0.01 90);
-  --ring: oklch(0.12 0.01 60);
-  --chart-1: oklch(0.12 0.01 60);
-  --chart-2: oklch(0.35 0.02 60);
-  --chart-3: oklch(0.55 0.02 60);
+  --border: oklch(0.30 0.003 270);
+  --input: oklch(0.25 0.003 270);
+  --ring: oklch(0.72 0.08 185);
+  --chart-1: oklch(0.72 0.08 185);
+  --chart-2: oklch(0.62 0.18 25);
+  --chart-3: oklch(0.55 0.01 270);
   --chart-4: oklch(0.70 0.02 60);
   --chart-5: oklch(0.85 0.01 60);
-  --radius: 0.25rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  --sidebar: oklch(0.22 0.003 270);
+  --sidebar-foreground: oklch(0.93 0.015 80);
+  --sidebar-primary: oklch(0.72 0.08 185);
+  --sidebar-primary-foreground: oklch(0.15 0.003 270);
+  --sidebar-accent: oklch(0.25 0.003 270);
+  --sidebar-accent-foreground: oklch(0.93 0.015 80);
+  --sidebar-border: oklch(0.30 0.003 270);
+  --sidebar-ring: oklch(0.72 0.08 185);
 }
 
 @theme inline {
-  --font-sans: var(--font-instrument), 'Instrument Sans', system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
-  --font-display: var(--font-instrument-serif), 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Neue Haas Display', var(--font-instrument), system-ui, sans-serif;
+  --font-mono: 'OffBit', var(--font-jetbrains), 'JetBrains Mono', monospace;
+  --font-display: 'Sargasso', var(--font-instrument-serif), Georgia, serif;
+  --font-code: var(--font-fira-code), 'Fira Code', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -79,6 +170,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* Brand colors as custom tokens */
+  --color-teal: oklch(0.72 0.08 185);
+  --color-navy: oklch(0.15 0.04 230);
+  --color-orange: oklch(0.62 0.18 25);
+  --color-cream: oklch(0.93 0.015 80);
 }
 
 @layer base {
@@ -95,18 +191,32 @@
 
 @layer utilities {
   .font-display {
-    font-family: var(--font-display);
+    font-family: 'Sargasso', var(--font-display);
   }
-  
+
+  .font-offbit {
+    font-family: 'OffBit', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .font-code {
+    font-family: var(--font-code);
+  }
+
+  /* OffBit e pixel font — precisa de escala maior que sans normal.
+     text-xs em OffBit = text-sm visual
+     text-sm em OffBit = text-base visual
+     text-base em OffBit = text-lg visual */
+
   .text-stroke {
     -webkit-text-stroke: 1.5px currentColor;
     -webkit-text-fill-color: transparent;
   }
-  
+
   .marquee {
     animation: marquee 30s linear infinite;
   }
-  
+
   .marquee-reverse {
     animation: marquee-reverse 25s linear infinite;
   }
@@ -115,45 +225,45 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
-  
+
   @keyframes marquee-reverse {
     0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
   }
-  
+
   .line-reveal {
     clip-path: inset(0 100% 0 0);
     animation: line-reveal 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
   }
-  
+
   @keyframes line-reveal {
     to { clip-path: inset(0 0 0 0); }
   }
-  
+
   .hover-lift {
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  
+
   .hover-lift:hover {
     transform: translateY(-4px);
   }
-  
+
   .letter-spin {
     display: inline-block;
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  
+
   .letter-spin:hover {
     transform: rotateY(360deg);
   }
-  
+
   .animate-char-in {
     animation: char-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     opacity: 0;
     filter: blur(40px);
     transform: translateY(100%);
   }
-  
+
   @keyframes char-in {
     0% {
       opacity: 0;
@@ -167,25 +277,141 @@
     }
   }
 
+  /* Noise texture overlay — sutil como no Figma */
   .noise-overlay {
     position: relative;
   }
-  
+
   .noise-overlay::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
+    opacity: 0.04;
     pointer-events: none;
-    z-index: 1;
+    z-index: 9999;
   }
-  
+
   .border-sketch {
     border: 1px solid transparent;
-    background: 
+    background:
       linear-gradient(var(--background), var(--background)) padding-box,
       linear-gradient(135deg, var(--foreground) 25%, transparent 25%, transparent 50%, var(--foreground) 50%, var(--foreground) 75%, transparent 75%) border-box;
     background-size: 100% 100%, 8px 8px;
+  }
+
+  /* Accent number styling (01. 02. 03.) como no Figma */
+  .section-number {
+    font-family: 'OffBit', monospace;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  /* Diagonal stripe pattern for inverted sections (Optimus ref) */
+  .diagonal-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg, transparent, transparent 40px,
+      currentColor 40px, currentColor 41px
+    );
+    opacity: 0.03;
+  }
+
+  /* Corner ornaments for CTA blocks */
+  .corner-ornament-tr::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 32px;
+    height: 32px;
+    border-top: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+  }
+
+  .corner-ornament-bl::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    width: 32px;
+    height: 32px;
+    border-bottom: 1px solid var(--color-primary);
+    border-left: 1px solid var(--color-primary);
+  }
+
+  /* Code blur-to-sharp character reveal (Optimus ref) */
+  .code-char-reveal {
+    animation: code-char-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  @keyframes code-char-in {
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  /* Orbital animations for integrations section */
+  .animate-orbit {
+    animation: orbit var(--duration, 30s) linear infinite;
+  }
+
+  .animate-counter-orbit {
+    animation: counter-orbit var(--duration, 30s) linear infinite;
+  }
+
+  @keyframes orbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes counter-orbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+  }
+
+  /* Mask gradient for orbital section */
+  .mask-b-from-30\% {
+    mask-image: linear-gradient(to bottom, black 30%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent);
+  }
+
+  /* Shadow for orbital icons */
+  .shadow-aceternity {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Progress fill for How it Works steps */
+  @keyframes progress-fill {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  /* Aurora gradient button animations */
+  @keyframes aurora-1 {
+    0%, 100% { transform: translate(-35%, 80%); }
+    25% { transform: translate(20%, -40%); }
+    50% { transform: translate(60%, 30%); }
+    75% { transform: translate(-10%, -60%); }
+  }
+
+  @keyframes aurora-2 {
+    0%, 100% { transform: translate(35%, 88%); }
+    25% { transform: translate(-30%, 20%); }
+    50% { transform: translate(10%, -50%); }
+    75% { transform: translate(50%, 40%); }
+  }
+
+  @keyframes aurora-3 {
+    0%, 100% { transform: translate(-18%, -73%); }
+    33% { transform: translate(40%, 50%); }
+    66% { transform: translate(-50%, 10%); }
+  }
+
+  @keyframes aurora-4 {
+    0%, 100% { transform: translate(47%, -43%); }
+    50% { transform: translate(-40%, 60%); }
   }
 }
