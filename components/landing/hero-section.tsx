@@ -27,23 +27,19 @@ export function HeroSection() {
     const currentWord = words[wordIndex];
 
     if (!isDeleting) {
-      // Typing
       if (displayText.length < currentWord.length) {
         return setTimeout(() => {
           setDisplayText(currentWord.slice(0, displayText.length + 1));
-        }, 80 + Math.random() * 40); // Slight randomness for natural feel
+        }, 80 + Math.random() * 40);
       } else {
-        // Pause before deleting
         return setTimeout(() => setIsDeleting(true), 2000);
       }
     } else {
-      // Deleting
       if (displayText.length > 0) {
         return setTimeout(() => {
           setDisplayText(displayText.slice(0, -1));
         }, 40);
       } else {
-        // Move to next word
         setIsDeleting(false);
         setWordIndex((prev) => (prev + 1) % words.length);
         return setTimeout(() => {}, 300);
@@ -62,7 +58,7 @@ export function HeroSection() {
 
   return (
     <section id="inicio" className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      {/* Animated sphere — now in teal */}
+      {/* Animated sphere — AB particles teal */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-30 pointer-events-none">
         <AnimatedSphere />
       </div>
@@ -86,22 +82,25 @@ export function HeroSection() {
           </span>
         </div>
 
-        {/* H1 with typewriter word in OffBit */}
+        {/* H1 — fixed height container to prevent layout shift */}
         <div className="mb-12">
-          <h1 className={`text-[clamp(2.5rem,10vw,8rem)] font-black leading-[0.9] tracking-tight transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <span className="block">Seu produto digital.</span>
-            <span className="block">
-              Do zero ao deploy.{" "}
-            </span>
-            {/* Typewriter word — OffBit, teal, with cursor */}
-            <span className="block mt-2">
-              <span className="font-offbit text-primary text-[clamp(2rem,8vw,6.5rem)] tracking-wider">
+          <h1 className={`font-black leading-[0.9] tracking-tight transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span className="block text-[clamp(2.5rem,8vw,6.5rem)]">Seu produto digital.</span>
+            <span className="block text-[clamp(2.5rem,8vw,6.5rem)]">Do zero ao deploy.</span>
+
+            {/* Typewriter — fixed height container prevents layout jump */}
+            <span
+              className="block mt-4 overflow-hidden"
+              style={{ height: "clamp(2.5rem, 8vw, 7rem)" }}
+            >
+              <span className="font-offbit font-bold text-primary text-[clamp(2rem,7vw,5.5rem)] tracking-wider inline-block">
                 {displayText}
               </span>
               <span
-                className={`inline-block w-[3px] lg:w-[4px] h-[0.8em] bg-accent ml-1 align-middle transition-opacity duration-100 ${
+                className={`inline-block w-[3px] lg:w-[4px] bg-accent ml-1 align-baseline transition-opacity duration-100 ${
                   cursorVisible ? "opacity-100" : "opacity-0"
                 }`}
+                style={{ height: "clamp(1.8rem, 6vw, 4.5rem)" }}
               />
             </span>
           </h1>
