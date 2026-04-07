@@ -85,22 +85,22 @@ export function HeroSection() {
         {/* H1 — fixed height container to prevent layout shift */}
         <div className="mb-12">
           <h1 className={`font-black leading-[0.9] tracking-tight transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <span className="block text-[clamp(2.5rem,8vw,6.5rem)]">Seu produto digital.</span>
-            <span className="block text-[clamp(2.5rem,8vw,6.5rem)]">Do zero ao deploy.</span>
+            <span className="block text-[clamp(2rem,5.5vw,5.5rem)]">Seu produto digital.</span>
+            <span className="block text-[clamp(2rem,5.5vw,5.5rem)]">Do zero ao deploy.</span>
 
             {/* Typewriter — fixed height container prevents layout jump */}
             <span
-              className="block mt-4 overflow-hidden"
-              style={{ height: "clamp(2.5rem, 8vw, 7rem)" }}
+              className="block mt-3 overflow-hidden"
+              style={{ height: "clamp(2rem, 5vw, 5rem)" }}
             >
-              <span className="font-offbit font-bold text-primary text-[clamp(2rem,7vw,5.5rem)] tracking-wider inline-block">
+              <span className="font-offbit font-bold text-primary text-[clamp(1.5rem,4.5vw,4.5rem)] tracking-wider inline-block">
                 {displayText}
               </span>
               <span
-                className={`inline-block w-[3px] lg:w-[4px] bg-accent ml-1 align-baseline transition-opacity duration-100 ${
+                className={`inline-block w-[2px] lg:w-[3px] bg-accent ml-1 align-baseline transition-opacity duration-100 ${
                   cursorVisible ? "opacity-100" : "opacity-0"
                 }`}
-                style={{ height: "clamp(1.8rem, 6vw, 4.5rem)" }}
+                style={{ height: "clamp(1.5rem, 4vw, 3.5rem)" }}
               />
             </span>
           </h1>
