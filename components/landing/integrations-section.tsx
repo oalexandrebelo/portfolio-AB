@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { GradientButton } from "./gradient-button";
 
 const outerTools = [
   { name: "Claude", letter: "C", color: "#D97757" },
@@ -102,16 +102,18 @@ export function IntegrationsSection() {
           Utilizamos as melhores ferramentas do mercado,<br />
           <span className="text-primary">vamos bater um papo?</span>
         </h2>
-        <Button
-          size="lg"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full mt-6 relative z-20 font-bold cursor-pointer group"
-          asChild
-        >
-          <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer">
+
+        {/* Dual CTA — iconsax pattern */}
+        <div className="relative z-20 flex flex-col sm:flex-row items-center gap-4 mt-8">
+          <GradientButton href="https://wa.me/5564999271254">
             Falar no WhatsApp
-            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-          </a>
-        </Button>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </GradientButton>
+          <GradientButton href="/blog" variant="outline">
+            Ler o blog
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </GradientButton>
+        </div>
       </div>
     </section>
   );
