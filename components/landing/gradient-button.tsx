@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useRef, useState } from "react";
 
 interface GradientButtonProps {
   children: ReactNode;
@@ -10,8 +10,8 @@ interface GradientButtonProps {
 }
 
 /**
- * Gradient CTA button — iconsax.io pattern adapted to AB DS
- * 6 color blobs + glass + backdrop blur + hover scale
+ * Gradient CTA — exact iconsax.io 5-layer structure adapted to AB DS
+ * Layers (bottom to top): base → gradient-2 (color blobs) → glass → gradient-1 (radial) → gradient-0 (blur) → content
  */
 export function GradientButton({
   children,
@@ -19,16 +19,18 @@ export function GradientButton({
   className = "",
   variant = "primary",
 }: GradientButtonProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
   const Wrapper = href ? "a" : "button";
-  const props = href
+  const linkProps = href
     ? { href, target: "_blank" as const, rel: "noopener noreferrer" }
     : {};
 
   if (variant === "outline") {
     return (
       <Wrapper
-        {...(props as any)}
-        className={`group relative inline-flex items-center justify-center overflow-hidden rounded-2xl px-8 py-4 text-base font-bold cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 hover:bg-foreground/5 ${className}`}
+        {...(linkProps as any)}
+        className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] px-8 h-[46px] text-[15px] font-medium cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 bg-transparent ${className}`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
       </Wrapper>
@@ -37,57 +39,72 @@ export function GradientButton({
 
   return (
     <Wrapper
-      {...(props as any)}
-      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-2xl px-8 py-4 text-base font-bold text-white cursor-pointer transition-transform active:scale-[0.98] ${className}`}
+      {...(linkProps as any)}
+      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 ${className}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* Content — highest z-index */}
-      <span className="relative z-20 flex items-center gap-2 drop-shadow-[0_0_8px_rgba(0,0,0,0.5)]">
+      {/* Layer 5: btn-content — highest z-index */}
+      <div className="relative z-20 flex items-center gap-2" style={{
+        filter: "drop-shadow(0 0 8px rgba(0,0,0,0.5))",
+        textShadow: "0 0 8px rgba(0,0,0,0.5)",
+      }}>
         {children}
-      </span>
+      </div>
 
-      {/* Glass layer — blur backdrop */}
-      <span className="absolute inset-[1px] z-10 rounded-2xl bg-white/[0.07] backdrop-blur-[20px]" />
+      {/* Layer 4: gradient-0 — blur overlay that appears on hover */}
+      <div
+        className="absolute inset-[2px] z-[12] rounded-[25px] transition-all duration-500"
+        style={{
+          background: "var(--background)",
+          filter: hovered ? "blur(0px)" : "blur(10px)",
+          opacity: hovered ? 1 : 0,
+        }}
+      />
 
-      {/* Radial gradient overlay */}
-      <span className="absolute inset-0 z-[9] rounded-2xl bg-[radial-gradient(circle_at_50%_50%,rgba(115,191,191,0.15),transparent_70%)]" />
+      {/* Layer 3: gradient-1 — radial gradient (always visible) */}
+      <div
+        className="absolute inset-0 z-[12] rounded-[25px]"
+        style={{
+          background: "radial-gradient(103.46% 134.6% at 64.66% 50%, rgba(217,217,217,0) 27.37%, rgba(217,217,217,0.15) 100%)",
+        }}
+      />
 
-      {/* 6 animated color blobs — iconsax pattern in AB colors */}
-      <span className="absolute inset-0 overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-110">
-        {/* Teal blobs */}
-        <span
-          className="absolute w-28 h-28 rounded-full blur-2xl animate-[aurora-1_8s_ease-in-out_infinite]"
-          style={{ background: "#73BFBF", opacity: 0.7 }}
-        />
-        <span
-          className="absolute w-20 h-20 rounded-full blur-2xl animate-[aurora-3_10s_ease-in-out_infinite]"
-          style={{ background: "#5AADA8", opacity: 0.5 }}
-        />
-        {/* Orange blobs */}
-        <span
-          className="absolute w-24 h-24 rounded-full blur-2xl animate-[aurora-2_6s_ease-in-out_infinite]"
-          style={{ background: "#E8553A", opacity: 0.6 }}
-        />
-        <span
-          className="absolute w-16 h-16 rounded-full blur-2xl animate-[aurora-5_9s_ease-in-out_infinite]"
-          style={{ background: "#D97757", opacity: 0.4 }}
-        />
-        {/* Navy depth */}
-        <span
-          className="absolute w-24 h-24 rounded-full blur-2xl animate-[aurora-4_7s_ease-in-out_infinite]"
-          style={{ background: "#042940", opacity: 0.6 }}
-        />
-        {/* Accent purple for richness */}
-        <span
-          className="absolute w-16 h-16 rounded-full blur-2xl animate-[aurora-6_11s_ease-in-out_infinite]"
-          style={{ background: "#A259FF", opacity: 0.3 }}
-        />
-      </span>
+      {/* Layer 2: glass — backdrop blur */}
+      <div
+        className="absolute z-[10] rounded-[25px]"
+        style={{
+          inset: "-7px -14px",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+        }}
+      />
 
-      {/* Border with subtle gradient */}
-      <span className="absolute inset-0 rounded-2xl border border-white/20 group-hover:border-white/30 transition-colors" />
+      {/* Layer 1: gradient-2 — animated color blobs */}
+      <div
+        ref={ref}
+        className="absolute inset-0 z-[5] rounded-[25px] overflow-hidden transition-transform duration-500"
+        style={{
+          transform: hovered ? "scale(0.8)" : "scale(1.1)",
+        }}
+      >
+        {/* 6 color blobs in AB brand colors */}
+        <div className="absolute rounded-full transition-transform duration-[3000ms] ease-in-out"
+          style={{ width: 80, height: 80, background: "#73BFBF", filter: "blur(25px)", transform: `translate(${hovered ? "20%" : "-9%"}, ${hovered ? "-30%" : "97%"})` }} />
+        <div className="absolute rounded-full transition-transform duration-[2500ms] ease-in-out"
+          style={{ width: 70, height: 70, background: "#E8553A", filter: "blur(25px)", transform: `translate(${hovered ? "60%" : "2%"}, ${hovered ? "80%" : "12%"})` }} />
+        <div className="absolute rounded-full transition-transform duration-[3500ms] ease-in-out"
+          style={{ width: 60, height: 60, background: "#5AADA8", filter: "blur(25px)", transform: `translate(${hovered ? "-20%" : "-50%"}, ${hovered ? "40%" : "11%"})` }} />
+        <div className="absolute rounded-full transition-transform duration-[2800ms] ease-in-out"
+          style={{ width: 75, height: 75, background: "#D97757", filter: "blur(25px)", transform: `translate(${hovered ? "80%" : "20%"}, ${hovered ? "-60%" : "-49%"})` }} />
+        <div className="absolute rounded-full transition-transform duration-[3200ms] ease-in-out"
+          style={{ width: 65, height: 65, background: "#042940", filter: "blur(20px)", transform: `translate(${hovered ? "-40%" : "6%"}, ${hovered ? "20%" : "60%"})` }} />
+        <div className="absolute rounded-full transition-transform duration-[2200ms] ease-in-out"
+          style={{ width: 55, height: 55, background: "#A259FF", filter: "blur(25px)", transform: `translate(${hovered ? "50%" : "-17%"}, ${hovered ? "-80%" : "75%"})` }} />
+      </div>
 
-      {/* Base dark fill */}
-      <span className="absolute inset-0 rounded-2xl bg-foreground/80" />
+      {/* Layer 0: border */}
+      <div className="absolute inset-0 rounded-[25px] border border-foreground/10" />
     </Wrapper>
   );
 }
