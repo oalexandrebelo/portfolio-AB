@@ -3,26 +3,84 @@
 import { ArrowRight } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 
+/* ------------------------------------------------------------------ */
+/* Tool SVG icons — inline for zero network requests                   */
+/* ------------------------------------------------------------------ */
+
+function IconClaude() {
+  return <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128h-.23l-.79-.048-2.696-.072-2.34-.098-.57-.12-.534-.7.054-.35.48-.322.686.06 1.518.102 2.278.158 1.652.097h.39l.054-.158-.078-.098-.104-.098-2.354-1.596-2.552-1.688-1.336-.972-.722-.492-.364-.462-.158-1.008.656-.722.88.06.22.062.892.686 1.906 1.476 2.49 1.836.364.302.146-.104.018-.072-.164-.274-1.354-2.448-1.446-2.492-.644-1.032-.17-.62C5.56 1.62 5.532 1.408 5.532 1.148l.748-1.014.412-.134 1 .134.418.364.62 1.416 1.002 2.228 1.556 3.03.456.898.242.83.09.256h.16v-.146l.128-1.706.236-2.094.23-2.696.08-.76.376-.912.748-.492.582.28.48.686-.066.444-.286 1.852-.558 2.904-.364 1.944h.212l.256-.242.982-1.306 1.652-2.064.73-.82.85-.904.546-.432 1.034.01.762 1.128-.34 1.166-1.062 1.35-.88 1.134-1.264 1.704-.79 1.36.072.11.188.018 2.854-.608 1.542-.28 1.84-.316.832.388.09.396-.328.81-1.968.486-2.31.462-3.45.812-.042.036.048.154 1.554.146.662.036h1.622l3.018.226.79.516.474.636-.08.486-1.214.62-1.638-.388-3.826-.912-1.312-.328h-.182v.11l1.094 1.068 2.006 1.81 2.512 2.332.128.576-.322.456-.342-.048-2.204-1.658-.85-.746-1.924-1.62h-.128v.17.44l2.416 3.526.12 1.08-.17.354-.608.212-.668-.12-1.374-1.926-1.414-2.168-1.142-1.944-.14.078-.712 7.254-.298.37-.73.28-.608-.462-.328-.748.322-1.476.388-1.926.316-1.53.286-1.902.17-.63-.012-.044-.148.02-1.434 1.968-2.182 2.948-1.722 1.846-.382.164-.716-.37.066-.742.4-.588 2.384-3.036 1.44-1.884.928-1.088-.006-.158h-.054L4.71 15.955z" fill="#D97757"/></svg>;
+}
+
+function IconReact() {
+  return <svg viewBox="0 0 24 24" className="w-7 h-7"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.31 0-.592.067-.852.178C4.834 2.08 4.243 4.04 4.591 6.89c-2.728.77-4.591 2.012-4.591 3.11 0 1.098 1.867 2.35 4.6 3.12-.353 2.852.24 4.81 1.662 5.373.26.103.542.158.852.158 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.31 0 .593-.056.853-.159 1.42-.562 2.014-2.52 1.662-5.372 2.73-.77 4.596-2.012 4.596-3.11 0-1.098-1.866-2.35-4.6-3.12.352-2.852-.24-4.81-1.662-5.372a1.901 1.901 0 0 0-.852-.178z" fill="none" stroke="#61DAFB" strokeWidth="1"/></svg>;
+}
+
+function IconSupabase() {
+  return <svg viewBox="0 0 24 24" className="w-7 h-7"><path d="M13.7 21.3c-.4.6-1.3.2-1.3-.5L12.2 11h8.1c1.4 0 2.2 1.6 1.3 2.7L13.7 21.3z" fill="url(#sg1)"/><path d="M10.3 2.7c.4-.6 1.3-.2 1.3.5L11.8 13H3.7c-1.4 0-2.2-1.6-1.3-2.7L10.3 2.7z" fill="#3ECF8E"/><defs><linearGradient id="sg1" x1="12" y1="12" x2="22" y2="17"><stop stopColor="#249361"/><stop offset="1" stopColor="#3ECF8E"/></linearGradient></defs></svg>;
+}
+
+function IconOpenAI() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#10A37F"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.998 5.998 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>;
+}
+
+function IconFigma() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" fill="#F24E1E"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" fill="#FF7262"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" fill="#1ABCFE"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" fill="#0ACF83"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" fill="#A259FF"/></svg>;
+}
+
+function IconN8n() {
+  return <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none"><circle cx="6" cy="12" r="3" stroke="#EA4B71" strokeWidth="1.5"/><circle cx="18" cy="6" r="3" stroke="#EA4B71" strokeWidth="1.5"/><circle cx="18" cy="18" r="3" stroke="#EA4B71" strokeWidth="1.5"/><path d="M8.5 10.5L15.5 7M8.5 13.5L15.5 17" stroke="#EA4B71" strokeWidth="1.5"/></svg>;
+}
+
+function IconVercel() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="white"><path d="M12 1L24 22H0L12 1z"/></svg>;
+}
+
+function IconNotion() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="white"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L18.148 2.33c-.42-.326-.98-.7-2.055-.607L3.01 2.957c-.467.047-.56.28-.374.466zM5.26 7.3v13.293c0 .7.374 .98 1.213.933l14.523-.84c.84-.046.933-.56.933-1.166V6.42c0-.606-.233-.933-.746-.886l-15.177.84c-.56.046-.746.326-.746.886zM18.007 8.2c.093.42 0 .84-.42.886l-.7.14v9.803c-.606.326-1.166.513-1.633.513-.746 0-.933-.233-1.493-.933l-4.573-7.19v6.953l1.446.327s0 .84-1.166.84l-3.22.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L5.96 9.714c-.093-.42.14-1.026.793-1.073l3.453-.233 4.76 7.283v-6.44l-1.213-.14c-.093-.513.28-.886.746-.933zM3.197 1.56L16.653.535c1.678-.14 2.11.56 2.804 1.073l3.873 2.706c.933.653.7.886.653 1.586l-.84 14.29c-.093.933-.467 1.493-1.54 1.586l-15.457.886c-.793.047-1.166-.093-1.586-.607L1.7 19.348c-.42-.56-.607-.98-.514-1.586V3.193c.093-.746.467-1.493 1.54-1.586z"/></svg>;
+}
+
+function IconNextjs() {
+  return <svg viewBox="0 0 24 24" className="w-7 h-7" fill="white"><path d="M11.572 0c-.176.001-.349.013-.526.025C6.228.35 2.3 4.118 1.694 8.878c-.5 3.919 1.524 7.662 4.7 9.592l7.911-11.108v8.041c0 .076.038.12.076.12h1.238c.076 0 .076-.044.076-.12V6.252l-7.91 11.108c2.084 1.262 4.7 1.7 7.284 1.1 3.32-.776 5.886-3.482 6.588-6.818C22.782 5.562 17.946.176 12.286.014c-.238-.013-.476-.013-.714-.013z"/></svg>;
+}
+
+function IconTypeScript() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#3178C6"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.42.276.69.394.563.232.877.34c.543.188.998.393 1.365.615.368.222.657.469.868.744.212.275.37.569.477.882.107.312.16.651.16 1.02a3.04 3.04 0 0 1-.313 1.39c-.21.392-.503.722-.88.99-.376.269-.83.468-1.36.6-.53.13-1.115.197-1.755.197-.44 0-.882-.037-1.324-.11a7.287 7.287 0 0 1-1.217-.313 5.526 5.526 0 0 1-.98-.47V16.39c.312.22.641.413.985.582.344.17.687.306 1.028.41.342.104.668.177.979.221.31.044.594.066.853.066.4 0 .69-.065.87-.196.18-.131.27-.325.27-.584 0-.211-.074-.395-.22-.553-.147-.158-.34-.303-.577-.434s-.51-.26-.806-.378-.597-.246-.897-.378c-.524-.228-.968-.472-1.332-.73a4.06 4.06 0 0 1-.89-.862 3.2 3.2 0 0 1-.498-1.008 4.233 4.233 0 0 1-.154-1.18c0-.525.104-.988.313-1.392.209-.404.494-.743.856-1.018.362-.274.79-.48 1.283-.614a5.8 5.8 0 0 1 1.63-.21zM10 10.109v1.891H7v9.75H5V12H2v-1.891z"/></svg>;
+}
+
+function IconPython() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.9S0 5.789 0 11.969c0 6.18 3.403 5.96 3.403 5.96h2.03v-2.867s-.109-3.403 3.35-3.403h5.766s3.24.052 3.24-3.132V3.198S18.28 0 11.914 0zM8.708 1.85a1.06 1.06 0 1 1 0 2.118 1.06 1.06 0 0 1 0-2.118z" fill="#FFD43B"/><path d="M12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.007-2.752h-5.814v-.826H20.1S24 18.211 24 12.031c0-6.18-3.403-5.96-3.403-5.96h-2.03v2.867s.109 3.403-3.35 3.403H9.45s-3.24-.052-3.24 3.132v5.329S5.72 24 12.086 24zm3.206-1.85a1.06 1.06 0 1 1 0-2.118 1.06 1.06 0 0 1 0 2.118z" fill="#4584B6"/></svg>;
+}
+
+function IconDocker() {
+  return <svg viewBox="0 0 24 24" className="w-7 h-7" fill="#2496ED"><path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.186.186 0 0 0-.187.186v1.887c0 .103.084.185.187.185m-2.954-5.43h2.118a.186.186 0 0 0 .187-.185V3.576a.186.186 0 0 0-.187-.186h-2.118a.186.186 0 0 0-.187.186v1.887c0 .103.084.185.187.185m0 2.716h2.118a.187.187 0 0 0 .187-.186V6.29a.187.187 0 0 0-.187-.186h-2.118a.187.187 0 0 0-.187.186v1.887c0 .103.084.186.187.186m-2.93 0h2.12a.186.186 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.186h-2.12a.186.186 0 0 0-.185.186v1.887c0 .103.083.186.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.186.186 0 0 0-.185-.186H5.136a.186.186 0 0 0-.186.186v1.887c0 .103.084.186.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.186.186 0 0 0-.187.186v1.887c0 .103.084.185.187.185m-2.93 0h2.12a.186.186 0 0 0 .185-.185V9.006a.186.186 0 0 0-.185-.186h-2.12a.186.186 0 0 0-.186.186v1.887c0 .103.084.185.186.185m-2.964 0h2.119a.186.186 0 0 0 .185-.185V9.006a.186.186 0 0 0-.185-.186H5.136a.186.186 0 0 0-.186.186v1.887c0 .103.084.185.186.185m-2.92 0h2.12a.186.186 0 0 0 .185-.185V9.006a.186.186 0 0 0-.186-.186h-2.12a.186.186 0 0 0-.185.186v1.887c0 .103.083.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 0 0-.75.748 11.376 11.376 0 0 0 .692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 0 0 3.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z"/></svg>;
+}
+
+function IconChatwoot() {
+  return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#1F93FF"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1.5 1.5 0 0 0 3.8 21.454l3.032-.892A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm-3 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>;
+}
+
+/* ------------------------------------------------------------------ */
+
 const outerTools = [
-  { name: "Claude", letter: "C", color: "#D97757" },
-  { name: "Next.js", letter: "N", color: "#ffffff" },
-  { name: "Notion", letter: "No", color: "#ffffff" },
-  { name: "Supabase", letter: "SB", color: "#3ECF8E" },
-  { name: "OpenAI", letter: "AI", color: "#10A37F" },
-  { name: "Vercel", letter: "V", color: "#ffffff" },
-  { name: "Figma", letter: "Fi", color: "#A259FF" },
+  { name: "Claude", icon: IconClaude },
+  { name: "Next.js", icon: IconNextjs },
+  { name: "Notion", icon: IconNotion },
+  { name: "Supabase", icon: IconSupabase },
+  { name: "OpenAI", icon: IconOpenAI },
+  { name: "Vercel", icon: IconVercel },
+  { name: "Figma", icon: IconFigma },
 ];
 
 const middleTools = [
-  { name: "n8n", letter: "n8", color: "#EA4B71" },
-  { name: "Chatwoot", letter: "CW", color: "#1F93FF" },
-  { name: "Python", letter: "Py", color: "#FFD43B" },
-  { name: "Docker", letter: "Dk", color: "#2496ED" },
+  { name: "n8n", icon: IconN8n },
+  { name: "Chatwoot", icon: IconChatwoot },
+  { name: "Python", icon: IconPython },
+  { name: "Docker", icon: IconDocker },
 ];
 
 const innerTools = [
-  { name: "TypeScript", letter: "TS", color: "#3178C6" },
-  { name: "React", letter: "Re", color: "#61DAFB" },
+  { name: "TypeScript", icon: IconTypeScript },
+  { name: "React", icon: IconReact },
 ];
 
 function OrbitRing({
@@ -31,7 +89,7 @@ function OrbitRing({
   duration,
   reverse = false,
 }: {
-  tools: typeof outerTools;
+  tools: { name: string; icon: () => React.JSX.Element }[];
   size: number;
   duration: number;
   reverse?: boolean;
@@ -49,6 +107,7 @@ function OrbitRing({
       <div className="relative h-full w-full">
         {tools.map((tool, i) => {
           const angle = angleStep * i;
+          const Icon = tool.icon;
           return (
             <div
               key={tool.name}
@@ -57,15 +116,13 @@ function OrbitRing({
             >
               <div style={{ transform: `rotate(-${angle}deg)` }}>
                 <div
-                  className={`shadow-aceternity flex size-14 items-center justify-center rounded-md bg-card border border-border/50 ${
+                  className={`shadow-aceternity flex size-14 items-center justify-center rounded-xl bg-card border border-border/50 ${
                     reverse ? "animate-orbit" : "animate-counter-orbit"
                   }`}
                   style={{ "--duration": `${duration}s` } as React.CSSProperties}
                   title={tool.name}
                 >
-                  <span className="font-offbit text-base font-bold" style={{ color: tool.color }}>
-                    {tool.letter}
-                  </span>
+                  <Icon />
                 </div>
               </div>
             </div>
@@ -81,41 +138,29 @@ export function IntegrationsSection() {
     <section className="relative border-t border-border/50 overflow-hidden">
       <div className="max-w-[1400px] mx-auto relative flex min-h-[600px] md:min-h-[700px] flex-col items-center justify-center px-6 lg:px-12 py-20">
 
-        {/* Globe background — concentric rings + orbiting tools */}
+        {/* Globe background */}
         <div
           aria-hidden="true"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           style={{ width: 800, height: 800 }}
         >
-          {/* Concentric ring backgrounds */}
           <div className="absolute inset-0 z-0">
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.03]"
-              style={{ width: 752, height: 752 }}
-            />
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.05]"
-              style={{ width: 544, height: 544 }}
-            />
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.07]"
-              style={{ width: 336, height: 336 }}
-            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.03]" style={{ width: 752, height: 752 }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.05]" style={{ width: 544, height: 544 }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.07]" style={{ width: 336, height: 336 }} />
           </div>
 
-          {/* Orbital rings with tools */}
           <OrbitRing tools={outerTools} size={752} duration={34} />
           <OrbitRing tools={middleTools} size={544} duration={26} reverse />
           <OrbitRing tools={innerTools} size={336} duration={18} />
         </div>
 
-        {/* Content — on top of globe */}
+        {/* Content */}
         <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-5xl relative z-10 text-center max-w-3xl">
           Utilizamos as melhores ferramentas do mercado,<br />
           <span className="text-primary">vamos bater um papo?</span>
         </h2>
 
-        {/* Dual CTA */}
         <div className="relative z-20 flex flex-col sm:flex-row items-center gap-4 mt-8">
           <GradientButton href="https://wa.me/5564999271254">
             Falar no WhatsApp
