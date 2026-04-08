@@ -30,7 +30,7 @@ export function GradientButton({
     return (
       <Wrapper
         {...(linkProps as any)}
-        className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] px-8 h-[46px] text-[15px] font-medium cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 bg-transparent ${className}`}
+        className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] px-8 h-[46px] text-[15px] font-medium cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 bg-transparent focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
       </Wrapper>
@@ -40,7 +40,7 @@ export function GradientButton({
   return (
     <Wrapper
       {...(linkProps as any)}
-      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 ${className}`}
+      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

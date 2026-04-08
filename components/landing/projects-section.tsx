@@ -88,6 +88,7 @@ export function ProjectsSection() {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={p.name + " — " + p.headline}
               className={`group relative block bg-background p-8 hover:bg-primary/[0.03] transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}

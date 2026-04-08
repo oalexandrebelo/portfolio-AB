@@ -7,13 +7,13 @@ import './globals.css'
 const sora = Sora({
   subsets: ["latin"],
   variable: '--font-sora',
-  display: 'block',
+  display: 'swap',
 });
 
 const firaCode = Fira_Code({
   subsets: ["latin"],
   variable: '--font-fira-code',
-  display: 'block',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo-ab.svg",
+        url: "/logo-ab.svg", // TODO: Replace SVG with 1200x630 PNG for better social sharing
         width: 1000,
         height: 1000,
         alt: "Alexandre Belo - Design Engineer",
