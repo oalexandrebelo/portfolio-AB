@@ -75,6 +75,14 @@
 }
 
 @font-face {
+  font-family: 'OffBit Dot';
+  src: url('/fonts/offbit/OffBit-DotBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Sargasso';
   src: url('/fonts/Sargasso/Sargasso-Display.woff2') format('woff2'),
        url('/fonts/Sargasso/Sargasso-Display.woff') format('woff');
@@ -203,6 +211,12 @@
 
   .font-offbit {
     font-family: 'OffBit', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .font-offbit-dot {
+    font-family: 'OffBit Dot', 'OffBit', monospace;
+    font-weight: 700;
     letter-spacing: 0.08em;
   }
 

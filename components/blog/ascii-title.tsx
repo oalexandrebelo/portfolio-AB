@@ -2,22 +2,20 @@
 
 export default function AsciiTitle() {
   return (
-    <div className="select-none" aria-label="blog.AIAB">
-      <pre
-        className="font-offbit font-bold text-[6px] leading-[1.1] sm:text-[8px] md:text-xs text-foreground whitespace-pre"
-        aria-hidden="true"
-      >
-        {`
- ██████  ██       ██████   ██████        █████  ██  █████  ██████
- ██   ██ ██      ██    ██ ██            ██   ██ ██ ██   ██ ██   ██
- ██████  ██      ██    ██ ██   ███      █████   ██ █████   ██████
- ██   ██ ██      ██    ██ ██    ██      ██   ██ ██ ██   ██ ██   ██
- ██████  ███████  ██████   ██████  ██   █████  ██ █████   ██████
-        `.trim()}
-      </pre>
-      <p className="text-right font-code text-xs sm:text-sm text-primary mt-1 tracking-widest">
-        .com
-      </p>
-    </div>
+    <section className="relative w-full flex justify-center py-8 px-4">
+      <div className="flex flex-col items-center" role="img" aria-label="blog.AI @alexandrebelo">
+        <pre className="text-foreground text-[8px] md:text-sm leading-tight font-mono whitespace-pre select-none">
+{`██████╗ ██╗      ██████╗  ██████╗     █████╗ ██╗
+██╔══██╗██║     ██╔═══██╗██╔════╝    ██╔══██╗██║
+██████╔╝██║     ██║   ██║██║  ███╗   ███████║██║
+██╔══██╗██║     ██║   ██║██║   ██║   ██╔══██║██║
+██████╔╝███████╗╚██████╔╝╚██████╔╝██╗██║  ██║██║
+╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝`}
+        </pre>
+        <span className="font-offbit-dot text-foreground text-lg md:text-2xl -mt-1 ml-auto">
+          @alexandrebelo
+        </span>
+      </div>
+    </section>
   );
 }
