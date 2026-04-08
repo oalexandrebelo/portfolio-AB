@@ -1,28 +1,19 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono, Fira_Code } from 'next/font/google'
+import { Sora, Fira_Code } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const instrumentSans = Instrument_Sans({ 
+const sora = Sora({
   subsets: ["latin"],
-  variable: '--font-instrument'
-});
-
-const instrumentSerif = Instrument_Serif({ 
-  subsets: ["latin"],
-  weight: "400",
-  variable: '--font-instrument-serif'
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: '--font-jetbrains'
+  variable: '--font-sora',
+  display: 'block',
 });
 
 const firaCode = Fira_Code({
   subsets: ["latin"],
-  variable: '--font-fira-code'
+  variable: '--font-fira-code',
+  display: 'block',
 });
 
 export const metadata: Metadata = {
@@ -79,10 +70,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    // Add Google Search Console verification when ready
-    // google: "your-verification-code",
-  },
 }
 
 export default function RootLayout({
@@ -92,7 +79,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${firaCode.variable} font-sans antialiased`}>
+      <body className={`${sora.variable} ${firaCode.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>
