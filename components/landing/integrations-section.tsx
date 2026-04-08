@@ -5,11 +5,11 @@ import { GradientButton } from "./gradient-button";
 
 const outerTools = [
   { name: "Claude", letter: "C", color: "#D97757" },
-  { name: "Antigravity", letter: "AG", color: "#73BFBF" },
-  { name: "Notion", letter: "N", color: "#ffffff" },
+  { name: "Next.js", letter: "N", color: "#ffffff" },
+  { name: "Notion", letter: "No", color: "#ffffff" },
   { name: "Supabase", letter: "SB", color: "#3ECF8E" },
   { name: "OpenAI", letter: "AI", color: "#10A37F" },
-  { name: "Discord", letter: "Ds", color: "#5865F2" },
+  { name: "Vercel", letter: "V", color: "#ffffff" },
   { name: "Figma", letter: "Fi", color: "#A259FF" },
 ];
 
@@ -17,7 +17,7 @@ const middleTools = [
   { name: "n8n", letter: "n8", color: "#EA4B71" },
   { name: "Chatwoot", letter: "CW", color: "#1F93FF" },
   { name: "Python", letter: "Py", color: "#FFD43B" },
-  { name: "Codex", letter: "Cx", color: "#10A37F" },
+  { name: "Docker", letter: "Dk", color: "#2496ED" },
 ];
 
 const innerTools = [
@@ -63,7 +63,6 @@ function OrbitRing({
                   style={{ "--duration": `${duration}s` } as React.CSSProperties}
                   title={tool.name}
                 >
-                  {/* OffBit scaled to text-base for orbital icons */}
                   <span className="font-offbit text-base font-bold" style={{ color: tool.color }}>
                     {tool.letter}
                   </span>
@@ -79,31 +78,44 @@ function OrbitRing({
 
 export function IntegrationsSection() {
   return (
-    <section className="relative border-t border-border/50">
-      <div className="max-w-[1400px] mx-auto border-x border-border/30 relative flex min-h-[480px] flex-col items-center justify-center overflow-hidden px-4 py-4 md:min-h-[600px]">
-        {/* Orbital rings */}
+    <section className="relative border-t border-border/50 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto relative flex min-h-[600px] md:min-h-[700px] flex-col items-center justify-center px-6 lg:px-12 py-20">
+
+        {/* Globe background — concentric rings + orbiting tools */}
         <div
           aria-hidden="true"
-          className="mx-auto flex items-center justify-center absolute inset-x-0 -top-[480px] mask-b-from-30%"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           style={{ width: 800, height: 800 }}
         >
-          <div className="pointer-events-none absolute inset-0 z-0">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-inner bg-muted/30" style={{ width: 752, height: 752 }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-inner bg-muted/50" style={{ width: 544, height: 544 }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-inner bg-muted/70" style={{ width: 336, height: 336 }} />
+          {/* Concentric ring backgrounds */}
+          <div className="absolute inset-0 z-0">
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.03]"
+              style={{ width: 752, height: 752 }}
+            />
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.05]"
+              style={{ width: 544, height: 544 }}
+            />
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/[0.07]"
+              style={{ width: 336, height: 336 }}
+            />
           </div>
 
+          {/* Orbital rings with tools */}
           <OrbitRing tools={outerTools} size={752} duration={34} />
           <OrbitRing tools={middleTools} size={544} duration={26} reverse />
           <OrbitRing tools={innerTools} size={336} duration={18} />
         </div>
 
-        <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-5xl relative z-10 text-center">
+        {/* Content — on top of globe */}
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-5xl relative z-10 text-center max-w-3xl">
           Utilizamos as melhores ferramentas do mercado,<br />
           <span className="text-primary">vamos bater um papo?</span>
         </h2>
 
-        {/* Dual CTA — iconsax pattern */}
+        {/* Dual CTA */}
         <div className="relative z-20 flex flex-col sm:flex-row items-center gap-4 mt-8">
           <GradientButton href="https://wa.me/5564999271254">
             Falar no WhatsApp
