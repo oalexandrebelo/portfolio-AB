@@ -30,6 +30,7 @@ export default function Home() {
       <IntegrationsSection />
       <ContactSection />
       <FooterSection />
+      {/* Person Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -57,6 +58,49 @@ export default function Home() {
               "Automation",
               "Monitoring",
               "Smart Cities",
+              "Growth Marketing",
+            ],
+          }),
+        }}
+      />
+      {/* FAQ Schema — enables rich snippets in Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Voce entra so no front-end?",
+                acceptedAnswer: { "@type": "Answer", text: "Nao. Eu entro quando o produto precisa sair do papel inteiro: interface, codigo, integracao, IA aplicada e colocacao em producao." },
+              },
+              {
+                "@type": "Question",
+                name: "Voce pega produto do zero ou melhora produto existente?",
+                acceptedAnswer: { "@type": "Answer", text: "Os dois. Posso entrar do conceito ao primeiro deploy ou em produto que ja roda e precisa de clareza, velocidade e estrutura." },
+              },
+              {
+                "@type": "Question",
+                name: "Quando faz sentido usar IA?",
+                acceptedAnswer: { "@type": "Answer", text: "Quando ela reduz ciclo, melhora operacao ou destrava capacidade do produto. Nao uso IA como ornamento." },
+              },
+              {
+                "@type": "Question",
+                name: "Voce tambem treina time?",
+                acceptedAnswer: { "@type": "Answer", text: "Sim. Principalmente em fluxo pratico de uso de IA, Vibe Coding, agentes e automacao. O foco e o time produzir melhor, nao assistir palestra." },
+              },
+              {
+                "@type": "Question",
+                name: "Voce faz LP e identidade visual?",
+                acceptedAnswer: { "@type": "Answer", text: "Sim. LP, branding, trafego pago, Google Analytics, SEO tecnico. Posicionamento digital completo." },
+              },
+              {
+                "@type": "Question",
+                name: "Como funciona o monitoramento tecnico?",
+                acceptedAnswer: { "@type": "Answer", text: "Zabbix coleta e mapeia. Grafana exibe com dashboards customizados. API propria para converter protocolos SNMP de dispositivos como lacos indutivos, cameras panoramicas e displays de lombada." },
+              },
             ],
           }),
         }}
