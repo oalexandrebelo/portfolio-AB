@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useRef, useState, useEffect, useCallback } from "react";
 
 interface GradientButtonProps {
   children: ReactNode;
@@ -10,10 +10,19 @@ interface GradientButtonProps {
   onClick?: () => void;
 }
 
-/**
- * Gradient CTA — exact iconsax.io 5-layer structure adapted to AB DS
- * Layers (bottom to top): base → gradient-2 (color blobs) → glass → gradient-1 (radial) → gradient-0 (blur) → content
- */
+const BLOBS = [
+  { size: 100, color: "#00E5CC", blur: 20, opacity: 0.9 },
+  { size: 90, color: "#73BFBF", blur: 18, opacity: 0.85 },
+  { size: 80, color: "#00D4AA", blur: 20, opacity: 0.8 },
+  { size: 85, color: "#4EECD4", blur: 18, opacity: 0.75 },
+  { size: 70, color: "#14B8A6", blur: 16, opacity: 0.9 },
+  { size: 75, color: "#2DD4BF", blur: 18, opacity: 0.8 },
+];
+
+function randomPos() {
+  return `translate(${(Math.random() - 0.5) * 200}%, ${(Math.random() - 0.5) * 200}%)`;
+}
+
 export function GradientButton({
   children,
   href,
@@ -23,6 +32,19 @@ export function GradientButton({
 }: GradientButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [positions, setPositions] = useState(() => BLOBS.map(() => randomPos()));
+
+  // Continuously animate blob positions every 2.5s — iconsax pattern
+  const animate = useCallback(() => {
+    setPositions(BLOBS.map(() => randomPos()));
+  }, []);
+
+  useEffect(() => {
+    animate();
+    const interval = setInterval(animate, 2500);
+    return () => clearInterval(interval);
+  }, [animate]);
+
   const Wrapper = href ? "a" : "button";
   const isExternal = href && !href.startsWith("#") && !href.startsWith("/");
   const linkProps = href
@@ -47,12 +69,12 @@ export function GradientButton({
   return (
     <Wrapper
       {...(linkProps as any)}
-      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       onClick={onClick}
+      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Layer 5: btn-content — highest z-index */}
+      {/* Layer 5: content */}
       <div className="relative z-20 flex items-center gap-2" style={{
         filter: "drop-shadow(0 0 8px rgba(0,0,0,0.5))",
         textShadow: "0 0 8px rgba(0,0,0,0.5)",
@@ -60,7 +82,7 @@ export function GradientButton({
         {children}
       </div>
 
-      {/* Layer 4: gradient-0 — blur overlay that appears on hover */}
+      {/* Layer 4: gradient-0 — dark overlay on hover */}
       <div
         className="absolute inset-[2px] z-[12] rounded-[25px] transition-all duration-500"
         style={{
@@ -70,15 +92,15 @@ export function GradientButton({
         }}
       />
 
-      {/* Layer 3: gradient-1 — radial gradient (always visible) */}
+      {/* Layer 3: radial highlight */}
       <div
         className="absolute inset-0 z-[12] rounded-[25px]"
         style={{
-          background: "radial-gradient(103.46% 134.6% at 64.66% 50%, rgba(217,217,217,0) 27.37%, rgba(217,217,217,0.15) 100%)",
+          background: "radial-gradient(103.46% 134.6% at 64.66% 50%, rgba(115,191,191,0) 27.37%, rgba(115,191,191,0.2) 100%)",
         }}
       />
 
-      {/* Layer 2: glass — backdrop blur */}
+      {/* Layer 2: glass */}
       <div
         className="absolute z-[10] rounded-[25px]"
         style={{
@@ -88,7 +110,7 @@ export function GradientButton({
         }}
       />
 
-      {/* Layer 1: gradient-2 — animated color blobs */}
+      {/* Layer 1: animated color blobs — continuously moving */}
       <div
         ref={ref}
         className="absolute inset-0 z-[5] rounded-[25px] overflow-hidden transition-transform duration-500"
@@ -96,19 +118,21 @@ export function GradientButton({
           transform: hovered ? "scale(0.8)" : "scale(1.1)",
         }}
       >
-        {/* 6 color blobs — bright teal aurora */}
-        <div className="absolute rounded-full transition-transform duration-[3000ms] ease-in-out"
-          style={{ width: 100, height: 100, background: "#00E5CC", filter: "blur(20px)", opacity: 0.9, transform: `translate(${hovered ? "20%" : "-35%"}, ${hovered ? "-30%" : "80%"})` }} />
-        <div className="absolute rounded-full transition-transform duration-[2500ms] ease-in-out"
-          style={{ width: 90, height: 90, background: "#73BFBF", filter: "blur(18px)", opacity: 0.85, transform: `translate(${hovered ? "60%" : "35%"}, ${hovered ? "80%" : "12%"})` }} />
-        <div className="absolute rounded-full transition-transform duration-[3500ms] ease-in-out"
-          style={{ width: 80, height: 80, background: "#00D4AA", filter: "blur(20px)", opacity: 0.8, transform: `translate(${hovered ? "-20%" : "-50%"}, ${hovered ? "40%" : "11%"})` }} />
-        <div className="absolute rounded-full transition-transform duration-[2800ms] ease-in-out"
-          style={{ width: 85, height: 85, background: "#4EECD4", filter: "blur(18px)", opacity: 0.75, transform: `translate(${hovered ? "80%" : "20%"}, ${hovered ? "-60%" : "-49%"})` }} />
-        <div className="absolute rounded-full transition-transform duration-[3200ms] ease-in-out"
-          style={{ width: 70, height: 70, background: "#14B8A6", filter: "blur(16px)", opacity: 0.9, transform: `translate(${hovered ? "-40%" : "6%"}, ${hovered ? "20%" : "60%"})` }} />
-        <div className="absolute rounded-full transition-transform duration-[2200ms] ease-in-out"
-          style={{ width: 75, height: 75, background: "#2DD4BF", filter: "blur(18px)", opacity: 0.8, transform: `translate(${hovered ? "50%" : "-17%"}, ${hovered ? "-80%" : "75%"})` }} />
+        {BLOBS.map((blob, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: blob.size,
+              height: blob.size,
+              background: blob.color,
+              filter: `blur(${blob.blur}px)`,
+              opacity: blob.opacity,
+              transform: positions[i],
+              transition: "transform 2s ease",
+            }}
+          />
+        ))}
       </div>
 
       {/* Layer 0: border */}
