@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
 
 const projects = [
   {
@@ -55,14 +55,7 @@ const projects = [
 ];
 
 export function ProjectsSection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([e]) => { if (e.isIntersecting) setIsVisible(true); }, { threshold: 0.05 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(0.05);
 
   return (
     <section id="portfolio" ref={ref} className="py-32 lg:py-40 border-t border-border/50">

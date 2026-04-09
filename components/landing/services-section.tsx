@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Code1, Setting4, Teacher, TrendUp } from "iconsax-react";
+import { useInView } from "@/hooks/use-in-view";
 import { ParticleCanvas } from "./particle-canvas";
 
 const services = [
@@ -11,8 +11,8 @@ const services = [
     title: "Produtos digitais de ponta a ponta",
     description:
       "Do conceito ao deploy. Interface, backend, IA integrada. Web, PWA, mobile. Sem handoff, sem estimativa de horas. Entrega real.",
-    accent: "rgba(115, 191, 191, 0.15)",
-    iconColor: "#73BFBF",
+    accent: "oklch(0.72 0.08 185 / 0.15)",
+    iconColor: "oklch(0.72 0.08 185)",
     wide: true,
   },
   {
@@ -21,8 +21,8 @@ const services = [
     title: "Automacao e IA aplicada a operacao",
     description:
       "n8n, WhatsApp, CRM, OCR, scraping, agentes IA. Workflows que eliminam retrabalho e conectam sistemas que nao conversam.",
-    accent: "rgba(232, 85, 58, 0.12)",
-    iconColor: "#E8553A",
+    accent: "oklch(0.67 0.18 25 / 0.12)",
+    iconColor: "oklch(0.67 0.18 25)",
     wide: false,
   },
   {
@@ -31,8 +31,8 @@ const services = [
     title: "Treinamento de IA para time que executa",
     description:
       "Treinamento pratico. Vibe Coding, prompts avancados, agentes, automacao. O time sai produzindo — nao assistindo palestra.",
-    accent: "rgba(115, 191, 191, 0.12)",
-    iconColor: "#73BFBF",
+    accent: "oklch(0.72 0.08 185 / 0.12)",
+    iconColor: "oklch(0.72 0.08 185)",
     wide: false,
   },
   {
@@ -41,24 +41,14 @@ const services = [
     title: "Growth & Posicionamento Digital",
     description:
       "LP, identidade visual, trafego pago, Google Analytics, SEO tecnico, Growth Marketing. Tudo que uma operacao precisa para estar melhor posicionada no mercado.",
-    accent: "rgba(232, 85, 58, 0.15)",
-    iconColor: "#E8553A",
+    accent: "oklch(0.67 0.18 25 / 0.12)",
+    iconColor: "oklch(0.67 0.18 25)",
     wide: false,
   },
 ];
 
 export function ServicesSection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(0.1);
 
   return (
     <section id="servicos" ref={ref} className="py-32 lg:py-40 border-t border-border/50">

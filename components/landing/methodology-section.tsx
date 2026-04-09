@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useInView } from "@/hooks/use-in-view";
 
 const metrics = [
   { project: "BBL0CK", result: "4 plataformas em ~43h", detail: "Android, Windows, Chrome, Web" },
@@ -10,14 +10,7 @@ const metrics = [
 ];
 
 export function MethodologySection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([e]) => { if (e.isIntersecting) setIsVisible(true); }, { threshold: 0.1 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(0.1);
 
   return (
     <section id="metodologia" ref={ref} className="py-32 lg:py-40 border-t border-border/50">

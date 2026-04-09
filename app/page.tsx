@@ -12,22 +12,32 @@ import { FaqSection } from "@/components/landing/faq-section";
 import { IntegrationsSection } from "@/components/landing/integrations-section";
 import { ContactSection } from "@/components/landing/contact-section";
 import { FooterSection } from "@/components/landing/footer-section";
+import { DotGrid } from "@/components/landing/dot-grid";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-x-hidden noise-overlay">
+      {/* Vertical glow lines — iconsax pattern */}
+      <div className="glow-line glow-line-left" aria-hidden="true" />
+      <div className="glow-line glow-line-right" aria-hidden="true" />
+      <DotGrid />
       <Navigation />
       <HeroSection />
       <ServicesSection />
+      <div className="line-dots" aria-hidden="true" />
       <HowItWorksSection />
+      <div className="line-dots" aria-hidden="true" />
       <ProjectsSection />
+      <div className="line-dots" aria-hidden="true" />
       <MethodologySection />
       <UseCasesSection />
+      <div className="line-dots" aria-hidden="true" />
       <MonitoringSection />
       <StackSection />
       <AboutSection />
       <FaqSection />
       <IntegrationsSection />
+      <div className="line-dots" aria-hidden="true" />
       <ContactSection />
       <FooterSection />
       {/* Person Schema */}

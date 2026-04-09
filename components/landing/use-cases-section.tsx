@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Send2, Buildings2, Monitor, CloudConnection, TrendUp } from "iconsax-react";
+import { useInView } from "@/hooks/use-in-view";
 import { ArrowRight } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 import { Button } from "@/components/ui/button";
@@ -60,17 +60,7 @@ const useCases = [
 ];
 
 export function UseCasesSection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(0.1);
 
   return (
     <section id="use-cases" ref={ref} className="py-32 lg:py-40 border-t border-border/50">
@@ -106,6 +96,7 @@ export function UseCasesSection() {
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-border/30 flex items-center justify-center group-hover:border-primary/30 transition-colors">
+                      {/* TODO: map to design token when iconsax supports CSS vars */}
                       <Icon size={26} color="#73BFBF" variant="Bulk" />
                     </div>
                     <span className="font-offbit text-sm text-accent uppercase tracking-wider">

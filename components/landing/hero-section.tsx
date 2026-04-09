@@ -144,7 +144,7 @@ export function HeroSection() {
                 { value: "7+", label: "produtos em producao", tag: "PORTFOLIO" },
                 { value: "13+", label: "anos de experiencia", tag: "DESDE 2012" },
                 { value: "5", label: "verticais de mercado", tag: "MULTI-SETOR" },
-                { value: "43h", label: "MVP mais rapido", tag: "BBL0CK" },
+                { value: "43h", label: "MVP em producao", tag: "BBL0CK" },
               ].map((stat) => (
                 <div key={`${stat.tag}-${i}`} className="flex items-baseline gap-4">
                   <span className="text-4xl lg:text-5xl font-black text-foreground">{stat.value}</span>

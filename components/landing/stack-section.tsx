@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useInView } from "@/hooks/use-in-view";
 
 const categories = [
   { label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind", "GSAP", "Figma"] },
@@ -9,18 +9,11 @@ const categories = [
   { label: "Automacao", items: ["n8n", "Evolution API", "Chatwoot", "WhatsApp"] },
   { label: "Web3", items: ["Solidity", "Foundry", "Circle CCTP", "Wagmi"] },
   { label: "Infra", items: ["Zabbix", "Docker", "Vercel", "Netlify"] },
-  { label: "Marketing", items: ["Google Analytics", "GTM", "SEO", "Meta Ads", "Growth"] },
+  { label: "Produto", items: ["Google Analytics", "GTM", "SEO", "Meta Ads", "Growth"] },
 ];
 
 export function StackSection() {
-  const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([e]) => { if (e.isIntersecting) setIsVisible(true); }, { threshold: 0.1 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(0.1);
 
   return (
     <section id="stack" ref={ref} className="py-32 lg:py-40 border-t border-border/50">
