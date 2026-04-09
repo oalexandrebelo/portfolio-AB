@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 
@@ -26,14 +25,9 @@ export function ContactSection() {
                 Falar no WhatsApp
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </GradientButton>
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-14 px-8 text-base rounded-full border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 cursor-pointer"
-                asChild
-              >
-                <a href="mailto:contato@alexandrebelo.com.br">Enviar email</a>
-              </Button>
+              <GradientButton href="mailto:contato@alexandrebelo.com.br" variant="outline">
+                Enviar email
+              </GradientButton>
             </div>
           </div>
 

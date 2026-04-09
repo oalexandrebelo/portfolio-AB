@@ -4,7 +4,6 @@ import { Send2, Buildings2, Monitor, CloudConnection, TrendUp } from "iconsax-re
 import { useInView } from "@/hooks/use-in-view";
 import { ArrowRight } from "lucide-react";
 import { GradientButton } from "./gradient-button";
-import { Button } from "@/components/ui/button";
 
 const useCases = [
   {
@@ -122,15 +121,13 @@ export function UseCasesSection() {
 
         {/* Dual CTA — iconsax pattern */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <Button
-            size="lg"
+          <GradientButton
             variant="outline"
-            className="h-14 px-8 text-base rounded-2xl border-foreground/20 text-foreground hover:bg-foreground/5 cursor-pointer"
             onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
           >
             Ver projetos reais
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+            <ArrowRight className="w-4 h-4" />
+          </GradientButton>
 
           <GradientButton href="https://wa.me/5564999271254">
             Falar no WhatsApp

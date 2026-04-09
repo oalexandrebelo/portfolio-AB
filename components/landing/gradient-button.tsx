@@ -7,6 +7,7 @@ interface GradientButtonProps {
   href?: string;
   className?: string;
   variant?: "primary" | "outline";
+  onClick?: () => void;
 }
 
 /**
@@ -18,18 +19,24 @@ export function GradientButton({
   href,
   className = "",
   variant = "primary",
+  onClick,
 }: GradientButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const Wrapper = href ? "a" : "button";
+  const isExternal = href && !href.startsWith("#") && !href.startsWith("/");
   const linkProps = href
-    ? { href, target: "_blank" as const, rel: "noopener noreferrer" }
+    ? {
+        href,
+        ...(isExternal ? { target: "_blank" as const, rel: "noopener noreferrer" } : {}),
+      }
     : {};
 
   if (variant === "outline") {
     return (
       <Wrapper
         {...(linkProps as any)}
+        onClick={onClick}
         className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] px-8 h-[46px] text-[15px] font-medium cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 bg-transparent focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
@@ -41,6 +48,7 @@ export function GradientButton({
     <Wrapper
       {...(linkProps as any)}
       className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
+      onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

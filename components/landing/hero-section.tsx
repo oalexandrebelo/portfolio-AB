@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { AnimatedSphere } from "./animated-sphere";
+import { GradientButton } from "./gradient-button";
 
 const words = ["construir", "automatizar", "escalar", "monitorar", "treinar"];
 
@@ -113,24 +113,13 @@ export function HeroSection() {
           </p>
 
           <div className={`flex flex-col sm:flex-row items-start gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group cursor-pointer font-bold"
-              onClick={() => scrollTo("portfolio")}
-            >
+            <GradientButton onClick={() => scrollTo("portfolio")}>
               Ver projetos
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-14 px-8 text-base rounded-full border-foreground/20 text-foreground hover:bg-foreground/5 cursor-pointer"
-              asChild
-            >
-              <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer">
-                Falar no WhatsApp
-              </a>
-            </Button>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </GradientButton>
+            <GradientButton href="https://wa.me/5564999271254" variant="outline">
+              Falar no WhatsApp
+            </GradientButton>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { GradientButton } from "./gradient-button";
 
 const navItems = [
   { href: "#servicos", label: "Servicos" },
@@ -57,15 +57,12 @@ export function Navigation() {
 
             {/* CTA */}
             <div className="hidden md:flex items-center gap-3">
-              <Button
-                size={isScrolled ? "sm" : "default"}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-all duration-500 cursor-pointer font-bold"
-                asChild
+              <GradientButton
+                href="https://wa.me/5564999271254"
+                className={`transition-all duration-500 ${isScrolled ? "h-9 px-4 text-sm" : ""}`}
               >
-                <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer">
-                  Falar no WhatsApp
-                </a>
-              </Button>
+                Falar no WhatsApp
+              </GradientButton>
             </div>
 
             {/* Mobile toggle */}
@@ -89,11 +86,9 @@ export function Navigation() {
               {item.label}
             </button>
           ))}
-          <Button size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full cursor-pointer font-bold" asChild>
-            <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer">
-              Falar no WhatsApp
-            </a>
-          </Button>
+          <GradientButton href="https://wa.me/5564999271254" className="mt-8">
+            Falar no WhatsApp
+          </GradientButton>
         </div>
       )}
     </>

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { AnimatedTetrahedron } from "./animated-tetrahedron";
+import { GradientButton } from "./gradient-button";
 
 export function CtaSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -63,20 +63,13 @@ export function CtaSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <Button
-                    size="lg"
-                    className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
-                  >
+                  <GradientButton>
                     Start building free
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
-                  >
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </GradientButton>
+                  <GradientButton variant="outline">
                     Talk to sales
-                  </Button>
+                  </GradientButton>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-8 font-mono">
