@@ -96,19 +96,19 @@ export function GradientButton({
           transform: hovered ? "scale(0.8)" : "scale(1.1)",
         }}
       >
-        {/* 6 color blobs — teal/blue dominant */}
+        {/* 6 color blobs — bright teal aurora */}
         <div className="absolute rounded-full transition-transform duration-[3000ms] ease-in-out"
-          style={{ width: 80, height: 80, background: "#73BFBF", filter: "blur(25px)", transform: `translate(${hovered ? "20%" : "-9%"}, ${hovered ? "-30%" : "97%"})` }} />
+          style={{ width: 100, height: 100, background: "#00E5CC", filter: "blur(20px)", opacity: 0.9, transform: `translate(${hovered ? "20%" : "-35%"}, ${hovered ? "-30%" : "80%"})` }} />
         <div className="absolute rounded-full transition-transform duration-[2500ms] ease-in-out"
-          style={{ width: 70, height: 70, background: "#5AADA8", filter: "blur(25px)", transform: `translate(${hovered ? "60%" : "2%"}, ${hovered ? "80%" : "12%"})` }} />
+          style={{ width: 90, height: 90, background: "#73BFBF", filter: "blur(18px)", opacity: 0.85, transform: `translate(${hovered ? "60%" : "35%"}, ${hovered ? "80%" : "12%"})` }} />
         <div className="absolute rounded-full transition-transform duration-[3500ms] ease-in-out"
-          style={{ width: 60, height: 60, background: "#4DC8C8", filter: "blur(25px)", transform: `translate(${hovered ? "-20%" : "-50%"}, ${hovered ? "40%" : "11%"})` }} />
+          style={{ width: 80, height: 80, background: "#00D4AA", filter: "blur(20px)", opacity: 0.8, transform: `translate(${hovered ? "-20%" : "-50%"}, ${hovered ? "40%" : "11%"})` }} />
         <div className="absolute rounded-full transition-transform duration-[2800ms] ease-in-out"
-          style={{ width: 75, height: 75, background: "#042940", filter: "blur(25px)", transform: `translate(${hovered ? "80%" : "20%"}, ${hovered ? "-60%" : "-49%"})` }} />
+          style={{ width: 85, height: 85, background: "#4EECD4", filter: "blur(18px)", opacity: 0.75, transform: `translate(${hovered ? "80%" : "20%"}, ${hovered ? "-60%" : "-49%"})` }} />
         <div className="absolute rounded-full transition-transform duration-[3200ms] ease-in-out"
-          style={{ width: 65, height: 65, background: "#1A6B6B", filter: "blur(20px)", transform: `translate(${hovered ? "-40%" : "6%"}, ${hovered ? "20%" : "60%"})` }} />
+          style={{ width: 70, height: 70, background: "#14B8A6", filter: "blur(16px)", opacity: 0.9, transform: `translate(${hovered ? "-40%" : "6%"}, ${hovered ? "20%" : "60%"})` }} />
         <div className="absolute rounded-full transition-transform duration-[2200ms] ease-in-out"
-          style={{ width: 55, height: 55, background: "#2EC4B6", filter: "blur(25px)", transform: `translate(${hovered ? "50%" : "-17%"}, ${hovered ? "-80%" : "75%"})` }} />
+          style={{ width: 75, height: 75, background: "#2DD4BF", filter: "blur(18px)", opacity: 0.8, transform: `translate(${hovered ? "50%" : "-17%"}, ${hovered ? "-80%" : "75%"})` }} />
       </div>
 
       {/* Layer 0: border */}
