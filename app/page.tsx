@@ -17,27 +17,25 @@ import { DotGrid } from "@/components/landing/dot-grid";
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-x-hidden noise-overlay">
-      {/* Vertical glow lines — iconsax pattern */}
-      <div className="glow-line glow-line-left" aria-hidden="true" />
-      <div className="glow-line glow-line-right" aria-hidden="true" />
+      {/* Dot grid canvas — mouse proximity effect */}
       <DotGrid />
       <Navigation />
       <HeroSection />
       <ServicesSection />
-      <div className="line-dots" aria-hidden="true" />
+
       <HowItWorksSection />
-      <div className="line-dots" aria-hidden="true" />
+
       <ProjectsSection />
-      <div className="line-dots" aria-hidden="true" />
+
       <MethodologySection />
       <UseCasesSection />
-      <div className="line-dots" aria-hidden="true" />
+
       <MonitoringSection />
       <StackSection />
       <AboutSection />
       <FaqSection />
       <IntegrationsSection />
-      <div className="line-dots" aria-hidden="true" />
+
       <ContactSection />
       <FooterSection />
       {/* Person Schema */}
