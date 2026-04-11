@@ -59,7 +59,7 @@ export function MonitoringSection() {
             <div className="rounded-2xl border border-border/50 p-6 bg-card">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 rounded-full bg-green-500/80 animate-pulse" />
-                <span className="font-offbit text-sm text-accent tracking-wider">MONITORAMENTO OPERACIONAL</span>
+                <span className="font-code text-sm text-accent tracking-wider">MONITORAMENTO OPERACIONAL</span>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[...Array(6)].map((_, i) => (
@@ -73,12 +73,12 @@ export function MonitoringSection() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-border/50 p-5 bg-card">
-                <span className="font-offbit text-sm text-accent block mb-2">CASE</span>
+                <span className="font-code text-sm text-accent block mb-2">CASE</span>
                 <p className="font-bold text-base">Itumbiara - GO</p>
                 <p className="text-sm text-muted-foreground mt-1">Radares e equipamentos</p>
               </div>
               <div className="rounded-2xl border border-border/50 p-5 bg-card">
-                <span className="font-offbit text-sm text-accent block mb-2">CASE</span>
+                <span className="font-code text-sm text-accent block mb-2">CASE</span>
                 <p className="font-bold text-base">Rio Verde - GO</p>
                 <p className="text-sm text-muted-foreground mt-1">Radares e equipamentos</p>
               </div>

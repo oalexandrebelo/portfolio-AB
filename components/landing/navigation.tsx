@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, PenLine } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 
 const navItems = [
@@ -16,8 +16,13 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [isPastHero, setIsPastHero] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      setIsPastHero(window.scrollY > window.innerHeight * 0.8);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -51,9 +56,16 @@ export function Navigation() {
                   {item.label}
                 </button>
               ))}
+              <a
+                href="/blog"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium"
+              >
+                <PenLine size={14} />
+                Blog
+              </a>
             </nav>
 
-            <div className="hidden md:flex items-center gap-3">
+            <div className={`hidden md:flex items-center gap-3 transition-all duration-500 ${isPastHero ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}>
               <GradientButton
                 href="https://wa.me/5564999271254"
                 className={`transition-all duration-500 ${isScrolled ? "h-9 px-4 text-sm" : ""}`}
@@ -81,6 +93,13 @@ export function Navigation() {
               {item.label}
             </button>
           ))}
+          <a
+            href="/blog"
+            className="flex items-center gap-2 text-2xl font-black text-foreground hover:text-primary transition-colors"
+          >
+            <PenLine size={20} />
+            Blog
+          </a>
           <GradientButton href="https://wa.me/5564999271254" className="mt-8">
             Falar no WhatsApp
           </GradientButton>

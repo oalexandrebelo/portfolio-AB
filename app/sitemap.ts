@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
 
   const blogEntries = posts.map((post) => ({
     url: `https://alexandrebelo.com.br/blog/${post.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(post.updated_at ?? Date.now()),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));

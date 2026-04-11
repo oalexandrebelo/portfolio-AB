@@ -21,18 +21,25 @@ export function AboutSection() {
 
           <div className={`space-y-6 text-lg text-muted-foreground leading-relaxed transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <p>
-              Natural de Vitória/ES e em Goiás desde 2009, comecei na operação:
-              processamento de dados, licitações e monitoramento de radares em campo.
-              Foram anos entendendo como sistemas funcionam por dentro antes de construir os meus.
+              Natural de Vitória/ES e em Goiás desde 2009. Comecei na operação:
+              processamento de dados, licitações públicas e monitoramento de radares
+              em campo. Foram anos entendendo como sistemas funcionam por dentro,
+              antes de começar a construir os meus.
             </p>
             <p>
-              Hoje, esse conhecimento vira produto. São 13+ anos conectando tecnologia
-              a problema real: de radares em Goiás a produtos com IA, DeFi e automação.
+              Hoje atuo como Design Engineer: desenho e codifico na mesma mão.
+              São 13+ anos conectando tecnologia a problema real — de radares e
+              infraestrutura crítica em Goiás a produtos digitais com IA, DeFi,
+              automação e SaaS. Uso Vibe Coding para manter velocidade sem perder critério.
+            </p>
+            <p>
+              Quando o projeto pede mais, trago parceiros de confiança para
+              colaborar. O modelo é enxuto: escopo fechado, entrega contínua e
+              produto em produção como prioridade.
             </p>
             <p className="text-foreground font-bold text-xl">
-              Meu papel é facilitar. Disponho do que aprendi para acelerar,
-              otimizar e criar. Produto, protótipo, treinamento ou operação:
-              a lógica é a mesma, entender o sistema e colocar para rodar.
+              Meu papel é facilitar. Entender o sistema, acelerar o ciclo e
+              colocar para rodar. Produto, protótipo, treinamento ou operação.
             </p>
           </div>
         </div>

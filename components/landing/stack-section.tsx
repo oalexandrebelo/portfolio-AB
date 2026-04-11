@@ -5,7 +5,7 @@ import { useInView } from "@/hooks/use-in-view";
 const categories = [
   { label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind", "GSAP", "Figma"] },
   { label: "Backend", items: ["Node.js", "FastAPI", "Express", "Supabase", "PostgreSQL", "Redis"] },
-  { label: "IA", items: ["GPT-4o", "Claude", "Ollama", "RAG", "Agentes"] },
+  { label: "Inteligência Artificial", items: ["GPT-4o", "Claude", "Ollama", "LLMs", "RAG", "Agentes"] },
   { label: "Automação", items: ["n8n", "Evolution API", "Chatwoot", "WhatsApp"] },
   { label: "Web3", items: ["Solidity", "Foundry", "Circle CCTP", "Wagmi"] },
   { label: "Infra", items: ["Zabbix", "Docker", "Vercel", "Netlify"] },
@@ -35,7 +35,7 @@ export function StackSection() {
               className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <h3 className="font-offbit text-base text-accent uppercase tracking-wider mb-5">{cat.label}</h3>
+              <h3 className="font-code text-base text-accent uppercase tracking-wider mb-5">{cat.label}</h3>
               <div className="flex flex-wrap gap-2">
                 {cat.items.map((item) => (
                   <span

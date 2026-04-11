@@ -11,6 +11,8 @@ const projects = [
     proofs: ["309K precatórios", "18 tribunais", "134M registros"],
     stack: "React | Supabase | n8n | OCR | RAG",
     url: "https://precafy.com.br",
+    logo: "/logos/precafy.svg",
+    logoH: 26,
   },
   {
     name: "BBL0CK",
@@ -19,6 +21,8 @@ const projects = [
     proofs: ["MVP em ~43h", "4 plataformas", "Motor de 5 camadas"],
     stack: "Next.js | Kotlin | .NET | Chrome Extension",
     url: "https://bbl0ck.alexandrebelo.com.br",
+    logo: "/logos/bblock.svg",
+    logoH: 34,
   },
   {
     name: "DoneFit",
@@ -27,6 +31,8 @@ const projects = [
     proofs: ["31 funções científicas", "498 testes", "GPT-4o-mini"],
     stack: "React | Supabase | OpenAI | Vercel",
     url: "https://donefit.alexandrebelo.com.br",
+    logo: "/logos/donefit.svg",
+    logoH: 30,
   },
   {
     name: "Nexus Lend",
@@ -35,6 +41,8 @@ const projects = [
     proofs: ["12 blockchains", "Circle CCTP", "E-Mode 98% LTV"],
     stack: "Next.js | Solidity | Foundry | Wagmi",
     url: "https://nexuxlend.netlify.app",
+    logo: "/logos/nexuslend.svg",
+    logoH: 28,
   },
   {
     name: "Undoc",
@@ -43,14 +51,18 @@ const projects = [
     proofs: ["Sem cloud", "LGPD", "Ollama local"],
     stack: "Electron | FastAPI | Ollama | GraphicWalker",
     url: "https://undoc.alexandrebelo.com.br",
+    logo: "/logos/undoc.svg",
+    logoH: 40,
   },
   {
-    name: "AG Kit Brabo",
-    vertical: "Dev Tools",
-    headline: "20 agentes de IA. Open source. Para quem constrói.",
-    proofs: ["20 agentes", "10 skills", "npm package"],
-    stack: "Node.js | npm | GitHub Pages",
-    url: "https://github.com/oalexandrebelo/Antigravity-Kit-Brabo",
+    name: "AB LICI",
+    vertical: "GovTech / IA",
+    headline: "R$1,5 tri em compras públicas. IA que encontra, analisa e alerta.",
+    proofs: ["12 fontes", "27 UFs", "IA Generativa"],
+    stack: "Next.js | Supabase | Gemini | Stripe",
+    url: "https://lici.alexandrebelo.com.br",
+    logo: "/logos/ablici.svg",
+    logoH: 44,
   },
 ];
 
@@ -94,18 +106,23 @@ export function ProjectsSection() {
                   <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
 
-                <h3 className="text-2xl font-bold mb-2">{p.name}</h3>
+                <div className="flex items-center justify-between gap-4 mb-3">
+                  <h3 className="text-xl font-bold">{p.name}</h3>
+                  {p.logo && (
+                    <img src={p.logo} alt="" className="object-contain shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" style={{ height: p.logoH || 32, maxWidth: 120 }} />
+                  )}
+                </div>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{p.headline}</p>
 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {p.proofs.map((proof) => (
-                    <span key={proof} className="font-offbit text-sm bg-primary/10 text-primary px-4 py-2 rounded-lg">
+                    <span key={proof} className="font-code text-sm bg-primary/10 text-primary px-4 py-2 rounded-lg">
                       {proof}
                     </span>
                   ))}
                 </div>
 
-                <p className="font-offbit text-sm text-muted-foreground">{p.stack}</p>
+                <p className="font-code text-sm text-muted-foreground">{p.stack}</p>
               </div>
             </a>
           ))}

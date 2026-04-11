@@ -1,9 +1,11 @@
 import AsciiTitle from "@/components/blog/ascii-title";
 import ArticleCard from "@/components/blog/article-card";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, formatDate } from "@/lib/blog";
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export const revalidate = 60; // ISR: revalidate every 60s
+
+export default async function BlogPage() {
+  const posts = await getAllPosts();
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-4">
@@ -30,9 +32,15 @@ export default function BlogPage() {
             number={String(posts.length - i).padStart(2, "0")}
             title={post.title}
             slug={post.slug}
-            date={post.date}
+            date={post.published_at ? formatDate(post.published_at) : ""}
           />
         ))}
+
+        {posts.length === 0 && (
+          <p className="text-muted-foreground font-code text-sm py-12 text-center">
+            Nenhum artigo publicado ainda.
+          </p>
+        )}
       </section>
     </main>
   );

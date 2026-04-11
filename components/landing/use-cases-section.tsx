@@ -95,7 +95,7 @@ export function UseCasesSection() {
                     <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-border/30 flex items-center justify-center group-hover:border-primary/30 transition-colors">
                       <Icon size={26} color="#73BFBF" variant="Bulk" />
                     </div>
-                    <span className="font-offbit text-sm text-accent uppercase tracking-wider">
+                    <span className="font-code text-sm text-accent uppercase tracking-wider">
                       {uc.label}
                     </span>
                   </div>
@@ -116,17 +116,11 @@ export function UseCasesSection() {
           })}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <div className="flex items-center justify-center">
           <GradientButton
-            variant="outline"
             onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
           >
             Ver projetos reais
-            <ArrowRight className="w-4 h-4" />
-          </GradientButton>
-
-          <GradientButton href="https://wa.me/5564999271254">
-            Falar no WhatsApp
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </GradientButton>
         </div>

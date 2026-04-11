@@ -48,7 +48,7 @@ export function MethodologySection() {
                 }`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="font-offbit text-base text-accent uppercase tracking-wider">{m.project}</span>
+                <span className="font-code text-base text-accent uppercase tracking-wider">{m.project}</span>
                 <p className="text-xl font-bold mt-2 mb-1">{m.result}</p>
                 <p className="text-sm text-muted-foreground">{m.detail}</p>
               </div>

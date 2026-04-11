@@ -1,20 +1,24 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts, formatDate } from "@/lib/blog";
 import { NewsletterForm } from "@/components/blog/newsletter-form";
+import { MarkdownRenderer } from "@/components/blog/markdown-renderer";
 import type { Metadata } from "next";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
   return {
     title: `${post.title} | blog.AIAB`,
@@ -23,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: post.title,
       description: post.description,
       type: "article",
-      publishedTime: post.date,
+      publishedTime: post.published_at ?? undefined,
       authors: ["Alexandre Belo"],
     },
     twitter: {
@@ -36,12 +40,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
+
+  const publishedDate = post.published_at ? formatDate(post.published_at) : "";
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">
-      {/* Nav — Fira Code */}
+      {/* Nav */}
       <nav className="mb-10">
         <Link
           href="/blog"
@@ -59,19 +65,17 @@ export default async function ArticlePage({ params }: PageProps) {
           <span className="inline-block w-2.5 h-2.5 rounded-full bg-primary" />
         </div>
 
-        {/* Title: OffBit Bold */}
         <h1 className="font-offbit font-bold text-2xl sm:text-3xl md:text-4xl text-foreground leading-tight">
           <span className="text-primary">&gt;</span> {post.title}
         </h1>
-        {/* Date: Fira Code */}
         <p className="text-muted-foreground font-code text-sm mt-3">
-          {post.date} &middot; {post.readingTime}
+          {publishedDate} &middot; {post.reading_time}
         </p>
       </header>
 
       {/* Content box */}
       <article className="border border-foreground/20 border-b-8 border-b-primary rounded-lg p-6 md:p-8 space-y-6">
-        {slug === "pixel-agents" && <PixelAgentsContent />}
+        <MarkdownRenderer content={post.content} tags={post.tags} />
       </article>
 
       {/* Newsletter */}
@@ -92,102 +96,5 @@ export default async function ArticlePage({ params }: PageProps) {
         </Link>
       </footer>
     </main>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Static article content                                              */
-/* ------------------------------------------------------------------ */
-
-function PixelAgentsContent() {
-  return (
-    <>
-      {/* Body text: default sans (Neue Haas Display) */}
-      <p className="text-foreground/90 leading-relaxed">
-        Imagine ter um colega de equipe que nunca dorme, entende contexto
-        complexo e consegue transformar uma descricao em portugues em codigo
-        funcional em menos de uma hora. Nao e ficcao: sao os{" "}
-        <strong className="text-foreground">pixel agents</strong> &mdash;
-        agentes de IA especializados em construir software junto com voce,
-        pixel por pixel, funcao por funcao.
-      </p>
-
-      {/* H2: OffBit Bold */}
-      <h2 className="font-offbit font-bold text-xl sm:text-2xl text-foreground pt-4">
-        O que sao agentes de IA para codigo?
-      </h2>
-      {/* Body: sans */}
-      <p className="text-foreground/90 leading-relaxed">
-        Ferramentas como Claude Code, Cursor e GitHub Copilot evoluiram de
-        simples autocompleters para agentes autonomos. Eles leem seu
-        repositorio inteiro, entendem a arquitetura, criam branches, escrevem
-        testes e fazem deploy &mdash; tudo a partir de uma instrucao em
-        linguagem natural. A diferenca entre um copilot e um agent e
-        autonomia: o copilot sugere, o agent executa.
-      </p>
-
-      {/* H2: OffBit Bold */}
-      <h2 className="font-offbit font-bold text-xl sm:text-2xl text-foreground pt-4">
-        Vibe Coding na pratica
-      </h2>
-      <p className="text-foreground/90 leading-relaxed">
-        O termo &quot;vibe coding&quot; captura a essencia: voce descreve a
-        vibe do que quer, e o agente traduz isso em implementacao real. Nao e
-        sobre perder controle &mdash; e sobre operar em um nivel de abstracao
-        mais alto. Voce pensa em produto, o agente pensa em sintaxe.
-      </p>
-
-      {/* Code block: Fira Code */}
-      <div className="bg-background border border-border rounded-lg overflow-hidden">
-        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/50">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#FF5A50]" />
-          <span className="inline-block w-2 h-2 rounded-full bg-[#FFB53B]" />
-          <span className="inline-block w-2 h-2 rounded-full bg-primary" />
-          <span className="ml-2 text-muted-foreground text-xs font-code">
-            agent.ts
-          </span>
-        </div>
-        <pre className="font-code text-sm p-4 overflow-x-auto leading-relaxed">
-          <code className="text-foreground/80">
-            {`const agent = await claude.code({
-  task: "Criar API de autenticacao",
-  stack: ["Next.js", "Supabase"],
-  constraints: ["LGPD compliant", "JWT + refresh token"]
-});
-// 47 minutos depois: API rodando com testes`}
-          </code>
-        </pre>
-      </div>
-
-      {/* H2: OffBit Bold */}
-      <h2 className="font-offbit font-bold text-xl sm:text-2xl text-foreground pt-4">
-        Por que isso muda tudo
-      </h2>
-      <p className="text-foreground/90 leading-relaxed">
-        Quando o custo de implementar cai drasticamente, a barreira deixa de
-        ser &quot;consigo programar isso?&quot; e passa a ser &quot;vale a
-        pena construir isso?&quot;. Product thinking vira o gargalo, nao
-        engineering. Para quem ja pensa em produto primeiro &mdash; como eu
-        &mdash; isso e um superpoder. O foco muda de digitar codigo para
-        tomar decisoes melhores, mais rapido.
-      </p>
-      <p className="text-foreground/90 leading-relaxed">
-        Estamos no comeco. Mas os pixel agents ja estao aqui, e quem aprender
-        a trabalhar com eles agora vai ter uma vantagem desproporcional nos
-        proximos anos.
-      </p>
-
-      {/* Tags: Fira Code */}
-      <div className="flex flex-wrap gap-2 pt-4">
-        {["IA", "vibe-coding", "agents", "produto"].map((tag) => (
-          <span
-            key={tag}
-            className="font-code text-xs text-primary border border-primary/30 rounded px-2 py-0.5"
-          >
-            #{tag}
-          </span>
-        ))}
-      </div>
-    </>
   );
 }
