@@ -5,7 +5,7 @@
 
 /* --- AB Brand Design System ---
    Cores da marca: #73BFBF (teal), #042940 (navy)
-   Accent: #E8553A (laranja, ref Figma)
+   Accent: #042940 navy (logo brand color, lightened for dark bg)
    Background: escuro (#0F0F0F)
    Text: creme (#F5F0E8) para headlines, #A3A3A3 para muted
 */
@@ -42,7 +42,7 @@
   --secondary-foreground: oklch(0.93 0.015 80);
   --muted: oklch(0.23 0.003 270);
   --muted-foreground: oklch(0.65 0.01 270);
-  --accent: oklch(0.67 0.18 25);
+  --accent: #73BFBF;
   --accent-foreground: oklch(0.98 0.005 80);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -50,7 +50,7 @@
   --input: oklch(0.25 0.003 270);
   --ring: oklch(0.72 0.08 185);
   --chart-1: oklch(0.72 0.08 185);
-  --chart-2: oklch(0.62 0.18 25);
+  --chart-2: oklch(0.22 0.05 230);
   --chart-3: oklch(0.55 0.01 270);
   --chart-4: oklch(0.70 0.02 60);
   --chart-5: oklch(0.85 0.01 60);
@@ -109,7 +109,7 @@
   /* Brand colors as custom tokens */
   --color-teal: oklch(0.72 0.08 185);
   --color-navy: oklch(0.15 0.04 230);
-  --color-orange: oklch(0.67 0.18 25);
+  --color-navy: oklch(0.22 0.05 230);
   --color-cream: oklch(0.93 0.015 80);
 }
 

@@ -139,7 +139,7 @@ export function HeroSection() {
                   <span className="text-4xl lg:text-5xl font-black text-foreground">{stat.value}</span>
                   <span className="text-sm text-muted-foreground">
                     {stat.label}
-                    <span className="block font-offbit text-sm text-accent/70 mt-1">{stat.tag}</span>
+                    <span className="inline-block font-offbit text-sm text-foreground/90 mt-1 px-2 py-0.5 rounded bg-[#042940]">{stat.tag}</span>
                   </span>
                 </div>
               ))}

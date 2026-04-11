@@ -90,7 +90,7 @@ export function ProjectsSection() {
               <div className="relative">
                 <div className="flex items-center justify-between mb-6">
                   {/* OffBit vertical tag — scaled to text-sm (was text-xs) */}
-                  <span className="font-offbit text-sm text-accent uppercase tracking-wider px-4 py-1.5 rounded-full border border-accent/20 bg-accent/5">
+                  <span className="font-offbit text-sm text-foreground uppercase tracking-wider px-4 py-1.5 rounded-full border border-[#042940]/30 bg-[#042940]">
                     {p.vertical}
                   </span>
                   <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />

@@ -67,10 +67,10 @@ export function ContactSection() {
             </div>
 
             <div className="pt-4 flex gap-8">
-              <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" className="font-offbit text-base text-primary-foreground/40 hover:text-primary-foreground transition-colors">
+              <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
                 LinkedIn
               </a>
-              <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" className="font-offbit text-base text-primary-foreground/40 hover:text-primary-foreground transition-colors">
+              <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
                 GitHub
               </a>
             </div>

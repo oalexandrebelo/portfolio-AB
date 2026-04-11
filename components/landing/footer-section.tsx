@@ -10,27 +10,27 @@ export function FooterSection() {
                 &copy; {new Date().getFullYear()} Alexandre Belo
               </span>
             </div>
-            <span className="text-xs text-muted-foreground/50 font-offbit">
+            <span className="text-xs text-muted-foreground/50 font-code">
               CNPJ 57.531.384/0001-96
             </span>
           </div>
 
           <div className="flex items-center gap-8">
-            <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" className="font-offbit text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-sm text-muted-foreground hover:text-foreground transition-colors">
               LinkedIn
             </a>
-            <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" className="font-offbit text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-sm text-muted-foreground hover:text-foreground transition-colors">
               GitHub
             </a>
-            <a href="mailto:contato@alexandrebelo.com.br" className="font-offbit text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="mailto:contato@alexandrebelo.com.br" className="font-code text-sm text-muted-foreground hover:text-foreground transition-colors">
               Email
             </a>
           </div>
 
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500/80" />
-            <span className="font-offbit text-sm text-muted-foreground">
-              Disponivel para projetos
+            <span className="font-code text-sm text-muted-foreground">
+              Disponível para projetos
             </span>
           </div>
         </div>
