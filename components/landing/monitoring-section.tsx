@@ -4,11 +4,11 @@ import { Radio, BarChart3, Gauge, Network, Cpu } from "lucide-react";
 import { useInView } from "@/hooks/use-in-view";
 
 const capabilities = [
-  { icon: Radio, label: "Monitoramento de radares e equipamentos rodoviarios" },
-  { icon: BarChart3, label: "Zabbix (coleta) + Grafana (dashboards customizados)" },
-  { icon: Gauge, label: "API propria para conversao de protocolos SNMP" },
-  { icon: Network, label: "Dispositivos fora do Mini ITX: lacos, cameras, displays" },
-  { icon: Cpu, label: "Consultoria em smart cities e IoT" },
+  { icon: Radio, label: "Coleta e mapeamento de dispositivos via SNMP" },
+  { icon: BarChart3, label: "Dashboards operacionais personalizados com visualização em tempo real" },
+  { icon: Gauge, label: "API própria para conversão de protocolos de equipamentos não padrão" },
+  { icon: Network, label: "Integração de laços indutivos, câmeras, displays e radares" },
+  { icon: Cpu, label: "Consultoria técnica de campo em smart cities e IoT" },
 ];
 
 export function MonitoringSection() {
@@ -24,14 +24,17 @@ export function MonitoringSection() {
               Monitoramento & Smart Cities
             </span>
             <h2 className="text-4xl lg:text-5xl font-black leading-tight mb-8">
-              13+ anos em campo. <span className="text-primary">Radares, dados e infraestrutura critica.</span>
+              13+ anos em campo. <span className="text-primary">Radares, dados e infraestrutura crítica.</span>
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Zabbix para mapear, Grafana para visualizar. Protocolos SNMP com API propria
-              de conversao para tratamento de dados de dispositivos fora do Mini ITX —
-              lacos indutivos, cameras panoramicas, displays de lombada eletronica.
-              Projeto completo: mapeamento, integracao, dashboard operacional.
-            </p>
+
+            <div className="space-y-6 mb-8">
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Coleta automatizada com protocolos SNMP, dashboards operacionais personalizados e API própria para conversão de dados de dispositivos fora do padrão: laços indutivos, câmeras panorâmicas, displays de lombada eletrônica. Cada ambiente tem sua configuração sob medida.
+              </p>
+              <p className="text-base text-muted-foreground/80 leading-relaxed">
+                Cada projeto tem sua topologia única. A configuração é personalizada para o ambiente, não existe template genérico para infraestrutura crítica.
+              </p>
+            </div>
 
             <div className="space-y-4">
               {capabilities.map((cap, i) => {
@@ -56,24 +59,27 @@ export function MonitoringSection() {
             <div className="rounded-2xl border border-border/50 p-6 bg-card">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 rounded-full bg-green-500/80 animate-pulse" />
-                <span className="font-offbit text-sm text-accent tracking-wider">ZABBIX + GRAFANA — OPERACIONAL</span>
+                <span className="font-offbit text-sm text-accent tracking-wider">MONITORAMENTO OPERACIONAL</span>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="h-16 rounded-lg bg-foreground/[0.03] border border-border/30" />
                 ))}
               </div>
+              <p className="text-sm text-muted-foreground mt-4">
+                Visualização em tempo real com leitura pensada para a operação e configuração ajustada ao ambiente.
+              </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-border/50 p-5 bg-card">
                 <span className="font-offbit text-sm text-accent block mb-2">CASE</span>
-                <p className="font-bold text-base">Itumbiara — GO</p>
+                <p className="font-bold text-base">Itumbiara - GO</p>
                 <p className="text-sm text-muted-foreground mt-1">Radares e equipamentos</p>
               </div>
               <div className="rounded-2xl border border-border/50 p-5 bg-card">
                 <span className="font-offbit text-sm text-accent block mb-2">CASE</span>
-                <p className="font-bold text-base">Rio Verde — GO</p>
+                <p className="font-bold text-base">Rio Verde - GO</p>
                 <p className="text-sm text-muted-foreground mt-1">Radares e equipamentos</p>
               </div>
             </div>

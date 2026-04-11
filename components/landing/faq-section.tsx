@@ -9,39 +9,39 @@ import {
 
 const faqs = [
   {
-    question: "Voce entra so no front-end?",
+    question: "Você entra só no front-end?",
     answer:
-      "Nao. Eu entro quando o produto precisa sair do papel inteiro: interface, codigo, integracao, IA aplicada e colocacao em producao.",
+      "Não. Eu entro quando o produto precisa sair do papel inteiro: interface, código, integração, IA aplicada e colocação em produção.",
   },
   {
-    question: "Voce pega produto do zero ou melhora produto existente?",
+    question: "Você pega produto do zero ou melhora produto existente?",
     answer:
-      "Os dois. Posso entrar do conceito ao primeiro deploy ou em produto que ja roda e precisa de clareza, velocidade e estrutura.",
+      "Os dois. Posso entrar do conceito ao primeiro deploy ou em produto que já roda e precisa de clareza, velocidade e estrutura.",
   },
   {
     question: "Quando faz sentido usar IA?",
     answer:
-      "Quando ela reduz ciclo, melhora operacao ou destrava capacidade do produto. Nao uso IA como ornamento.",
+      "Quando ela reduz ciclo, melhora operação ou destrava capacidade do produto. Não uso IA como ornamento.",
   },
   {
-    question: "Voce tambem treina time?",
+    question: "Você também treina time?",
     answer:
-      "Sim. Principalmente em fluxo pratico de uso de IA, Vibe Coding, agentes e automacao. O foco e o time produzir melhor, nao assistir palestra.",
+      "Sim. Principalmente em fluxo prático de uso de IA, Vibe Coding, agentes e automação. O foco é o time produzir melhor, não assistir palestra.",
   },
   {
     question: "Monitoramento e smart cities seguem ativos?",
     answer:
-      "Sim. E uma vertical real de servico, nao uma memoria antiga no portfolio. Sao 13+ anos de operacao em campo.",
+      "Sim. É uma vertical real de serviço com 13+ anos de operação em campo. Coleta via SNMP, dashboards personalizados e API própria para dispositivos não padrão.",
   },
   {
-    question: "Voce faz LP e identidade visual?",
+    question: "Você faz LP e identidade visual?",
     answer:
-      "Sim. LP, branding, trafego pago, Google Analytics, SEO tecnico. Posicionamento digital completo para operacoes que precisam estar melhor posicionadas no mercado.",
+      "Sim. LP, identidade visual, tráfego pago, Google Analytics e SEO técnico. Posicionamento digital para operações que precisam aparecer melhor e comunicar com mais clareza.",
   },
   {
-    question: "Como funciona o monitoramento tecnico?",
+    question: "Como funciona o monitoramento técnico?",
     answer:
-      "Zabbix coleta e mapeia. Grafana exibe com dashboards customizados. API propria para converter protocolos SNMP de dispositivos como lacos indutivos, cameras panoramicas e displays de lombada. Projeto de campo, nao de PowerPoint.",
+      "Coleta automatizada via protocolo SNMP mapeia cada dispositivo. Dashboards personalizados exibem dados em tempo real. API própria converte protocolos de equipamentos como laços indutivos, câmeras e displays de lombada. Projeto de campo, não de PowerPoint.",
   },
 ];
 

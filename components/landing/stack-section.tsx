@@ -6,7 +6,7 @@ const categories = [
   { label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind", "GSAP", "Figma"] },
   { label: "Backend", items: ["Node.js", "FastAPI", "Express", "Supabase", "PostgreSQL", "Redis"] },
   { label: "IA", items: ["GPT-4o", "Claude", "Ollama", "RAG", "Agentes"] },
-  { label: "Automacao", items: ["n8n", "Evolution API", "Chatwoot", "WhatsApp"] },
+  { label: "Automação", items: ["n8n", "Evolution API", "Chatwoot", "WhatsApp"] },
   { label: "Web3", items: ["Solidity", "Foundry", "Circle CCTP", "Wagmi"] },
   { label: "Infra", items: ["Zabbix", "Docker", "Vercel", "Netlify"] },
   { label: "Produto", items: ["Google Analytics", "GTM", "SEO", "Meta Ads", "Growth"] },
@@ -24,7 +24,7 @@ export function StackSection() {
             Tecnologias
           </span>
           <h2 className="text-4xl lg:text-5xl font-black leading-tight">
-            Stack que sustenta <span className="text-primary">produto em producao</span>
+            Stack que sustenta <span className="text-primary">produto em produção</span>
           </h2>
         </div>
 
@@ -35,7 +35,6 @@ export function StackSection() {
               className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              {/* OffBit category label — scaled to text-base */}
               <h3 className="font-offbit text-base text-accent uppercase tracking-wider mb-5">{cat.label}</h3>
               <div className="flex flex-wrap gap-2">
                 {cat.items.map((item) => (

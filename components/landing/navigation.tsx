@@ -5,8 +5,8 @@ import { Menu, X } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 
 const navItems = [
-  { href: "#servicos", label: "Servicos" },
-  { href: "#portfolio", label: "Portfolio" },
+  { href: "#servicos", label: "Serviços" },
+  { href: "#portfolio", label: "Portfólio" },
   { href: "#metodologia", label: "Metodologia" },
   { href: "#stack", label: "Stack" },
   { href: "#contato", label: "Contato" },
@@ -36,13 +36,11 @@ export function Navigation() {
       }`}>
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
             <button onClick={() => scrollTo("#inicio")} className="cursor-pointer flex items-center gap-3">
               <img src="/logo-ab.svg" alt="Alexandre Belo - Design Engineer" className="h-12 w-auto" />
               <span className="text-sm font-medium text-foreground/80 hidden sm:inline">Alexandre Belo</span>
             </button>
 
-            {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
                 <button
@@ -55,7 +53,6 @@ export function Navigation() {
               ))}
             </nav>
 
-            {/* CTA */}
             <div className="hidden md:flex items-center gap-3">
               <GradientButton
                 href="https://wa.me/5564999271254"
@@ -65,7 +62,6 @@ export function Navigation() {
               </GradientButton>
             </div>
 
-            {/* Mobile toggle */}
             <button className="md:hidden text-foreground cursor-pointer" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -73,7 +69,6 @@ export function Navigation() {
         </div>
       </header>
 
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
           {navItems.map((item, i) => (

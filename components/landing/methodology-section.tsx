@@ -4,8 +4,8 @@ import { useInView } from "@/hooks/use-in-view";
 
 const metrics = [
   { project: "BBL0CK", result: "4 plataformas em ~43h", detail: "Android, Windows, Chrome, Web" },
-  { project: "DoneFit", result: "31 funcoes cientificas + 498 testes", detail: "Engine fisiologica completa com GPT-4" },
-  { project: "Precafy", result: "SaaS complexo em ~330h", detail: "309K precatorios, 18 tribunais, CRM" },
+  { project: "DoneFit", result: "31 funções científicas + 498 testes", detail: "Engine fisiológica completa com GPT-4" },
+  { project: "Precafy", result: "SaaS complexo em ~330h", detail: "309K precatórios, 18 tribunais, CRM" },
   { project: "Nexus Lend", result: "DeFi refatorado em ~146h", detail: "12 chains, Circle CCTP, Solidity" },
 ];
 
@@ -22,15 +22,15 @@ export function MethodologySection() {
               Como eu executo
             </span>
             <h2 className="text-4xl lg:text-5xl font-black leading-tight mb-8">
-              Velocidade com criterio. <span className="text-primary">IA no fluxo, nao no discurso.</span>
+              Velocidade com critério. <span className="text-primary">IA no fluxo, não no discurso.</span>
             </h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
                 IA entra no fluxo para reduzir atrito, acelerar ciclo e tirar
-                gargalo tecnico. Nao para maquiar produto.
+                gargalo técnico. Não para maquiar produto.
               </p>
               <p>
-                O foco continua o mesmo: entender o problema, desenhar a solucao
+                O foco continua o mesmo: entender o problema, desenhar a solução
                 certa e colocar algo rodando com qualidade.
               </p>
               <p className="text-foreground font-bold">
@@ -48,7 +48,6 @@ export function MethodologySection() {
                 }`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                {/* OffBit project name — scaled to text-base */}
                 <span className="font-offbit text-base text-accent uppercase tracking-wider">{m.project}</span>
                 <p className="text-xl font-bold mt-2 mb-1">{m.result}</p>
                 <p className="text-sm text-muted-foreground">{m.detail}</p>

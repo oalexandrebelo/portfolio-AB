@@ -17,7 +17,7 @@ export function ContactSection() {
               Tem algo que precisa sair do papel?
             </h2>
             <p className="text-lg text-primary-foreground/60 leading-relaxed mb-12 max-w-lg">
-              Produto, automacao, treinamento, monitoramento ou posicionamento digital. Eu executo. Direto, com stack limpa e foco no que precisa rodar.
+              Produto, automação, treinamento, monitoramento ou posicionamento digital. Eu executo. Direto, com stack limpa e foco no que precisa rodar.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -26,7 +26,7 @@ export function ContactSection() {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </GradientButton>
               <GradientButton href="mailto:contato@alexandrebelo.com.br" variant="outline">
-                Enviar email
+                Enviar e-mail
               </GradientButton>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function ContactSection() {
               </div>
               <div>
                 <p className="font-offbit text-sm text-primary-foreground/40">Local</p>
-                <p className="text-primary-foreground/80 text-base">Goias, Brasil</p>
+                <p className="text-primary-foreground/80 text-base">Goiás, Brasil</p>
               </div>
             </div>
 

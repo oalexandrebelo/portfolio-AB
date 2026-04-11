@@ -21,17 +21,18 @@ export function AboutSection() {
 
           <div className={`space-y-6 text-lg text-muted-foreground leading-relaxed transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <p>
-              Comecei processando dados e operacao em licitacoes e monitoramento.
-              Hoje aplico a mesma logica para construir produtos digitais completos
-              em diferentes verticais. O fio condutor e o mesmo: entender o sistema,
-              desenhar a interface certa e colocar algo rodando.
+              Natural de Vitória/ES e em Goiás desde 2009, comecei na operação:
+              processamento de dados, licitações e monitoramento de radares em campo.
+              Foram anos entendendo como sistemas funcionam por dentro antes de construir os meus.
             </p>
             <p>
-              Sao 13+ anos conectando tecnologia a problema real. De radares em
-              Goias a produtos com IA, DeFi e automacao.
+              Hoje, esse conhecimento vira produto. São 13+ anos conectando tecnologia
+              a problema real: de radares em Goiás a produtos com IA, DeFi e automação.
             </p>
             <p className="text-foreground font-bold text-xl">
-              Uso IA como multiplicador. Construo produto, treino time, automatizo operacao e monitoro infraestrutura. Tudo com a mesma logica: entender o sistema e colocar rodando.
+              Meu papel é facilitar. Disponho do que aprendi para acelerar,
+              otimizar e criar. Produto, protótipo, treinamento ou operação:
+              a lógica é a mesma, entender o sistema e colocar para rodar.
             </p>
           </div>
         </div>

@@ -18,32 +18,32 @@ const useCases = [
   },
   {
     icon: Buildings2,
-    label: "Empresas & Operacoes",
-    title: "Automacao que corta retrabalho",
+    label: "Empresas & Operações",
+    title: "Automação que corta retrabalho",
     points: [
-      "Workflows n8n + WhatsApp + CRM",
+      "Workflows que conectam sistemas",
       "Treinamento de IA para o time",
-      "Monitoramento com Zabbix",
+      "Monitoramento de infraestrutura",
     ],
   },
   {
     icon: Monitor,
-    label: "Produto Existente",
+    label: "Produto existente",
     title: "Produto que precisa de velocidade",
     points: [
-      "Refatoracao com Vibe Coding",
-      "Integracao de IA no fluxo",
-      "Arquitetura escalavel",
+      "Refatoração com Vibe Coding",
+      "Integração de IA no fluxo",
+      "Arquitetura escalável",
     ],
   },
   {
     icon: CloudConnection,
     label: "Smart Cities & IoT",
-    title: "Infraestrutura critica monitorada",
+    title: "Infraestrutura crítica monitorada",
     points: [
       "13+ anos em radares e dados",
       "Dashboards operacionais",
-      "Consultoria tecnica de campo",
+      "Consultoria técnica de campo",
     ],
   },
   {
@@ -52,7 +52,7 @@ const useCases = [
     title: "Sua marca no lugar certo",
     points: [
       "LP e identidade visual",
-      "Trafego pago + GA + SEO tecnico",
+      "Tráfego pago + GA + SEO técnico",
       "Consultoria de Growth Marketing",
     ],
   },
@@ -70,14 +70,13 @@ export function UseCasesSection() {
             Para quem
           </span>
           <h2 className="text-4xl lg:text-5xl font-black leading-tight max-w-3xl mb-6">
-            Cada operacao tem um ponto de entrada <span className="text-primary">diferente.</span>
+            Cada operação tem um ponto de entrada <span className="text-primary">diferente.</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            Produto do zero, automacao de operacao existente, treinamento de time, monitoramento de infraestrutura ou posicionamento digital.
+            Produto do zero, automação de operação existente, treinamento de time, monitoramento de infraestrutura ou posicionamento digital.
           </p>
         </div>
 
-        {/* Use case cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
@@ -89,13 +88,11 @@ export function UseCasesSection() {
                 }`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                {/* Hover glow */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-border/30 flex items-center justify-center group-hover:border-primary/30 transition-colors">
-                      {/* TODO: map to design token when iconsax supports CSS vars */}
                       <Icon size={26} color="#73BFBF" variant="Bulk" />
                     </div>
                     <span className="font-offbit text-sm text-accent uppercase tracking-wider">
@@ -119,7 +116,6 @@ export function UseCasesSection() {
           })}
         </div>
 
-        {/* Dual CTA — iconsax pattern */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <GradientButton
             variant="outline"

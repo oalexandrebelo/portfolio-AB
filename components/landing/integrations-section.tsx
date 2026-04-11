@@ -3,10 +3,6 @@
 import { ArrowRight } from "lucide-react";
 import { GradientButton } from "./gradient-button";
 
-/* ------------------------------------------------------------------ */
-/* Tool SVG icons — inline for zero network requests                   */
-/* ------------------------------------------------------------------ */
-
 function IconClaude() {
   return <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128h-.23l-.79-.048-2.696-.072-2.34-.098-.57-.12-.534-.7.054-.35.48-.322.686.06 1.518.102 2.278.158 1.652.097h.39l.054-.158-.078-.098-.104-.098-2.354-1.596-2.552-1.688-1.336-.972-.722-.492-.364-.462-.158-1.008.656-.722.88.06.22.062.892.686 1.906 1.476 2.49 1.836.364.302.146-.104.018-.072-.164-.274-1.354-2.448-1.446-2.492-.644-1.032-.17-.62C5.56 1.62 5.532 1.408 5.532 1.148l.748-1.014.412-.134 1 .134.418.364.62 1.416 1.002 2.228 1.556 3.03.456.898.242.83.09.256h.16v-.146l.128-1.706.236-2.094.23-2.696.08-.76.376-.912.748-.492.582.28.48.686-.066.444-.286 1.852-.558 2.904-.364 1.944h.212l.256-.242.982-1.306 1.652-2.064.73-.82.85-.904.546-.432 1.034.01.762 1.128-.34 1.166-1.062 1.35-.88 1.134-1.264 1.704-.79 1.36.072.11.188.018 2.854-.608 1.542-.28 1.84-.316.832.388.09.396-.328.81-1.968.486-2.31.462-3.45.812-.042.036.048.154 1.554.146.662.036h1.622l3.018.226.79.516.474.636-.08.486-1.214.62-1.638-.388-3.826-.912-1.312-.328h-.182v.11l1.094 1.068 2.006 1.81 2.512 2.332.128.576-.322.456-.342-.048-2.204-1.658-.85-.746-1.924-1.62h-.128v.17.44l2.416 3.526.12 1.08-.17.354-.608.212-.668-.12-1.374-1.926-1.414-2.168-1.142-1.944-.14.078-.712 7.254-.298.37-.73.28-.608-.462-.328-.748.322-1.476.388-1.926.316-1.53.286-1.902.17-.63-.012-.044-.148.02-1.434 1.968-2.182 2.948-1.722 1.846-.382.164-.716-.37.066-.742.4-.588 2.384-3.036 1.44-1.884.928-1.088-.006-.158h-.054L4.71 15.955z" fill="#D97757"/></svg>;
 }
@@ -58,8 +54,6 @@ function IconDocker() {
 function IconChatwoot() {
   return <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#1F93FF"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1.5 1.5 0 0 0 3.8 21.454l3.032-.892A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm-3 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm3 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>;
 }
-
-/* ------------------------------------------------------------------ */
 
 const outerTools = [
   { name: "Claude", icon: IconClaude },
@@ -137,8 +131,6 @@ export function IntegrationsSection() {
   return (
     <section className="relative border-t border-border/50 overflow-hidden">
       <div className="max-w-[1400px] mx-auto relative flex min-h-[600px] md:min-h-[700px] flex-col items-center justify-center px-6 lg:px-12 py-20">
-
-        {/* Globe background */}
         <div
           aria-hidden="true"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -155,10 +147,9 @@ export function IntegrationsSection() {
           <OrbitRing tools={innerTools} size={336} duration={18} />
         </div>
 
-        {/* Content */}
         <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-5xl relative z-10 text-center max-w-3xl">
-          Utilizamos as melhores ferramentas do mercado,<br />
-          <span className="text-primary">vamos bater um papo?</span>
+          Ferramentas que uso em produção.<br />
+          <span className="text-primary">Bora conversar?</span>
         </h2>
 
         <div className="relative z-20 flex flex-col sm:flex-row items-center gap-4 mt-8">

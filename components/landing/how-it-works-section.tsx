@@ -7,12 +7,12 @@ const steps = [
   {
     number: "I",
     icon: MessageQuestion,
-    title: "Diagnostico direto",
-    description: "Uma conversa sobre o que precisa existir. Sem brief de 40 paginas.",
+    title: "Diagnóstico direto",
+    description: "Uma conversa sobre o que precisa existir. Sem brief de 40 páginas.",
     code: `// diagnostico.ts
 const projeto = {
   problema: "Equipe perde 12h/semana em tarefas manuais",
-  objetivo: "Automatizar fluxo com n8n + IA",
+  objetivo: "Automatizar fluxo com IA aplicada",
   prazo: "3 semanas",
   prioridade: "cortar retrabalho"
 };`,
@@ -21,44 +21,40 @@ const projeto = {
     number: "II",
     icon: Code1,
     title: "Build com IA",
-    description: "Claude, Cursor e agentes como co-pilotos. Interface, backend, integracao — em paralelo.",
+    description: "IA como co-piloto. Interface, backend e integração em paralelo.",
     code: `// build.ts
-import { agent } from "@anthropic/sdk";
-
-const sprint = await vibeCoding({
-  stack: ["Next.js", "Supabase", "n8n"],
-  agents: ["claude-code", "cursor"],
+const sprint = await construirProduto({
+  interface: true,
+  backend: true,
+  integracoes: true,
   entrega: "MVP funcional",
-  tempo: "~43h" // caso BBL0CK
+  foco: "reduzir ciclo sem perder qualidade"
 });`,
   },
   {
     number: "III",
     icon: Setting4,
     title: "Integrar e conectar",
-    description: "WhatsApp, CRM, dashboards, webhooks. Dados reais, sistema real.",
+    description: "Sistemas, mensagens, dashboards e webhooks. Dados reais, operação real.",
     code: `// automacao.ts
-const workflow = n8n.create({
-  trigger: "webhook",
-  nodes: [
-    { type: "whatsapp", action: "receive" },
-    { type: "openai", action: "classify" },
-    { type: "supabase", action: "insert" },
-    { type: "chatwoot", action: "notify" }
-  ]
+const fluxo = conectarOperacao({
+  entrada: "formulario ou mensagem",
+  classificacao: "regras + IA",
+  destino: "CRM e base de dados",
+  alerta: "time em tempo real"
 });`,
   },
   {
     number: "IV",
     icon: Verify,
     title: "Deploy e monitoramento",
-    description: "Produto em producao com URL, pricing e usuario. Monitorado.",
+    description: "Produto em produção com URL e usuário real. Monitorado.",
     code: `// deploy.ts
 const resultado = {
   url: "https://produto.com.br",
-  status: "em producao",
-  usuarios: "ativos",
-  monitoramento: "Zabbix + Analytics",
+  status: "em produção",
+  usuarios: "reais",
+  acompanhamento: "ativo",
   proximo: "iterar com dados reais"
 };
 
@@ -73,9 +69,12 @@ export function HowItWorksSection() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setIsVisible(true); },
+      ([e]) => {
+        if (e.isIntersecting) setIsVisible(true);
+      },
       { threshold: 0.1 }
     );
+
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
@@ -94,7 +93,6 @@ export function HowItWorksSection() {
       ref={ref}
       className="py-32 lg:py-40 border-t border-border/50 bg-foreground text-background relative"
     >
-      {/* Diagonal stripe overlay */}
       <div className="absolute inset-0 diagonal-stripes pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
@@ -109,7 +107,6 @@ export function HowItWorksSection() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Steps */}
           <div className="space-y-0">
             {steps.map((step, i) => {
               const Icon = step.icon;
@@ -144,7 +141,6 @@ export function HowItWorksSection() {
             })}
           </div>
 
-          {/* Code display */}
           <div className="lg:sticky lg:top-32 self-start">
             <div className="relative rounded-2xl border border-background/10 overflow-hidden corner-ornament-tr corner-ornament-bl">
               <div className="px-6 py-4 border-b border-background/10 flex items-center justify-between">
