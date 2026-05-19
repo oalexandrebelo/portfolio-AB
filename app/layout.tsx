@@ -1,5 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Sora, Fira_Code } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -85,6 +86,11 @@ export default function RootLayout({
       <body className={`${sora.variable} ${firaCode.variable} font-sans antialiased`}>
         {children}
         <Analytics />
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          strategy="afterInteractive"
+          data-cf-beacon='{"token": "a690914e3c044f6aaa8693cb58e6620a"}'
+        />
       </body>
       <GoogleAnalytics gaId="G-ZWZT47NXRP" />
     </html>
