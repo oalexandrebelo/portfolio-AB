@@ -2,6 +2,7 @@ import React from "react"
 import type { Metadata } from 'next'
 import { Sora, Fira_Code } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
 
 const sora = Sora({
@@ -85,6 +86,7 @@ export default function RootLayout({
         {children}
         <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-ZWZT47NXRP" />
     </html>
   )
 }
