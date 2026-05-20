@@ -48,20 +48,11 @@ export const metadata: Metadata = {
     siteName: "Alexandre Belo",
     locale: "pt_BR",
     type: "website",
-    images: [
-      {
-        url: "/logo-ab.svg", // TODO: Replace SVG with 1200x630 PNG for better social sharing
-        width: 1000,
-        height: 1000,
-        alt: "Alexandre Belo - Design Engineer",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Alexandre Belo | Design Engineer",
     description: "Produtos digitais completos. Do design ao deploy. Com IA aplicada na pratica.",
-    images: ["/logo-ab.svg"],
   },
   robots: {
     index: true,
