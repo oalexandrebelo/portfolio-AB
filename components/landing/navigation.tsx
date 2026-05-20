@@ -69,6 +69,7 @@ export function Navigation() {
               <GradientButton
                 href="https://wa.me/5564999271254"
                 className={`transition-all duration-500 ${isScrolled ? "h-9 px-4 text-sm" : ""}`}
+                track={{ event: "generate_lead", params: { method: "whatsapp", cta_location: "nav" } }}
               >
                 Falar no WhatsApp
               </GradientButton>
@@ -100,7 +101,11 @@ export function Navigation() {
             <PenLine size={20} />
             Blog
           </a>
-          <GradientButton href="https://wa.me/5564999271254" className="mt-8">
+          <GradientButton
+            href="https://wa.me/5564999271254"
+            className="mt-8"
+            track={{ event: "generate_lead", params: { method: "whatsapp", cta_location: "nav_mobile" } }}
+          >
             Falar no WhatsApp
           </GradientButton>
         </div>

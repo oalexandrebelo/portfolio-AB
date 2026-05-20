@@ -110,11 +110,18 @@ export function HeroSection() {
           </p>
 
           <div className={`flex flex-col sm:flex-row items-start gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            <GradientButton onClick={() => scrollTo("portfolio")}>
+            <GradientButton
+              onClick={() => scrollTo("portfolio")}
+              track={{ event: "select_content", params: { content_type: "cta", item_id: "ver_projetos", cta_location: "hero" } }}
+            >
               Ver projetos
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </GradientButton>
-            <GradientButton href="https://wa.me/5564999271254" variant="outline">
+            <GradientButton
+              href="https://wa.me/5564999271254"
+              variant="outline"
+              track={{ event: "generate_lead", params: { method: "whatsapp", cta_location: "hero" } }}
+            >
               Falar no WhatsApp
             </GradientButton>
           </div>

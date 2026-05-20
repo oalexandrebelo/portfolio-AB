@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { useInView } from "@/hooks/use-in-view";
+import { trackSelectContent } from "@/lib/analytics";
 
 const projects = [
   {
@@ -92,6 +93,7 @@ export function ProjectsSection() {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackSelectContent("project", p.name, { project_vertical: p.vertical, link_url: p.url })}
               aria-label={p.name + " - " + p.headline}
               className={`group relative block bg-background p-8 hover:bg-primary/[0.03] transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"

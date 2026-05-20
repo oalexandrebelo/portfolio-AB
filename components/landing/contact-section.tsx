@@ -2,6 +2,7 @@
 
 import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import { GradientButton } from "./gradient-button";
+import { trackLead, trackOutbound } from "@/lib/analytics";
 
 export function ContactSection() {
   return (
@@ -21,11 +22,18 @@ export function ContactSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <GradientButton href="https://wa.me/5564999271254">
+              <GradientButton
+                href="https://wa.me/5564999271254"
+                track={{ event: "generate_lead", params: { method: "whatsapp", cta_location: "contact" } }}
+              >
                 Falar no WhatsApp
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </GradientButton>
-              <GradientButton href="mailto:contato@alexandrebelo.com.br" variant="outline">
+              <GradientButton
+                href="mailto:contato@alexandrebelo.com.br"
+                variant="outline"
+                track={{ event: "generate_lead", params: { method: "email", cta_location: "contact" } }}
+              >
                 Enviar e-mail
               </GradientButton>
             </div>
@@ -38,7 +46,7 @@ export function ContactSection() {
               </div>
               <div>
                 <p className="font-offbit text-sm text-primary-foreground/40">Email</p>
-                <a href="mailto:contato@alexandrebelo.com.br" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base">
+                <a href="mailto:contato@alexandrebelo.com.br" onClick={() => trackLead("email", "contact_info")} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base">
                   contato@alexandrebelo.com.br
                 </a>
               </div>
@@ -50,7 +58,7 @@ export function ContactSection() {
               </div>
               <div>
                 <p className="font-offbit text-sm text-primary-foreground/40">WhatsApp</p>
-                <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base">
+                <a href="https://wa.me/5564999271254" target="_blank" rel="noopener noreferrer" onClick={() => trackLead("whatsapp", "contact_info")} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base">
                   +55 (64) 99927-1254
                 </a>
               </div>
@@ -67,10 +75,10 @@ export function ContactSection() {
             </div>
 
             <div className="pt-4 flex gap-8">
-              <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
+              <a href="https://www.linkedin.com/in/alexandrebelo" target="_blank" rel="noopener noreferrer" onClick={() => trackOutbound("https://www.linkedin.com/in/alexandrebelo", "contact")} className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
                 LinkedIn
               </a>
-              <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
+              <a href="https://github.com/oalexandrebelo" target="_blank" rel="noopener noreferrer" onClick={() => trackOutbound("https://github.com/oalexandrebelo", "contact")} className="font-code text-base text-[#042940] hover:text-primary-foreground transition-colors">
                 GitHub
               </a>
             </div>

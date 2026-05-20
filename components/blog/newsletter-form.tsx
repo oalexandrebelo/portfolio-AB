@@ -4,10 +4,16 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { trackEvent } from "@/lib/analytics";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const markSuccess = () => {
+    setStatus("success");
+    trackEvent("sign_up", { method: "newsletter" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +34,7 @@ export function NewsletterForm() {
           setStatus("error");
         }
       } else {
-        setStatus("success");
+        markSuccess();
       }
       setEmail("");
     } catch {

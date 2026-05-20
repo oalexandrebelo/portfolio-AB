@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useRef, useState, useEffect, useCallback } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 interface GradientButtonProps {
   children: ReactNode;
@@ -8,6 +9,7 @@ interface GradientButtonProps {
   className?: string;
   variant?: "primary" | "outline";
   onClick?: () => void;
+  track?: { event: string; params?: Record<string, string | number | boolean | undefined> };
 }
 
 const BLOBS = [
@@ -29,8 +31,14 @@ export function GradientButton({
   className = "",
   variant = "primary",
   onClick,
+  track,
 }: GradientButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
+
+  const handleClick = () => {
+    if (track) trackEvent(track.event, track.params);
+    onClick?.();
+  };
   const [hovered, setHovered] = useState(false);
   const [positions, setPositions] = useState(() => BLOBS.map(() => randomPos()));
 
@@ -58,7 +66,7 @@ export function GradientButton({
     return (
       <Wrapper
         {...(linkProps as any)}
-        onClick={onClick}
+        onClick={handleClick}
         className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] px-8 h-[46px] text-[15px] font-medium cursor-pointer transition-all active:scale-[0.98] border border-foreground/20 text-foreground hover:border-foreground/40 bg-transparent focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
@@ -69,7 +77,7 @@ export function GradientButton({
   return (
     <Wrapper
       {...(linkProps as any)}
-      onClick={onClick}
+      onClick={handleClick}
       className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[25px] h-[46px] min-h-[46px] px-8 text-[15px] font-medium text-foreground cursor-pointer bg-card border-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
