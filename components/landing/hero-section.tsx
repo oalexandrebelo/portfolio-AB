@@ -86,6 +86,7 @@ export function HeroSection() {
 
         <div className="mb-12">
           <h1 className={`font-black leading-[0.9] tracking-tight transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <span className="sr-only">Alexandre Belo — Design Engineer. </span>
             <span className="block text-[clamp(2rem,5.5vw,5.5rem)]">Seu produto digital.</span>
             <span className="block text-[clamp(2rem,5.5vw,5.5rem)]">Do zero ao deploy.</span>
 

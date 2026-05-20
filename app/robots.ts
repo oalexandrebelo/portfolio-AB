@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "/blog/admin",
     },
     sitemap: "https://alexandrebelo.com.br/sitemap.xml",
   };

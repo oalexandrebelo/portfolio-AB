@@ -47,6 +47,30 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.description,
+            datePublished: post.published_at ?? undefined,
+            dateModified: post.published_at ?? undefined,
+            author: {
+              "@type": "Person",
+              name: "Alexandre Belo",
+              url: "https://alexandrebelo.com.br",
+            },
+            publisher: { "@type": "Person", name: "Alexandre Belo" },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://alexandrebelo.com.br/blog/${slug}`,
+            },
+            url: `https://alexandrebelo.com.br/blog/${slug}`,
+          }),
+        }}
+      />
       {/* Nav */}
       <nav className="mb-10">
         <Link
@@ -85,7 +109,7 @@ export default async function ArticlePage({ params }: PageProps) {
       <footer className="mt-12 pt-6 border-t border-border/50">
         <p className="text-muted-foreground font-code text-sm">
           Escrito por{" "}
-          <span className="text-foreground font-medium">Alexandre Belo</span>{" "}
+          <Link href="/" className="text-foreground font-medium hover:text-primary transition-colors">Alexandre Belo</Link>{" "}
           &middot; Design Engineer
         </p>
         <Link

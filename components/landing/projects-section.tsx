@@ -109,7 +109,7 @@ export function ProjectsSection() {
                 <div className="flex items-center justify-between gap-4 mb-3">
                   <h3 className="text-xl font-bold">{p.name}</h3>
                   {p.logo && (
-                    <img src={p.logo} alt="" className="object-contain shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" style={{ height: p.logoH || 32, maxWidth: 120 }} />
+                    <img src={p.logo} alt={`Logo ${p.name}`} className="object-contain shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" style={{ height: p.logoH || 32, maxWidth: 120 }} />
                   )}
                 </div>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{p.headline}</p>

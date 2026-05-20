@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "blog.AIAB | Alexandre Belo",
+  title: { absolute: "blog.AIAB — IA aplicada e produto digital | Alexandre Belo" },
   description:
-    "IA aplicada, automacao, vibe coding e produto digital. Sem hype.",
+    "Artigos sobre IA aplicada, automação, Vibe Coding e produto digital — da prática de quem constrói e coloca em produção. Sem hype.",
 };
 
 export default function BlogLayout({

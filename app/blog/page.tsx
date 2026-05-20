@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AsciiTitle from "@/components/blog/ascii-title";
 import ArticleCard from "@/components/blog/article-card";
 import { getAllPosts, formatDate } from "@/lib/blog";
@@ -10,7 +11,13 @@ export default async function BlogPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-4">
       {/* Header — por: @alexandrebelo */}
-      <header className="px-4 pt-6">
+      <header className="px-4 pt-6 flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="text-muted-foreground hover:text-foreground font-code text-sm transition-colors"
+        >
+          <span className="text-primary">&larr;</span> Alexandre Belo
+        </Link>
         <a
           href="https://instagram.com/alexandrebelo"
           target="_blank"
