@@ -3,6 +3,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [{ source: "/v2", destination: "/v2/index.html" }]
+  },
   async redirects() {
     return [
       // Canonicalize www -> apex (non-www) to consolidate SEO signals.
