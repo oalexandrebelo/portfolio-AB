@@ -1,7 +1,6 @@
 import {authenticate,boundedForm,configuration,consumeAttempt,cookie,cookieValue,createCsrf,createSession,CSRF_COOKIE,responseHeaders,sameOrigin,SESSION_COOKIE,SESSION_SECONDS,validateCsrf,validateSession} from "./security";
 import {gateway} from "./ui";
 import {openStudy} from "./vault";
-import {distributedAttempt} from "./storage";
 type Context={params:Promise<{path?:string[]}>};
 function unavailable():Response {const html=gateway("","O acesso está temporariamente indisponível.",true);return new Response(html,{status:503,headers:responseHeaders(html)});}
 function redirect(path:string,headers=responseHeaders()):Response{headers.set("Location",path);return new Response(null,{status:303,headers});}
@@ -34,7 +33,7 @@ export async function POST(request:Request,context:Context):Promise<Response>{
   if(!consumeAttempt(request,r))return denied(429,"Muitas tentativas. Aguarde um minuto antes de tentar novamente.",60);
   let form:URLSearchParams;try{form=await boundedForm(request);}catch{return new Response("Solicitação inválida.",{status:400,headers:responseHeaders()});}
   if(form.getAll("csrf").length!==1||form.getAll("password").length!==1||!validateCsrf(form.get("csrf")??"",cookieValue(request,CSRF_COOKIE),r))return denied(403,"A tela de acesso expirou. Insira sua senha novamente.");
-  const attempt=await distributedAttempt(request,r);if(!attempt.allowed)return denied(429,"Muitas tentativas. Aguarde alguns segundos antes de tentar novamente.",attempt.retryAfter);
+  // Credenciais aleatorias de 144 bits. O limite adicional e local a esta instancia.
   const e=authenticate((form.get("password")??"").trim(),r);if(!e)return denied(401,"Senha inválida ou acesso indisponível. Confira a senha recebida.");
   openStudy(e);const headers=responseHeaders();headers.append("Set-Cookie",cookie(SESSION_COOKIE,createSession(e,r),SESSION_SECONDS));headers.append("Set-Cookie",cookie(CSRF_COOKIE,"",0));return redirect("/estudos/"+e.slug,headers);
  }catch{console.error("estudos: validacao indisponivel; nenhum conteudo liberado");return unavailable();}
