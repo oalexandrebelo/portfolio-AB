@@ -9,6 +9,7 @@ let stage='unitarios',count=0;
 function check(value,label){if(!value)throw new Error(label);count++;}
 const context=(...path)=>({params:Promise.resolve({path})});
 const origin='https://alexandrebelo.com.br';
+function diagnostic(error){if(error)console.error('estudos: storage retornou status '+(/^[0-9]{3}$/.test(String(error.statusCode))?error.statusCode:'indisponivel')+' e classe '+(/^[A-Za-z]{1,48}$/.test(error.name??'')?error.name:'desconhecida'));}
 async function verify(){
  const r={sessionKey:randomBytes(32),studies:[]};
  const password='AB-'+randomBytes(18).toString('base64url');
@@ -59,12 +60,15 @@ async function verify(){
  check(response.status===200,'AUTHORIZED_STATUS');check((await response.text())===openStudy(entry).dashboard,'AUTHORIZED_CONTENT');
  response=await GET(new Request(origin+'/estudos/outro-projeto',{headers:authorizedHeaders}),context('outro-projeto'));
  check(response.status===401,'CROSS_STUDY_DENIED');
- stage='armazenamento-privado';
+ stage='storage-sdk-import';
  const {createClient}=await import('@supabase/supabase-js');
+ stage='storage-client';
  const db=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+ stage='storage-bucket';
  const bucket='ab-estudos-ratelimit';let info=await db.storage.getBucket(bucket);
- if(info.error){const made=await db.storage.createBucket(bucket,{public:false,fileSizeLimit:1024,allowedMimeTypes:['application/octet-stream']});check(!made.error||/already exists/i.test(made.error.message),'BUCKET_CREATE');info=await db.storage.getBucket(bucket);}
- check(!info.error&&info.data.public===false,'BUCKET_PRIVATE');
+ if(info.error){diagnostic(info.error);const made=await db.storage.createBucket(bucket,{public:false,fileSizeLimit:1024,allowedMimeTypes:['application/octet-stream']});diagnostic(made.error);check(!made.error||/already exists/i.test(made.error.message),'BUCKET_CREATE');info=await db.storage.getBucket(bucket);}
+ diagnostic(info.error);check(!info.error&&info.data.public===false,'BUCKET_PRIVATE');
+ stage='storage-atomicity';
  const path='build-check/'+randomBytes(16).toString('hex')+'.bin';
  try{
   const trials=await Promise.all(Array.from({length:6},()=>db.storage.from(bucket).upload(path,new Uint8Array([1]),{upsert:false,contentType:'application/octet-stream'})));
@@ -89,4 +93,4 @@ async function verify(){
  }finally{process.env.AB_STUDIES_REGISTRY=previous;}
  console.log('estudos: integridade, isolamento, bucket privado e fluxo de acesso aprovados. Verificacoes:',count);
 }
-verify().catch(()=>{console.error('estudos: verificacao reprovada na etapa '+stage+'; publicacao interrompida sem expor dados.');process.exitCode=1;});
+verify().catch(error=>{const code=/^[A-Z_]{3,64}$/.test(error?.message??'')?error.message:(/^[A-Z_]{3,64}$/.test(error?.code??'')?error.code:'INTERNAL');console.error('estudos: verificacao reprovada na etapa '+stage+' ('+code+'); publicacao interrompida sem expor dados.');process.exitCode=1;});
