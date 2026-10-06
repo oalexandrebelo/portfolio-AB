@@ -1,29 +1,20 @@
-name: Preparar fonte e validar Estudos
+name: Validar Estudos e mapa
 on:
   push:
-    branches: [feat/studies-mapcn-release]
-    paths: [study-map/**, scripts/studies-map-prepare.mjs, scripts/studies-access-configure.mjs, scripts/studies-map-test.mjs, .github/workflows/studies-map.yml]
+    branches: [main, feat/studies-mapcn-release]
+    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, private-studies/**, package.json, .github/workflows/studies-map.yml]
+  pull_request:
+    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, private-studies/**, package.json]
 permissions:
-  contents: write
+  contents: read
 jobs:
-  prepare:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: feat/studies-mapcn-release
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
       - run: node scripts/studies-map-prepare.mjs
-      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
       - run: npm run prebuild
-      - name: Versionar artefatos de construção reproduzível
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add study-map/vendor study-map/package-lock.json private-studies/sinop/geo.json lib/estudos/security.ts lib/estudos/handler.ts scripts/studies-verify.mjs package.json
-          if ! git diff --cached --quiet; then
-            git commit -m 'build(estudos): fixa MapCN, lockfile, camada cifrada e correcao de credenciais'
-            git push origin HEAD:feat/studies-mapcn-release
-          fi
