@@ -66,10 +66,20 @@ export function cookieValue(request: Request, name: string): string {
 export function cookie(name: string, value: string, maxAge: number): string {
   return `${name}=${value}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Strict`;
 }
-export function sameOrigin(request: Request): boolean {
+// A origem opaca de formulários antigos só é aceita após validar o CSRF assinado.
+// Não confiar em cabeçalhos forwarded arbitrários nem liberar subdomínios por sufixo.
+export function sameOrigin(request: Request, csrfVerified = false): boolean {
   try {
-    const u = new URL(request.url), hosts = new Set(["alexandrebelo.com.br", "www.alexandrebelo.com.br", process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL].filter(Boolean));
-    return u.protocol === "https:" && hosts.has(u.hostname) && request.headers.get("origin") === u.origin && !["cross-site", "same-site"].includes(request.headers.get("sec-fetch-site") ?? "");
+    const target = new URL(request.url);
+    const hosts = new Set(["alexandrebelo.com.br", "www.alexandrebelo.com.br", process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL].filter(Boolean));
+    if (target.protocol !== "https:" || target.port || !hosts.has(target.hostname)) return false;
+    const site = request.headers.get("sec-fetch-site");
+    if (site !== null && !["same-origin", "same-site", "none"].includes(site)) return false;
+    const origin = request.headers.get("origin");
+    if (origin !== null && origin !== "null") return origin === target.origin && site !== "same-site";
+    if (!csrfVerified || site === "same-site") return false;
+    const referer = request.headers.get("referer");
+    return referer === null || new URL(referer).origin === target.origin;
   } catch { return false; }
 }
 export async function boundedForm(request: Request): Promise<URLSearchParams> {
@@ -90,5 +100,5 @@ export function consumeAttempt(request: Request, r: Registry, now = Date.now()):
 }
 export function responseHeaders(html?: string): Headers {
   const hashes = html ? [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => "'sha256-" + createHash("sha256").update(m[1]).digest("base64") + "'") : [];
-  return new Headers({ "Content-Type": "text/html; charset=utf-8", "Cache-Control": "private, no-store, no-cache, max-age=0, must-revalidate", "CDN-Cache-Control": "no-store", "Vercel-CDN-Cache-Control": "no-store", "Pragma": "no-cache", "Expires": "0", "Vary": "Cookie", "X-Robots-Tag": "noindex, nofollow, noarchive, nosnippet", "X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Referrer-Policy": "no-referrer", "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()", "Content-Security-Policy": `default-src 'none'; script-src ${hashes.length ? hashes.join(" ") : "'none'"}; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests` });
+  return new Headers({ "Content-Type": "text/html; charset=utf-8", "Cache-Control": "private, no-store, no-cache, max-age=0, must-revalidate", "CDN-Cache-Control": "no-store", "Vercel-CDN-Cache-Control": "no-store", "Pragma": "no-cache", "Expires": "0", "Vary": "Cookie", "X-Robots-Tag": "noindex, nofollow, noarchive, nosnippet", "X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Referrer-Policy": "same-origin", "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()", "Content-Security-Policy": `default-src 'none'; script-src ${hashes.length ? hashes.join(" ") : "'none'"}; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests` });
 }
