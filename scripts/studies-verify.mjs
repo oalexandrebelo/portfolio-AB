@@ -5,6 +5,7 @@ const require=createRequire(import.meta.url);
 const s=require('../.studies-test/lib/estudos/security.js');
 const {GET,POST}=require('../.studies-test/lib/estudos/handler.js');
 const {openStudy}=require('../.studies-test/lib/estudos/vault.js');
+const {enhanceDashboard}=require('../.studies-test/lib/estudos/map.js');
 let stage='unitarios',count=0;
 function check(value,label){if(!value)throw new Error(label);count++;}
 const context=(...path)=>({params:Promise.resolve({path})});
@@ -59,11 +60,12 @@ async function verify(){
  }
  const validSession=s.createSession(entry,real),authorizedHeaders={cookie:s.SESSION_COOKIE+'='+validSession};
  response=await GET(new Request(origin+'/estudos/'+entry.slug,{headers:authorizedHeaders}),context(entry.slug));
- check(response.status===200,'AUTHORIZED_STATUS');check((await response.text())===openStudy(entry).dashboard,'AUTHORIZED_CONTENT');
+ check(response.status===200,'AUTHORIZED_STATUS');check((await response.text())===enhanceDashboard(openStudy(entry).dashboard,entry.slug),'AUTHORIZED_CONTENT');
  response=await GET(new Request(origin+'/estudos/outro-projeto',{headers:authorizedHeaders}),context('outro-projeto'));
  check(response.status===401,'CROSS_STUDY_DENIED');
  stage='fluxo-senha-redirecionamento';
  // Credencial efemera apenas neste processo: nao e publicada nem registrada.
+ const previousCodes=process.env.AB_STUDIES_ACCESS_CODES;delete process.env.AB_STUDIES_ACCESS_CODES;
  const previous=process.env.AB_STUDIES_REGISTRY,testPassword='AB-'+randomBytes(18).toString('base64url');
  process.env.AB_STUDIES_REGISTRY=JSON.stringify(real.studies.map(x=>x.slug===entry.slug?{...x,accessHash:s.digest(testPassword,real)}:x));
  try{
@@ -77,7 +79,7 @@ async function verify(){
   response=await GET(new Request(origin+'/estudos/'+entry.slug,{headers:{cookie:set.split(';')[0]}}),context(entry.slug));check(response.status===200,'POST_TO_CONTENT');
   response=await POST(new Request(origin+'/estudos/sair',{method:'POST',headers:{origin,'sec-fetch-site':'same-origin',cookie:set.split(';')[0]}}),context('sair'));
   check(response.status===303&&response.headers.getSetCookie().some(x=>x.startsWith(s.SESSION_COOKIE+'=;')&&x.includes('Max-Age=0')),'LOGOUT');
- }finally{process.env.AB_STUDIES_REGISTRY=previous;}
+ }finally{process.env.AB_STUDIES_REGISTRY=previous;if(previousCodes===undefined)delete process.env.AB_STUDIES_ACCESS_CODES;else process.env.AB_STUDIES_ACCESS_CODES=previousCodes;}
  console.log('estudos: integridade, isolamento e fluxo de acesso aprovados. Verificacoes:',count);
 }
 verify().catch(error=>{const code=/^[A-Z_]{3,64}$/.test(error?.message??'')?error.message:'INTERNAL';console.error('estudos: verificacao reprovada na etapa '+stage+' ('+code+'); publicacao interrompida sem expor dados.');process.exitCode=1;});

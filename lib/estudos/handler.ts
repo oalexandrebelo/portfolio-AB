@@ -1,3 +1,4 @@
+import {enhanceDashboard,mapResponse} from './map';
 import {authenticate,boundedForm,configuration,consumeAttempt,cookie,cookieValue,createCsrf,createSession,CSRF_COOKIE,responseHeaders,sameOrigin,SESSION_COOKIE,SESSION_SECONDS,validateCsrf,validateSession} from "./security";
 import type {Registry} from "./security";
 import {gateway} from "./ui";
@@ -20,8 +21,10 @@ export async function GET(request:Request,context:Context):Promise<Response>{
   if(!path.length&&session)return redirect("/estudos/"+session.slug);
   if(path.length>=1&&path.length<=2&&session&&session.slug===path[0]){
    const variant=path[1]??"";
+   if(variant==="mapa"&&session.slug==="sinop")return mapResponse(session.slug);
    if(["","relatorio","estudo.md","painel.html"].includes(variant)){
-    const b=openStudy(session),body=variant==="relatorio"?b.report:variant==="estudo.md"?b.markdown:b.dashboard,headers=responseHeaders(variant==="estudo.md"?undefined:body);
+    const b=openStudy(session),body=variant==="relatorio"?b.report:variant==="estudo.md"?b.markdown:variant===""?enhanceDashboard(b.dashboard,session.slug):b.dashboard,headers=responseHeaders(variant==="estudo.md"?undefined:body);
+    if(variant==="")headers.set("Content-Security-Policy",(headers.get("Content-Security-Policy")??"").replace("frame-src 'none'","frame-src 'self'"));
     if(variant==="estudo.md"){headers.set("Content-Type","text/markdown; charset=utf-8");headers.set("Content-Disposition",`attachment; filename="AB_estudo_${session.slug}.md"`);}
     if(variant==="painel.html")headers.set("Content-Disposition",`attachment; filename="AB_estudo_${session.slug}_interativo.html"`);
     return new Response(body,{status:200,headers});
