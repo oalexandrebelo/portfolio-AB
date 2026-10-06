@@ -8,6 +8,14 @@ export function configuration(): Registry {
   if (!keyPattern.test(key)) throw new Error("STUDIES_CONFIGURATION");
   const input: unknown = JSON.parse(process.env.AB_STUDIES_REGISTRY ?? "null");
   if (!Array.isArray(input) || !input.length || input.length > 64) throw new Error("STUDIES_CONFIGURATION");
+  const codes: unknown = JSON.parse(process.env.AB_STUDIES_ACCESS_CODES ?? '{}');
+  if (!codes || typeof codes !== 'object' || Array.isArray(codes)) throw new Error('STUDIES_CONFIGURATION');
+  for (const [slug, password] of Object.entries(codes)) {
+    if (typeof password !== 'string' || password.length < 20 || password.length > 128) throw new Error('STUDIES_CONFIGURATION');
+    const entry = input.find((value: unknown) => !!value && typeof value === 'object' && (value as Entry).slug === slug) as Entry | undefined;
+    if (!entry) throw new Error('STUDIES_CONFIGURATION');
+    entry.accessHash = createHmac('sha256', Buffer.from(key, 'hex')).update('ab-studies:password:v1\0').update(password).digest('hex');
+  }
   const ids = new Set<string>(), hashes = new Set<string>();
   const studies = input.map((value: unknown) => {
     if (!value || typeof value !== "object") throw new Error("STUDIES_CONFIGURATION");
@@ -44,12 +52,12 @@ function decode(token: string, r: Registry, purpose: string): Record<string, unk
   try { const t: unknown = JSON.parse(Buffer.from(p, "base64url").toString()); return t && typeof t === "object" && !Array.isArray(t) ? t as Record<string, unknown> : null; } catch { return null; }
 }
 export function createSession(e: Entry, r: Registry, now = Math.floor(Date.now() / 1000)): string {
-  return encode({ v: 1, s: e.slug, r: e.revision, i: now, e: now + SESSION_SECONDS, n: randomBytes(16).toString("base64url") }, r, "session");
+  return encode({ v: 1, s: e.slug, r: e.revision, a: e.accessHash, i: now, e: now + SESSION_SECONDS, n: randomBytes(16).toString("base64url") }, r, "session");
 }
 export function validateSession(token: string, r: Registry, now = Math.floor(Date.now() / 1000)): Entry | null {
   const t = decode(token, r, "session");
   if (!t || t.v !== 1 || !Number.isSafeInteger(t.i) || !Number.isSafeInteger(t.e) || (t.i as number) > now + 30 || (t.e as number) <= now || (t.e as number) - (t.i as number) !== SESSION_SECONDS || typeof t.n !== "string" || !/^[A-Za-z0-9_-]{22}$/.test(t.n)) return null;
-  return r.studies.find(e => e.slug === t.s && e.revision === t.r && e.enabled) ?? null;
+  return r.studies.find(e => e.slug === t.s && e.revision === t.r && e.accessHash === t.a && e.enabled) ?? null;
 }
 export function createCsrf(r: Registry, now = Math.floor(Date.now() / 1000)): string {
   return encode({ v: 1, n: randomBytes(24).toString("base64url"), i: now, e: now + 1200 }, r, "csrf");

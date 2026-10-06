@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "tsc -p tsconfig.studies.json && node scripts/studies-verify.mjs",
+    "prebuild": "node scripts/studies-map-install.mjs && tsc -p tsconfig.studies.json && node scripts/studies-verify.mjs && node scripts/studies-map-test.mjs",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",

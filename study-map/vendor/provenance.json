@@ -1,0 +1,9 @@
+{
+  "project": "MapCN",
+  "commit": "d160bd767bc6388618720c6038a4dd9948c97362",
+  "registryBlobSha": "686e2dbad6b0e0dcbad593700131e31f64485bf3",
+  "modifications": [
+    "Web Worker hospedado na mesma origem"
+  ],
+  "license": "MIT"
+}
