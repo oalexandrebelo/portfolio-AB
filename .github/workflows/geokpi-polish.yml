@@ -21,10 +21,10 @@ jobs:
       - run: node scripts/geokpi-polish-once.mjs
       - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
       - run: npm run prebuild
-      - name: Versionar somente os ajustes aprovados
+      - name: Versionar somente os refinamentos aprovados
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add study-map/charts.tsx study-map/workspace.tsx study-map/analytics.mjs scripts/studies-map-install.mjs
-          git commit -m 'fix(estudos): consolida barras quantitativas e checagem estrita do GeoKPI'
+          git add study-map/workspace.tsx scripts/studies-geokpi-browser.cjs
+          git commit -m 'fix(estudos): alinha ranking ao KPI e preserva exportacoes numericas'
           git push origin HEAD:feat/estudos-geokpi-v3
