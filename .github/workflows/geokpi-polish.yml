@@ -1,0 +1,30 @@
+name: Finalizar verificacao GeoKPI
+on:
+  push:
+    branches: [feat/estudos-geokpi-v3]
+    paths: [.github/workflows/geokpi-polish.yml]
+permissions:
+  contents: write
+concurrency:
+  group: geokpi-polish
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/estudos-geokpi-v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/geokpi-polish-once.mjs
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
+      - run: npm run prebuild
+      - name: Versionar somente os ajustes aprovados
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add study-map/charts.tsx study-map/workspace.tsx study-map/analytics.mjs scripts/studies-map-install.mjs
+          git commit -m 'fix(estudos): consolida barras quantitativas e checagem estrita do GeoKPI'
+          git push origin HEAD:feat/estudos-geokpi-v3
