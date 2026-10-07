@@ -36,7 +36,7 @@ export function scoreTerritory(t,profile='misto',active=Object.keys(CATEGORIES))
  const score=components.reduce((s,c)=>s+(c.contribution??0),0),available=components.reduce((s,c)=>s+(c.value===null?0:c.weight),0);
  return{...t,pois,counts,n,weighted,density,diversity,components,score,upper:clamp(score+100*(1-available),0,100),available,profile};
 }
-/** Fluxo operacional incremental nominal constante, 120 meses, sem valor terminal.
+/** Fluxo operacional incremental sem reajustes de preços e custos, 120 meses, sem valor terminal.
  * Não substitui o EVTEO completo: custos compartilhados entram na premissa fixa do bloco.
  * Deduções efetivas são uma hipótese agregada, não um enquadramento tributário.
  */
