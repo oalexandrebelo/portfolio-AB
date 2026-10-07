@@ -1,0 +1,17 @@
+import type {Category,Census,Territory,Place,Scored,Parameters,Profile,Simulation,Portfolio} from './types';
+export const CATEGORIES:Record<Category,{label:string;color:string;weight:number}>;
+export const PROFILES:Record<Profile,{label:string;weights:number[]}>;
+export const DEFAULTS:Readonly<Parameters>;
+export const PARAMS:Record<keyof Parameters,[number,number]>;
+export const MODEL_VERSION:string;
+export function normalize(value:unknown):string;
+export function checkedParameters(input?:Partial<Parameters>):Parameters;
+export function pointInGeometry(point:number[],geometry:Territory['geometry']):boolean;
+export function buildTerritories(census:Census,places:Place[],bounds:Record<string,number[]>):{rows:Territory[];unassigned:Place[];duplicated:number};
+export function scoreTerritory(row:Territory,profile?:Profile,active?:Category[]):Scored;
+export function simulate(row:Scored,input?:Partial<Parameters>):Simulation|null;
+export function stressParameters(input:Parameters):Parameters;
+export function portfolio(rows:Scored[],input:Parameters):Portfolio;
+export function pareto(rows:Scored[]):{id:string;x:number;y:number;homes:number}[];
+export function weightedScore(rows:Scored[]):number|null;
+export const KPI_REGISTER:[string,string,string,string,string][];
