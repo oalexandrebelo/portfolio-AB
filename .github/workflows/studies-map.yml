@@ -1,12 +1,15 @@
-name: Validar Estudos e mapa
+name: Validar Estudos e GeoKPI
 on:
   push:
-    branches: [main, feat/studies-mapcn-release]
-    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, private-studies/**, package.json, .github/workflows/studies-map.yml]
+    branches: [main, feat/studies-mapcn-release, feat/estudos-geokpi-v3]
+    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, scripts/studies-*.cjs, private-studies/**, package.json, .github/workflows/studies-map.yml]
   pull_request:
-    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, private-studies/**, package.json]
+    paths: [study-map/**, lib/estudos/**, scripts/studies-*.mjs, scripts/studies-*.cjs, private-studies/**, package.json]
 permissions:
   contents: read
+concurrency:
+  group: studies-verify-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-latest
