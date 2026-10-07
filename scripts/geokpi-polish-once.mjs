@@ -1,5 +1,5 @@
 import {readFile,writeFile} from 'node:fs/promises';
-async function patch(file,changes){let text=await readFile(file,'utf8');for(const [before,after] of changes){if(!text.includes(before))throw new Error('PATCH_ANCHOR: '+file);text=text.replace(before,after);}await writeFile(file,text);}
+async function patch(file,changes){let text=await readFile(file,'utf8');for(const [before,after] of changes){if(!text.includes(before))throw new Error('PATCH_ANCHOR: '+file);text=text.replace(before,()=>after);}await writeFile(file,text);}
 await patch('study-map/workspace.tsx',[
  ['function csvValue(value:unknown){let s=',"function csvValue(value:unknown){if(typeof value==='number'&&Number.isFinite(value))return String(value).replace('.',',');let s="],
  ['<span className="rank-value">{num(t.score)}<small>{t.available<1?\'parcial\':\'IOT\'}</small>',"<span className=\"rank-value\">{metric==='score'?num(t.score):metric==='density'?num(t.density):metric==='npv'?(t.result?compact(t.result.npv):'N/D'):percent(t.available)}<small>{metric==='score'?(t.available<1?'IOT parcial':'IOT'):metric==='density'?'DPO/ha':metric==='npv'?'VPL · R$':'insumos'}</small>"],
