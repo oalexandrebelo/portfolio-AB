@@ -1,18 +1,16 @@
 import {readFile,writeFile} from 'node:fs/promises';
 async function patch(file,changes){let text=await readFile(file,'utf8');for(const [before,after] of changes){if(!text.includes(before))throw new Error('PATCH_ANCHOR: '+file);text=text.replace(before,after);}await writeFile(file,text);}
-await patch('study-map/charts.tsx',[
- ["width:percent(c.contribution===null?0:c.contribution/Math.max(.001,c.weight*100))","width:String(c.contribution===null?0:c.contribution/Math.max(.001,c.weight*100)*100)+'%'"],
- ["width:percent(row.counts[k]/max)","width:String(row.counts[k]/max*100)+'%'"],
-]);
 await patch('study-map/workspace.tsx',[
- ["width:percent((c.contribution??0)/100)","width:String(c.contribution??0)+'%'"],
- ["Os 329 setores de Sinop somam 66.569 DPO e 190.451 pessoas. Os 141 de Sorriso somam 34.515 DPO e 103.010 pessoas.","Os {data.census.totals.sinop.sectors} setores de Sinop somam {num(data.census.totals.sinop.homes)} DPO e {num(data.census.totals.sinop.people)} pessoas. Os {data.census.totals.sorriso.sectors} de Sorriso somam {num(data.census.totals.sorriso.homes)} DPO e {num(data.census.totals.sorriso.people)} pessoas."],
- ["<ContributionBars row={row}/>","<p className=\"fine\">DPO imputados no Censo: {percent(row.imputedShare)}. Domicílios particulares totais: {num(row.privateHomes)}. A diferença para ocupados inclui categorias distintas, não novas vendas.</p><ContributionBars row={row}/>"],
+ ['function csvValue(value:unknown){let s=',"function csvValue(value:unknown){if(typeof value==='number'&&Number.isFinite(value))return String(value).replace('.',',');let s="],
+ ['<span className="rank-value">{num(t.score)}<small>{t.available<1?\'parcial\':\'IOT\'}</small>',"<span className=\"rank-value\">{metric==='score'?num(t.score):metric==='density'?num(t.density):metric==='npv'?(t.result?compact(t.result.npv):'N/D'):percent(t.available)}<small>{metric==='score'?(t.available<1?'IOT parcial':'IOT'):metric==='density'?'DPO/ha':metric==='npv'?'VPL · R$':'insumos'}</small>"],
+ [' return <div className="geo-workspace">'," const exportGeo=()=>download('AB_GeoKPI_setores.geojson',JSON.stringify({type:'FeatureCollection',metadata:{version:MODEL_VERSION,source:data.census.sourceUrl,year:2022,osm:data.baseTimestamp,parameters:deferred,profile,limits:scopeDescription},features:rows.map(t=>({type:'Feature',geometry:t.geometry,properties:{id:t.id,city:t.city,neighborhood:t.neighborhood,homes:t.homes,people:t.people,density:t.density,iot:t.score,iotUpper:t.upper,inputCoverage:t.available,npv:t.result?.npv??null}}))},null,2),'application/geo+json');\n return <div className=\"geo-workspace\">"],
+ ['<button className="primary" onClick={exportAnalysis}>Exportar análise ↗</button>','<button className="primary" onClick={exportAnalysis}>Exportar análise ↗</button><button onClick={exportGeo}>Exportar GeoJSON</button>'],
+ ['A camada histórica não é projetada automaticamente para os limites ou a população de 2026.','A camada histórica não é projetada automaticamente para os limites ou a população de 2026. Loteamentos ocupados após 2022 precisam de diligência própria; uma pontuação baixa nesta base não elimina essa oportunidade.']
 ]);
-await patch('scripts/studies-map-install.mjs',[
- ["execFileSync(process.execPath,['study-map/analytics.test.mjs'],{stdio:'inherit'});","execFileSync(process.execPath,['node_modules/typescript/bin/tsc','-p','study-map/tsconfig.json'],{stdio:'inherit'});\nexecFileSync(process.execPath,['study-map/analytics.test.mjs'],{stdio:'inherit'});"],
+await patch('scripts/studies-geokpi-browser.cjs',[
+ ["check(await frame.evaluate(()=>document.documentElement.scrollHeight<=window.innerHeight+8),'iframe cobre todo o conteúdo móvel');","if(!local)check(await frame.evaluate(()=>document.documentElement.scrollHeight<=window.innerHeight+8),'iframe cobre todo o conteúdo móvel');"],
+ ["await frame.locator('#city').selectOption('sorriso');","await frame.locator('#metric').selectOption('score');await frame.locator('#city').selectOption('sorriso');"],
+ ["check(await frame.locator('canvas').count()>0,'MapCN renderiza geometrias no canvas');","check(await frame.locator('canvas').count()>0,'MapCN renderiza geometrias no canvas');console.log('RANK_SINOP '+JSON.stringify((await frame.locator('.rank-row').allTextContents()).slice(0,3)));"],
+ ["await frame.locator('#city').selectOption('regiao');","console.log('RANK_SORRISO '+JSON.stringify((await frame.locator('.rank-row').allTextContents()).slice(0,3)));await frame.locator('#city').selectOption('regiao');"]
 ]);
-await patch('study-map/analytics.mjs',[
- ['Fluxo operacional incremental nominal constante, 120 meses, sem valor terminal.','Fluxo operacional incremental sem reajustes de preços e custos, 120 meses, sem valor terminal.']
-]);
-console.log('Ajustes pontuais aplicados a quatro arquivos; nenhum dado privado ou configuração de acesso foi alterado.');
+console.log('Refinamentos de exportação, métrica do ranking e protocolo de teste aplicados.');
