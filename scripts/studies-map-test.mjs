@@ -25,12 +25,17 @@ try{
  for(const p of ['acessar','sair']){const result=await GET(new Request(origin+'/estudos/'+p),context(p));check(result.status===303&&result.headers.get('location')==='/estudos','ACTION_LINK_RECOVERY');}
  const post=await POST(new Request(origin+'/estudos/acessar',{method:'POST',headers:{origin,cookie:s.CSRF_COOKIE+'='+csrf},body:new URLSearchParams({csrf,password:'wrong-password-credential'})}),context('acessar'));check(post.status===401,'INVALID_PASSWORD_HTTP');
 }finally{for(const [name,value] of Object.entries({AB_STUDIES_SESSION_KEY:old.key,AB_STUDIES_REGISTRY:old.registry,AB_STUDIES_ACCESS_CODES:old.codes})){if(value===undefined)delete process.env[name];else process.env[name]=value;}}
-const ui=await readFile('study-map/index.tsx','utf8');check(ui.includes("from './vendor/map'"),'REAL_MAPCN_IMPORT');check(ui.includes("type:'heatmap'"),'HEATMAP_LAYER');
+const ui=await readFile('study-map/workspace.tsx','utf8'),layers=await readFile('study-map/layers.tsx','utf8');
+check(ui.includes("from './vendor/map'"),'REAL_MAPCN_IMPORT');
+check(layers.includes("type:'fill'")&&layers.includes("'fill-color':expression(metric)"),'KPI_HEATMAP_BY_SECTOR');
+check(ui.includes('scoreTerritory')&&ui.includes('ContributionBars')&&ui.includes('Scatter'),'LINKED_MODEL_AND_CHARTS');
 if(process.env.VERCEL_ENV==='production'){
  const r=s.configuration(),codes=JSON.parse(process.env.AB_STUDIES_ACCESS_CODES??'{}');
  for(const [slug,password] of Object.entries(codes))check(s.authenticate(password,r)?.slug===slug,'DEPLOYED_CREDENTIAL_MATCHES');
  const {mapData}=require('../.studies-test/lib/estudos/map.js');const geo=mapData('sinop');
  check(geo.collection.features.length>0,'GEO_DECRYPTS');check(geo.collection.features.every(f=>f.geometry.type==='Point'&&f.geometry.coordinates.every(Number.isFinite)),'GEO_COORDINATES');
  check(new Set(geo.collection.features.map(f=>f.properties.id)).size===geo.collection.features.length,'GEO_IDS_UNIQUE');
+ check(geo.census?.collection?.features?.length===470,'CENSUS_PRESENT');
+ check(geo.census.totals.sinop.homes===66569&&geo.census.totals.sorriso.homes===34515,'CENSUS_TOTALS');
 }
 console.log('estudos: mapa, credenciais, origem e isolamento verificados: '+count);

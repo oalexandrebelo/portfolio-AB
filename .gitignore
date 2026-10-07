@@ -1,32 +1,23 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencias
 /node_modules
-
-# next.js
+/study-map/node_modules
+# Next e build
 /.next/
 /out/
-
-# production
 /build
-
-# debug
+/public/study-assets/
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files
+# Segredos e configuracao local
 .env*
-
-# vercel
 .vercel
-
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
-# Environment
-.env.local
-.env*.local
-
-.vercel
+# Insumos gerados apenas no servidor
+/lib/estudos/census.generated.ts
+/lib/estudos/census.generated.ts.tmp
+/.studies-test/

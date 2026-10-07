@@ -1,0 +1,19 @@
+import type {Feature,FeatureCollection,Point,Polygon,MultiPolygon} from 'geojson';
+export type City='sinop'|'sorriso';
+export type Category='educacao'|'saude'|'servicos'|'consumo'|'comunidade';
+export type Profile='misto'|'residencial'|'empresarial';
+export type Metric='score'|'density'|'npv'|'evidence';
+export type Place=Feature<Point,{id:string;name:string;category:Category;amenity:string;city:City;position:string}>;
+export type SectorProperties={id:string;city:City;municipality:string;district:string;neighborhood:string|null;areaHa:number;people:number|null;homes:number|null;totalHomes:number|null;privateHomes:number|null;meanResidents:number|null;imputedShare:number|null;bbox:[number,number,number,number];center:[number,number]};
+export type Census={schema:1;referenceYear:number;release:string;sourceUrl:string;sha256:string;scope:string;totals:Record<City,{sectors:number;homes:number;people:number}>;collection:FeatureCollection<Polygon|MultiPolygon,SectorProperties>};
+export type GeoData={schema:1;capturedAt:string;baseTimestamp:string;source:string;sourceUrl:string;license:string;method:string;rawCount:number;collection:FeatureCollection<Point,Place['properties']>;bounds:Record<City,[number,number,number,number]>;census:Census};
+export type Territory=SectorProperties&{geometry:Polygon|MultiPolygon;pois:Place[];coverage:boolean};
+export type Component={label:string;raw:number|null;value:number|null;weight:number;contribution:number|null};
+export type Scored=Territory&{counts:Record<Category,number>;n:number;weighted:number;density:number|null;diversity:number;components:Component[];score:number;upper:number;available:number;profile:Profile};
+export type Parameters={arpu:number;b2bArpu:number;penetration:number;serviceable:number;qualification:number;b2bWin:number;churn:number;deductions:number;variable:number;b2bVariable:number;capexKm:number;hpKm:number;setup:number;activation:number;b2bActivation:number;cac:number;b2bCac:number;recovery:number;fixed:number;pole:number;polesKm:number;maintenance:number;ramp:number;tma:number;shock:number;repair:number};
+export type Month={month:number;cash:number;cumulative:number;revenue:number;residential:number;business:number;capex:number;operating:number};
+export type Simulation={hp:number;km:number;network:number;setup:number;nTarget:number;bTarget:number;fixed:number;contribution:number;breakEven:number|null;breakEvenTakeup:number|null;npv:number;peakFunding:number;payback:number|null;totalCapex:number;grossActivations:number;totalRevenue:number;mrr:number;matureCash:number;capacityGbps:number;flow:number[];series:Month[]};
+export type Evaluated=Scored&{result:Simulation|null};
+export type Portfolio={items:{territory:Scored;result:Simulation}[];flows:number[];npv:number;funding:number;mrr:number;hp:number;homes:number};
+export type ProjectSummary={npv:number;peakFunding:number;irr?:number[];payback?:number|null};
+declare global{interface Window{AB_GEO:GeoData;PRECOMPUTED?:Record<string,{summary:ProjectSummary}>;EVTEO?:{SCENARIOS:Record<string,{name:string}>};__AB_MAP_READY?:boolean;__AB_GEO_KPI?:{version:string;rows:Evaluated[];selected:string|null;parameters:Parameters};}}
