@@ -1,4 +1,4 @@
-name: Finalizar verificacao GeoKPI
+name: Finalizar verificacao GeoKPI literal
 on:
   push:
     branches: [feat/estudos-geokpi-v3]
