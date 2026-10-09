@@ -4,7 +4,7 @@ INSERT INTO ab_aio.tenants VALUES('10000000-0000-4000-8000-000000000001','Organi
 INSERT INTO ab_aio.actors VALUES('20000000-0000-4000-8000-000000000001','Teste editor',true),('20000000-0000-4000-8000-000000000002','Teste leitor',true),('20000000-0000-4000-8000-000000000003','Teste inativo',false);
 INSERT INTO ab_aio.memberships VALUES('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','editor',true),('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000002','viewer',true),('10000000-0000-4000-8000-000000000002','20000000-0000-4000-8000-000000000001','editor',true),('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000003','owner',true);
 DO $$
-DECLARE a uuid:='20000000-0000-4000-8000-000000000001';v uuid:='20000000-0000-4000-8000-000000000002';t uuid:='10000000-0000-4000-8000-000000000001';b uuid:='10000000-0000-4000-8000-000000000002';command uuid:=gen_random_uuid();cl jsonb;pr jsonb;task jsonb;entry jsonb;replay jsonb;counter bigint;
+DECLARE a uuid:='20000000-0000-4000-8000-000000000001';v uuid:='20000000-0000-4000-8000-000000000002';t uuid:='10000000-0000-4000-8000-000000000001';b uuid:='10000000-0000-4000-8000-000000000002';command uuid:=gen_random_uuid();cl jsonb;pr jsonb;task jsonb;entry jsonb;replay jsonb;counter bigint;r text;fn regprocedure;
 BEGIN
  cl:=public.ab_aio_command(a,t,'clients',command,NULL,NULL,'{"name":"Cliente de teste","document":"12345678901"}');
  ASSERT (cl->>'version')::int=1,'CREATE_VERSION';
@@ -39,12 +39,21 @@ BEGIN
  PERFORM public.ab_aio_command(a,t,'domains',gen_random_uuid(),NULL,NULL,'{"name":"teste.example"}');
  PERFORM public.ab_aio_command(a,t,'documents',gen_random_uuid(),NULL,NULL,'{"title":"Documento de teste","kind":"evidence","external_ref":"arquivo privado"}');
  PERFORM public.ab_aio_command(a,t,'deals',gen_random_uuid(),NULL,NULL,'{"title":"Proposta de teste","amount_minor":10000}');
- SELECT count(*) INTO counter FROM ab_aio.audit_log;ASSERT counter=10,'AUDIT_ATOMIC';
+ PERFORM public.ab_aio_command(a,t,'affiliate_events',gen_random_uuid(),NULL,NULL,'{"platform":"AMAZON","event_id":"teste-1","commission_minor":500,"currency":"BRL","status":"provisional","occurred_at":"2026-10-09T00:00:00Z","source_ref":"extrato de teste"}');
+ PERFORM public.ab_aio_command(a,t,'harness_runs',gen_random_uuid(),NULL,NULL,jsonb_build_object('project_id',pr->>'id','commit_sha',repeat('a',40),'status','PASSED','total_assertions',2,'passed_assertions',2,'failed_assertions',0,'execution_time_ms',100,'source_ref','teste'));
+ SELECT count(*) INTO counter FROM ab_aio.audit_log;ASSERT counter=11,'AUDIT_ATOMIC';
  ASSERT (SELECT count(*) FROM ab_aio.outbox)=counter,'OUTBOX_ATOMIC';
  ASSERT (SELECT count(*) FROM ab_aio.command_receipts)=counter,'RECEIPTS_ATOMIC';
  ASSERT (SELECT bool_and(relrowsecurity AND relforcerowsecurity) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='ab_aio' AND c.relname IN ('projects','clients','tasks','deals','ledger_entries','llm_usage','audit_log')),'RLS_FORCED';
  ASSERT NOT (SELECT rolsuper OR rolbypassrls OR rolcanlogin FROM pg_roles WHERE rolname='ab_aio_executor'),'ROLE_NOT_PRIVILEGED';
- ASSERT NOT has_function_privilege('public','public.ab_aio_command(uuid,uuid,text,uuid,uuid,integer,jsonb)','execute'),'PUBLIC_EXECUTE_DENIED';
- RAISE NOTICE 'ALLINONE: testes transacionais PostgreSQL aprovados';
+ FOREACH fn IN ARRAY ARRAY['public.ab_aio_command(uuid,uuid,text,uuid,uuid,integer,jsonb)'::regprocedure,'public.ab_aio_list(uuid,uuid,text,timestamptz,uuid,integer)'::regprocedure,'public.ab_aio_overview(uuid,uuid)'::regprocedure] LOOP
+  ASSERT NOT EXISTS(SELECT FROM pg_proc p,LATERAL aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) acl WHERE p.oid=fn AND acl.grantee=0 AND acl.privilege_type='EXECUTE'),'PUBLIC_EXECUTE_DENIED';
+  FOREACH r IN ARRAY ARRAY['anon','authenticated'] LOOP
+   IF EXISTS(SELECT FROM pg_roles WHERE rolname=r) THEN ASSERT NOT has_function_privilege(r,fn,'execute'),'UNTRUSTED_ROLE_EXECUTE_DENIED';END IF;
+  END LOOP;
+ END LOOP;
+ ASSERT NOT has_table_privilege('ab_aio_executor','ab_aio.audit_log','UPDATE'),'AUDIT_UPDATE_DENIED';
+ ASSERT NOT has_table_privilege('ab_aio_executor','ab_aio.audit_log','DELETE'),'AUDIT_DELETE_DENIED';
+ RAISE NOTICE 'ALLINONE: testes transacionais PostgreSQL aprovados; 11 gravações confirmadas, sem efeitos de comandos recusados';
 END $$;
 ROLLBACK;
