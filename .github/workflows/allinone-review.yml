@@ -1,0 +1,48 @@
+name: Revisar e validar AB-ALLinONE
+on:
+  push:
+    branches: [feat/ab-allinone-foundation]
+    paths: [scripts/allinone-finish.mjs, .github/workflows/allinone-review.yml]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: local-test-only
+          POSTGRES_DB: allinone_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      AIO_TEST_DATABASE_URL: postgresql://postgres:local-test-only@127.0.0.1:5432/allinone_test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/ab-allinone-foundation
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/allinone-finish.mjs
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
+      - run: npm run prebuild
+      - name: Verificar PostgreSQL e políticas efetivas
+        run: |
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN;'
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/001_core.sql
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO anon,authenticated;'
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/002_privileges.sql
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/tests/database.sql
+          python3 allinone/tests/concurrency.py
+      - name: Versionar somente a revisão validada
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add lib/allinone/handler.ts public/allinone-assets/app.js public/allinone-assets/app.css package.json .gitignore
+          if ! git diff --cached --quiet; then
+            git commit -m 'fix(allinone): valida sessões multiaba, formulários e pipeline de construção'
+            git push origin HEAD:feat/ab-allinone-foundation
+          fi
