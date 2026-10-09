@@ -11,7 +11,7 @@ export async function GET(req:Request,context:Context):Promise<Response>{
  try{
   const c=configuration(),p=(await context.params).path??[],a=validateSession(getCookie(req,COOKIE),c),url=new URL(req.url);
   if(!a){if(p[0]==='api')return json({error:'AUTH_REQUIRED'},401);const old=getCookie(req,CSRF_COOKIE),token=validateCsrf(old,old,c)?old:createCsrf(c),html=login(token),h=responseHeaders(html);h.append('Set-Cookie',cookie(CSRF_COOKIE,token,1800));return new Response(html,{status:200,headers:h});}
-  if(!p.length){const token=createCsrf(c,a.id),html=shell(token),h=responseHeaders(html);h.append('Set-Cookie',cookie(CSRF_COOKIE,token,1800));return new Response(html,{headers:h});}
+  if(!p.length){const prior=getCookie(req,CSRF_COOKIE),token=validateCsrf(prior,prior,c,a.id)?prior:createCsrf(c,a.id),html=shell(token),h=responseHeaders(html);h.append('Set-Cookie',cookie(CSRF_COOKIE,token,1800));return new Response(html,{headers:h});}
   if(p.length===2&&p[0]==='api'){
    if(p[1]==='bootstrap')return json(bootstrap(a,c));
    if(p[1]==='overview')return json(await overview(a,url.searchParams.get('tenant')??''));
