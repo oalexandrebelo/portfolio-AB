@@ -1,10 +1,12 @@
-name: Revisar e validar AB-ALLinONE
+name: Validar AB-ALLinONE
 on:
   push:
-    branches: [feat/ab-allinone-foundation]
-    paths: [scripts/allinone-finish.mjs, .github/workflows/allinone-review.yml]
+    branches: [main, feat/ab-allinone-foundation]
+    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json, docs/HANDOFF_AB_ALLINONE.md, .github/workflows/allinone-review.yml]
+  pull_request:
+    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json]
 permissions:
-  contents: write
+  contents: read
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -21,28 +23,34 @@ jobs:
       AIO_TEST_DATABASE_URL: postgresql://postgres:local-test-only@127.0.0.1:5432/allinone_test
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: feat/ab-allinone-foundation
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node scripts/allinone-finish.mjs
       - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
-      - run: npm run prebuild
-      - name: Verificar PostgreSQL e políticas efetivas
+      - name: Verificar código e invariantes
+        run: |
+          mkdir -p allinone-evidence
+          npm run prebuild 2>&1 | tee allinone-evidence/prebuild.log
+          node --check scripts/allinone-browser.cjs
+      - name: Verificar banco real, concessões e concorrência
         run: |
           psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN;'
-          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/001_core.sql
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/001_core.sql 2>&1 | tee allinone-evidence/migration-001.log
           psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -c 'GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO anon,authenticated;'
-          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/002_privileges.sql
-          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/tests/database.sql
-          python3 allinone/tests/concurrency.py
-      - name: Versionar somente a revisão validada
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/migrations/002_privileges.sql 2>&1 | tee allinone-evidence/migration-002.log
+          psql "$AIO_TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f allinone/tests/database.sql 2>&1 | tee allinone-evidence/database.log
+          python3 allinone/tests/concurrency.py | tee allinone-evidence/concurrency.json
+      - name: Preparar módulo de integração, sem dados privados
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add lib/allinone/handler.ts public/allinone-assets/app.js public/allinone-assets/app.css package.json .gitignore
-          if ! git diff --cached --quiet; then
-            git commit -m 'fix(allinone): valida sessões multiaba, formulários e pipeline de construção'
-            git push origin HEAD:feat/ab-allinone-foundation
-          fi
+          mkdir -p allinone-release
+          tar -cf - lib/allinone allinone app/allinone public/allinone-assets tsconfig.allinone.json scripts/allinone-verify.cjs scripts/allinone-browser.cjs package.json docs/AB_ALLINONE_RELEASE_PLAN.md | tar -xf - -C allinone-release
+          if test -f docs/HANDOFF_AB_ALLINONE.md; then cp docs/HANDOFF_AB_ALLINONE.md allinone-release/docs/; fi
+          cp -r allinone-evidence allinone-release/validation
+          git rev-parse HEAD > allinone-release/COMMIT.txt
+          printf '%s\n' 'Módulo para integrar ao portfólio existente. Não contém credenciais, banco produtivo, inventário privado ou fontes tipográficas. Teste de navegador definido, mas não executado neste workflow. A ativação administrativa depende de autorização e configuração externas.' > allinone-release/LEIA-ME.txt
+          find allinone-release -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > allinone-release/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AB-ALLinONE-modulo-validado
+          path: allinone-release/
+          retention-days: 14
