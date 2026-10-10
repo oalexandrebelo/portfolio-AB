@@ -18,7 +18,7 @@ export const resources={
 };
 export type Resource=keyof typeof resources;
 export function isResource(s:string):s is Resource{return Object.hasOwn(resources,s);}
-export const Command=z.object({tenant_id:uuid,resource:z.string(),id:uuid.nullable().default(null),version:z.number().int().min(1).nullable().default(null),data:z.record(z.unknown())}).strict();
+export const Command=z.object({tenant_id:uuid,resource:z.string(),id:uuid.nullable().default(null),version:z.number().int().min(1).max(2147483646).nullable().default(null),data:z.record(z.unknown())}).strict();
 export function validateCommand(input:unknown){
  const v=Command.parse(input);if(!isResource(v.resource))throw new Error('RESOURCE_INVALID');
  if(Boolean(v.id)!==Boolean(v.version))throw new Error('VERSION_REQUIRED');

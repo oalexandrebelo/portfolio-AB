@@ -26,7 +26,7 @@ async function main(){
  server=https.createServer({key:fs.readFileSync(path.join(tmp,'key.pem')),cert:fs.readFileSync(path.join(tmp,'cert.pem'))},async(req,res)=>{
   try{
    const u=new URL(req.url,origin);
-   const assets={'/allinone-assets/app.js':['public/allinone-assets/app.js','text/javascript'],'/allinone-assets/app.css':['public/allinone-assets/app.css','text/css']};
+   const assets={'/allinone-assets/state.js':['public/allinone-assets/state.js','text/javascript'],'/allinone-assets/app.js':['public/allinone-assets/app.js','text/javascript'],'/allinone-assets/app.css':['public/allinone-assets/app.css','text/css']};
    if(assets[u.pathname]){const [file,type]=assets[u.pathname];res.writeHead(200,{'content-type':type});res.end(fs.readFileSync(file));return;}
    if(!u.pathname.startsWith('/allinone')){res.writeHead(404);res.end();return;}
    const headers=new Headers();for(const [k,v] of Object.entries(req.headers)){if(v!==undefined)headers.set(k,Array.isArray(v)?v.join(','):v);}
@@ -54,7 +54,7 @@ async function main(){
  await page.locator('[data-view=inventory]').waitFor();await page.waitForTimeout(200);
  check((await page.locator('#notice').innerText()).includes('não conectado'),'Ausência de banco explícita');
  const cookies=await context.cookies(),session=cookies.find(c=>c.name===auth.COOKIE);check(session?.httpOnly&&session.secure,'Cookie Secure HttpOnly');check(!cookies.some(c=>c.name==='__Host-ab_study'),'Sessões de estudos não são reutilizadas');
- for(const view of ['central','inventory','projects','tasks','studies','clients','deals','ledger_entries','domains','harness_runs','llm_usage','affiliate_events','documents','integrations','audit_log']){
+ for(const view of ['central','inventory','projects','tasks','studies','clients','deals','ledger_entries','domains','harness_runs','llm_usage','affiliate_events','documents','integrations','audit_log','reconciliation']){
   await page.locator('[data-view='+view+']').click();await page.waitForTimeout(40);check((await page.locator('#content').innerText()).length>100,'Módulo renderizado: '+view);
  }
  await page.locator('[data-view=inventory]').click();await page.locator('#search').fill('portfolio');check(await page.locator('tbody tr').count()===1,'Busca usa o catálogo recebido');
