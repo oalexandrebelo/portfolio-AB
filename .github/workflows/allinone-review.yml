@@ -2,9 +2,9 @@ name: Validar AB-ALLinONE R2
 on:
   push:
     branches: [main, feat/ab-allinone-foundation]
-    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json, lib/supabase*.ts, app/api/blog/**, components/blog/newsletter-form.tsx, docs/REVISAO_AB_ALLINONE_R2.md, .github/workflows/allinone-review.yml]
+    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json, lib/supabase*.ts, lib/blog.ts, app/api/blog/**, components/blog/newsletter-form.tsx, docs/REVISAO_AB_ALLINONE_R2.md, .github/workflows/allinone-review.yml]
   pull_request:
-    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json, lib/supabase*.ts, app/api/blog/**, components/blog/newsletter-form.tsx]
+    paths: [lib/allinone/**, allinone/**, app/allinone/**, public/allinone-assets/**, scripts/allinone-*, tsconfig.allinone.json, package.json, lib/supabase*.ts, lib/blog.ts, app/api/blog/**, components/blog/newsletter-form.tsx]
 permissions:
   contents: read
 defaults:
@@ -19,13 +19,13 @@ jobs:
     timeout-minutes: 15
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17@sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3
         env:
           POSTGRES_PASSWORD: local-test-only
           POSTGRES_DB: allinone_r2_test
         ports: ['5432:5432']
         options: >-
-          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+          --health-cmd "pg_isready -U postgres -d allinone_r2_test" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       AIO_TEST_DATABASE_URL: postgresql://postgres:local-test-only@127.0.0.1:5432/allinone_r2_test
       AIO_POSTGREST_DATABASE_URL: postgresql://ab_aio_test_transport:local-test-only@127.0.0.1:5432/allinone_r2_test
@@ -44,6 +44,7 @@ jobs:
           npm run build 2>&1 | tee allinone-evidence/build.log
           node --check scripts/allinone-browser.cjs
           node --check scripts/allinone-e2e.cjs
+          node --check scripts/allinone-build-smoke.cjs
           node scripts/allinone-verify.cjs | tee allinone-evidence/contracts.json
           node allinone/tests/hardening.cjs | tee allinone-evidence/hardening.json
       - name: Banco real, permissões, concorrência e revogação
@@ -74,13 +75,12 @@ jobs:
           export AIO_POSTGREST_BIN="$RUNNER_TEMP/aio-postgrest/postgrest"
           AIO_TEST_OUTPUT="$PWD/allinone-evidence/browser-disconnected" node scripts/allinone-browser.cjs
           AIO_TEST_OUTPUT="$PWD/allinone-evidence/e2e-connected" node scripts/allinone-e2e.cjs
-          if test -f scripts/allinone-build-smoke.cjs; then node scripts/allinone-build-smoke.cjs | tee allinone-evidence/build-smoke.json; fi
+          node scripts/allinone-build-smoke.cjs | tee allinone-evidence/build-smoke.json
       - name: Preparar módulo e evidências sem segredos
         run: |
           set -euo pipefail
           mkdir -p allinone-release
-          tar -cf - lib/allinone allinone app/allinone public/allinone-assets tsconfig.allinone.json scripts/allinone-verify.cjs scripts/allinone-browser.cjs scripts/allinone-e2e.cjs package.json .github/workflows/allinone-review.yml lib/supabase-admin.ts lib/supabase.ts lib/admin-auth.ts app/api/blog components/blog/newsletter-form.tsx | tar -xf - -C allinone-release
-          if test -f scripts/allinone-build-smoke.cjs; then cp scripts/allinone-build-smoke.cjs allinone-release/scripts/; fi
+          tar -cf - lib/allinone allinone app/allinone public/allinone-assets tsconfig.allinone.json scripts/allinone-verify.cjs scripts/allinone-browser.cjs scripts/allinone-e2e.cjs scripts/allinone-build-smoke.cjs package.json .github/workflows/allinone-review.yml lib/supabase-admin.ts lib/supabase.ts lib/blog.ts lib/admin-auth.ts app/api/blog components/blog/newsletter-form.tsx | tar -xf - -C allinone-release
           mkdir -p allinone-release/docs
           cp docs/HANDOFF_AB_ALLINONE.md allinone-release/docs/
           if test -f docs/REVISAO_AB_ALLINONE_R2.md; then cp docs/REVISAO_AB_ALLINONE_R2.md allinone-release/docs/; fi
