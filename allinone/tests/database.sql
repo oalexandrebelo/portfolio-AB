@@ -1,0 +1,59 @@
+-- Somente banco de teste descartável. Todas as fixtures são revertidas.
+BEGIN;
+INSERT INTO ab_aio.tenants VALUES('10000000-0000-4000-8000-000000000001','Organização de teste A','TEST_A',NULL,false),('10000000-0000-4000-8000-000000000002','Organização de teste B','TEST_B',NULL,false);
+INSERT INTO ab_aio.actors VALUES('20000000-0000-4000-8000-000000000001','Teste editor',true),('20000000-0000-4000-8000-000000000002','Teste leitor',true),('20000000-0000-4000-8000-000000000003','Teste inativo',false);
+INSERT INTO ab_aio.memberships VALUES('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','editor',true),('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000002','viewer',true),('10000000-0000-4000-8000-000000000002','20000000-0000-4000-8000-000000000001','editor',true),('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000003','owner',true);
+DO $$
+DECLARE a uuid:='20000000-0000-4000-8000-000000000001';v uuid:='20000000-0000-4000-8000-000000000002';t uuid:='10000000-0000-4000-8000-000000000001';b uuid:='10000000-0000-4000-8000-000000000002';command uuid:=gen_random_uuid();cl jsonb;pr jsonb;task jsonb;entry jsonb;replay jsonb;counter bigint;r text;fn regprocedure;
+BEGIN
+ cl:=public.ab_aio_command(a,t,'clients',command,NULL,NULL,'{"name":"Cliente de teste","document":"12345678901"}');
+ ASSERT (cl->>'version')::int=1,'CREATE_VERSION';
+ replay:=public.ab_aio_command(a,t,'clients',command,NULL,NULL,'{"name":"Cliente de teste","document":"12345678901"}');ASSERT cl=replay,'IDEMPOTENCY_SAME';
+ BEGIN PERFORM public.ab_aio_command(a,t,'clients',command,NULL,NULL,'{"name":"Outro"}');RAISE EXCEPTION 'EXPECTED_IDEMPOTENCY';EXCEPTION WHEN SQLSTATE 'P0001' THEN ASSERT SQLERRM='IDEMPOTENCY_CONFLICT','IDEMPOTENCY_DIFFERENT';END;
+ pr:=public.ab_aio_command(a,t,'projects',gen_random_uuid(),NULL,NULL,jsonb_build_object('name','Projeto de teste','client_id',cl->>'id'));
+ ASSERT pr->>'tenant_id'=t::text,'PROJECT_SCOPE';
+ task:=public.ab_aio_command(a,t,'tasks',gen_random_uuid(),NULL,NULL,jsonb_build_object('title','Tarefa de teste','project_id',pr->>'id'));
+ ASSERT task->>'state'='backlog','TASK_DEFAULT';
+ task:=public.ab_aio_command(a,t,'tasks',gen_random_uuid(),(task->>'id')::uuid,1,'{"state":"done"}');ASSERT task->>'version'='2' AND task->>'state'='done','UPDATE_VERSION';
+ BEGIN PERFORM public.ab_aio_command(a,t,'tasks',gen_random_uuid(),(task->>'id')::uuid,1,'{"state":"blocked"}');RAISE EXCEPTION 'EXPECTED_VERSION';EXCEPTION WHEN SQLSTATE 'P0001' THEN ASSERT SQLERRM='VERSION_CONFLICT','VERSION_CONFLICT';END;
+ BEGIN PERFORM public.ab_aio_command(a,b,'projects',gen_random_uuid(),NULL,NULL,jsonb_build_object('name','Inválido','client_id',cl->>'id'));RAISE EXCEPTION 'EXPECTED_FK';EXCEPTION WHEN foreign_key_violation THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_command(a,b,'tasks',gen_random_uuid(),NULL,NULL,jsonb_build_object('title','Inválida','project_id',pr->>'id'));RAISE EXCEPTION 'EXPECTED_TASK_FK';EXCEPTION WHEN foreign_key_violation THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_command(a,b,'projects',gen_random_uuid(),(pr->>'id')::uuid,1,'{"name":"Inválido"}');RAISE EXCEPTION 'EXPECTED_NOT_FOUND';EXCEPTION WHEN SQLSTATE 'P0002' THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_command(v,t,'clients',gen_random_uuid(),NULL,NULL,'{"name":"Inválido"}');RAISE EXCEPTION 'EXPECTED_VIEWER_DENY';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_overview(v,b);RAISE EXCEPTION 'EXPECTED_OTHER_TENANT_DENY';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_overview('20000000-0000-4000-8000-000000000003',t);RAISE EXCEPTION 'EXPECTED_DISABLED_DENY';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ ASSERT public.ab_aio_overview(a,t)->'counts'->>'projects'='1','COUNT_A';
+ ASSERT public.ab_aio_overview(a,b)->'counts'->>'projects'='0','COUNT_B_ISOLATED';
+ ASSERT jsonb_array_length(public.ab_aio_list(v,t,'projects')->'items')=1,'VIEWER_READ';
+ BEGIN PERFORM public.ab_aio_command(a,t,'clients',gen_random_uuid(),NULL,NULL,jsonb_build_object('name','Mass assignment','tenant_id',b));RAISE EXCEPTION 'EXPECTED_ASSIGNMENT_DENY';EXCEPTION WHEN invalid_parameter_value THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_list(a,t,'pg_roles');RAISE EXCEPTION 'EXPECTED_RESOURCE_DENY';EXCEPTION WHEN invalid_parameter_value THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_list(a,t,'clients',NULL,NULL,100000);RAISE EXCEPTION 'EXPECTED_LIMIT';EXCEPTION WHEN invalid_parameter_value THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_command(a,t,'ledger_entries',gen_random_uuid(),NULL,NULL,'{"title":"Negativo","direction":"expense","amount_minor":-1}');RAISE EXCEPTION 'EXPECTED_AMOUNT';EXCEPTION WHEN check_violation THEN NULL;END;
+ BEGIN PERFORM public.ab_aio_command(a,t,'ledger_entries',gen_random_uuid(),NULL,NULL,'{"title":"Sem evidência","direction":"expense","amount_minor":100,"status":"recorded"}');RAISE EXCEPTION 'EXPECTED_EVIDENCE';EXCEPTION WHEN check_violation THEN NULL;END;
+ entry:=public.ab_aio_command(a,t,'ledger_entries',gen_random_uuid(),NULL,NULL,'{"title":"Recebimento declarado","direction":"income","amount_minor":10990,"status":"recorded","recorded_date":"2026-10-09","evidence_ref":"teste"}');ASSERT entry->>'amount_minor'='10990','MONEY_INTEGER';
+ BEGIN PERFORM public.ab_aio_command(a,t,'harness_runs',gen_random_uuid(),NULL,NULL,jsonb_build_object('project_id',pr->>'id','commit_sha',repeat('a',40),'status','PASSED','total_assertions',2,'passed_assertions',1,'failed_assertions',1,'execution_time_ms',100,'source_ref','teste'));RAISE EXCEPTION 'EXPECTED_ASSERTIONS';EXCEPTION WHEN check_violation THEN NULL;END;
+ entry:=public.ab_aio_command(a,t,'llm_usage',gen_random_uuid(),NULL,NULL,jsonb_build_object('project_id',pr->>'id','provider','teste','model_name','teste','event_id','evt-1','prompt_tokens',100,'completion_tokens',20,'cached_input_tokens',10,'latency_ms',12,'occurred_at','2026-10-09T00:00:00Z'));
+ ASSERT entry->'cost_microusd'='null'::jsonb,'UNKNOWN_COST_NOT_ZERO';
+ ASSERT public.ab_aio_overview(a,t)->'llm'->>'tokens'='120','TOKEN_SUM';
+ BEGIN PERFORM public.ab_aio_command(a,t,'llm_usage',gen_random_uuid(),NULL,NULL,jsonb_build_object('project_id',pr->>'id','provider','teste','model_name','teste','event_id','evt-1','prompt_tokens',100,'completion_tokens',20,'latency_ms',12,'occurred_at','2026-10-09T00:00:00Z'));RAISE EXCEPTION 'EXPECTED_DUPLICATE_EVENT';EXCEPTION WHEN unique_violation THEN NULL;END;
+ PERFORM public.ab_aio_command(a,t,'domains',gen_random_uuid(),NULL,NULL,'{"name":"teste.example"}');
+ PERFORM public.ab_aio_command(a,t,'documents',gen_random_uuid(),NULL,NULL,'{"title":"Documento de teste","kind":"evidence","external_ref":"arquivo privado"}');
+ PERFORM public.ab_aio_command(a,t,'deals',gen_random_uuid(),NULL,NULL,'{"title":"Proposta de teste","amount_minor":10000}');
+ PERFORM public.ab_aio_command(a,t,'affiliate_events',gen_random_uuid(),NULL,NULL,'{"platform":"AMAZON","event_id":"teste-1","commission_minor":500,"currency":"BRL","status":"provisional","occurred_at":"2026-10-09T00:00:00Z","source_ref":"extrato de teste"}');
+ PERFORM public.ab_aio_command(a,t,'harness_runs',gen_random_uuid(),NULL,NULL,jsonb_build_object('project_id',pr->>'id','commit_sha',repeat('a',40),'status','PASSED','total_assertions',2,'passed_assertions',2,'failed_assertions',0,'execution_time_ms',100,'source_ref','teste'));
+ SELECT count(*) INTO counter FROM ab_aio.audit_log;ASSERT counter=11,'AUDIT_ATOMIC';
+ ASSERT (SELECT count(*) FROM ab_aio.outbox)=counter,'OUTBOX_ATOMIC';
+ ASSERT (SELECT count(*) FROM ab_aio.command_receipts)=counter,'RECEIPTS_ATOMIC';
+ ASSERT (SELECT bool_and(relrowsecurity AND relforcerowsecurity) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='ab_aio' AND c.relname IN ('projects','clients','tasks','deals','ledger_entries','llm_usage','audit_log')),'RLS_FORCED';
+ ASSERT NOT (SELECT rolsuper OR rolbypassrls OR rolcanlogin FROM pg_roles WHERE rolname='ab_aio_executor'),'ROLE_NOT_PRIVILEGED';
+ FOREACH fn IN ARRAY ARRAY['public.ab_aio_command(uuid,uuid,text,uuid,uuid,integer,jsonb)'::regprocedure,'public.ab_aio_list(uuid,uuid,text,timestamptz,uuid,integer)'::regprocedure,'public.ab_aio_overview(uuid,uuid)'::regprocedure] LOOP
+  ASSERT NOT EXISTS(SELECT FROM pg_proc p,LATERAL aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) acl WHERE p.oid=fn AND acl.grantee=0 AND acl.privilege_type='EXECUTE'),'PUBLIC_EXECUTE_DENIED';
+  FOREACH r IN ARRAY ARRAY['anon','authenticated'] LOOP
+   IF EXISTS(SELECT FROM pg_roles WHERE rolname=r) THEN ASSERT NOT has_function_privilege(r,fn,'execute'),'UNTRUSTED_ROLE_EXECUTE_DENIED';END IF;
+  END LOOP;
+ END LOOP;
+ ASSERT NOT has_table_privilege('ab_aio_executor','ab_aio.audit_log','UPDATE'),'AUDIT_UPDATE_DENIED';
+ ASSERT NOT has_table_privilege('ab_aio_executor','ab_aio.audit_log','DELETE'),'AUDIT_DELETE_DENIED';
+ RAISE NOTICE 'ALLINONE: testes transacionais PostgreSQL aprovados; 11 gravações confirmadas, sem efeitos de comandos recusados';
+END $$;
+ROLLBACK;

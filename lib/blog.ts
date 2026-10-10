@@ -17,6 +17,9 @@ export interface BlogPost {
 
 /** Public: all published posts, newest first */
 export async function getAllPosts(): Promise<BlogPost[]> {
+  // Mesmo contrato de indisponibilidade já utilizado para erros de leitura.
+  // Não cria artigos artificiais nem exige segredos para compilar outros módulos.
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from("blog_posts")
     .select("*")
@@ -32,6 +35,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
 
 /** Public: single published post by slug */
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (!supabase) return null;
   const { data, error } = await supabase
     .from("blog_posts")
     .select("*")

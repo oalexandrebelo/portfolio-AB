@@ -18,6 +18,10 @@ export function NewsletterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+    if (!supabase) {
+      setStatus("error");
+      return;
+    }
 
     setStatus("loading");
 

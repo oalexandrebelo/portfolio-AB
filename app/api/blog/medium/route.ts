@@ -8,6 +8,7 @@ const MEDIUM_TOKEN = process.env.MEDIUM_API_TOKEN ?? "";
 export async function POST(req: NextRequest) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   if (!MEDIUM_TOKEN) {
     return NextResponse.json({ error: "MEDIUM_API_TOKEN not configured" }, { status: 500 });

@@ -21,3 +21,8 @@ next-env.d.ts
 /lib/estudos/census.generated.ts
 /lib/estudos/census.generated.ts.tmp
 /.studies-test/
+
+# Saídas administrativas locais; sem credenciais versionadas
+/.allinone-test/
+/.allinone-private/
+/allinone-evidence/

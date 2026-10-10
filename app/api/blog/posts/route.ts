@@ -6,6 +6,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 export async function GET(req: NextRequest) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   const { data, error } = await supabaseAdmin
     .from("blog_posts")
@@ -20,6 +21,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   const body = await req.json();
   const { slug, title, description, content, tags, reading_time, status } = body;

@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/studies-map-install.mjs && tsc -p tsconfig.studies.json && node scripts/studies-verify.mjs && node scripts/studies-map-test.mjs",
+    "prebuild": "node scripts/studies-map-install.mjs && tsc -p tsconfig.studies.json && node scripts/studies-verify.mjs && node scripts/studies-map-test.mjs && tsc -p tsconfig.allinone.json && node --check public/allinone-assets/app.js && node scripts/allinone-verify.cjs && node allinone/tests/hardening.cjs",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "test:allinone": "tsc -p tsconfig.allinone.json && node scripts/allinone-verify.cjs",
+    "test:allinone:r2": "tsc -p tsconfig.allinone.json && node allinone/tests/hardening.cjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

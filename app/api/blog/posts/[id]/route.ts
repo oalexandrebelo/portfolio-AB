@@ -10,6 +10,7 @@ interface RouteContext {
 export async function GET(req: NextRequest, ctx: RouteContext) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   const { id } = await ctx.params;
   const { data, error } = await supabaseAdmin
@@ -26,6 +27,7 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
 export async function PATCH(req: NextRequest, ctx: RouteContext) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   const { id } = await ctx.params;
   const body = await req.json();
@@ -57,6 +59,7 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
 export async function DELETE(req: NextRequest, ctx: RouteContext) {
   const denied = requireAdmin(req);
   if (denied) return denied;
+  if (!supabaseAdmin) return NextResponse.json({ error: "BLOG_DATABASE_NOT_CONFIGURED" }, { status: 503 });
 
   const { id } = await ctx.params;
   const { error } = await supabaseAdmin
