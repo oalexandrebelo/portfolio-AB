@@ -1,0 +1,19 @@
+{
+  "count": 28000,
+  "stride_floats": 10,
+  "schema": [
+    "x",
+    "y",
+    "z",
+    "logo_x",
+    "logo_y",
+    "logo_z",
+    "r",
+    "g",
+    "b",
+    "seed"
+  ],
+  "source": "Imagem fornecida pelo usuário: image(4).png",
+  "depth": "Estimativa de profundidade 2.5D, não reconstrução anatômica volumétrica.",
+  "seed": 11407
+}
